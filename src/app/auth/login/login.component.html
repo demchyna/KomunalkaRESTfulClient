@@ -1,0 +1,32 @@
+<div>
+  <form #data="ngForm" (ngSubmit)="signIn(data.value)">
+    <table>
+      <tr>
+        <th colspan="2">
+          <h3>LogIn</h3>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <label for="username">Username:</label></td>
+        <td>
+          <input type="text" ngModel name="username" id="username">
+        </td>
+      </tr>
+      <tr>
+        <td><label for="password">Password:</label></td>
+        <td>
+          <input type="password" ngModel name="password" id="password">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit">LogIn</button>
+        </td>
+        <td>
+          <button type="reset">Cancel</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
