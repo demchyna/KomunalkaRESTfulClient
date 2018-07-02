@@ -9,7 +9,7 @@
     <th>Username</th>
     <th>E-mail</th>
   </tr>
-  <tr *ngFor="let user of users; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : 'gainsboro' }" (click)="selectedRow(user)">
+  <tr *ngFor="let user of users; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : 'gainsboro' }" (click)="selectedRow(user.id)">
     <td>{{i+1}}</td>
     <td>{{user.first_name}}</td>
     <td>{{user.last_name}}</td>

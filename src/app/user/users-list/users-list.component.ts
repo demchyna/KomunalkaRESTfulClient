@@ -6,6 +6,7 @@ import DataNotFoundError from '../../errors/data-not-found-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Router} from '@angular/router';
+import AccessDeniedError from '../../errors/access-denied-error';
 
 @Component({
   selector: 'app-users-list',
@@ -27,15 +28,17 @@ export class UsersListComponent implements OnInit {
         }
       }, (appError: AppError) => {
         if (appError instanceof DataNotFoundError) {
-          alert(appError.message);
+          alert(appError.error.message);
+        } else if (appError instanceof AccessDeniedError) {
+          alert(appError.error.message);
         } else {
           throw appError;
         }
       });
   }
 
-  selectedRow(user: User) {
-    this.router.navigate(['/user/' + user.id + '/info']);
+  selectedRow(userId: number) {
+    this.router.navigate(['/user/' + userId + '/info']);
   }
 
 }

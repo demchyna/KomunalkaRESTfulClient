@@ -5,6 +5,7 @@ import {LoginComponent} from './auth/login/login.component';
 import {UsersListComponent} from './user/users-list/users-list.component';
 import {E404PageComponent} from './errors/404-page/404-page.component';
 import {UserInfoComponent} from './user/user-info/user-info.component';
+import {UserUpdateComponent} from './user/user-update/user-update.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'user/:id/info',
     component: UserInfoComponent
+  },
+  {
+    path: 'user/:id/update',
+    component: UserUpdateComponent
   },
   {
     path: '**',

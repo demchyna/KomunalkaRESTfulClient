@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
         }
       }, (appError: AppError) => {
         if (appError instanceof DataNotFoundError) {
-          alert(appError.message);
+          alert(appError.error.message);
         } else if (appError instanceof IncorrectPasswordError) {
-          alert(appError.message);
+          alert(appError.error.message);
         } else {
           throw appError;
         }

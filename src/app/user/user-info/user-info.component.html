@@ -1,3 +1,30 @@
 <p>
-  user-info works!
+  <b>User id: </b>{{user.id}}
 </p>
+<p>
+  <b>First name: </b>{{user.first_name}}
+</p>
+<p>
+  <b>Last name: </b>{{user.last_name}}
+</p>
+<p>
+  <b>Username: </b>{{user.username}}
+</p>
+<p>
+  <b>E-mail: </b>{{user.email}}
+</p>
+<p>
+  <b>Date of creation: </b>{{user.create_date}}
+</p>
+<p>
+  <b>Roles: </b>
+  <span *ngFor="let role of user.authorities; last as isLast">
+    <span *ngIf="!isLast">{{role.name}}, </span>
+    <span *ngIf="isLast">{{role.name}}</span>
+  </span>
+</p>
+<p *ngIf="user.description">
+  <b>Description: </b>{{user.description}}
+</p>
+<button (click)="editUser(user.id)">Edit</button>
+<button (click)="deleteUser(user.id)">Delete profile</button>

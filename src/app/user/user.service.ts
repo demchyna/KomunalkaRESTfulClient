@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import DataNotFoundError from '../errors/data-not-found-error';
 import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
-import User from '../models/User';
+import AccessDeniedError from '../errors/access-denied-error';
 
 @Injectable()
 export class UserService {
@@ -18,6 +18,22 @@ export class UserService {
       ).catch((error: HttpErrorResponse) => {
       if (error.status === 404) {
         return Observable.throw(new DataNotFoundError(error));
+      } else if (error.status === 401) {
+        return Observable.throw(new AccessDeniedError(error));
+      }
+      return Observable.throw(new AppError(error));
+    });
+  }
+
+  getUserById(id: number): Observable<any> {
+    return this.httpClient.get<any>(
+      REST_API_URL + '/api/user/id/' + id,
+      { observe: 'response' }
+    ).catch((error: HttpErrorResponse) => {
+      if (error.status === 404) {
+        return Observable.throw(new DataNotFoundError(error));
+      } else if (error.status === 401) {
+        return Observable.throw(new AccessDeniedError(error));
       }
       return Observable.throw(new AppError(error));
     });
