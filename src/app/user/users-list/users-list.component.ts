@@ -27,13 +27,7 @@ export class UsersListComponent implements OnInit {
           this.users = response.body;
         }
       }, (appError: AppError) => {
-        if (appError instanceof DataNotFoundError) {
-          alert(appError.error.message);
-        } else if (appError instanceof AccessDeniedError) {
-          alert(appError.error.message);
-        } else {
           throw appError;
-        }
       });
   }
 

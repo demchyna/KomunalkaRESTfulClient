@@ -6,6 +6,7 @@ import {UsersListComponent} from './user/users-list/users-list.component';
 import {E404PageComponent} from './errors/404-page/404-page.component';
 import {UserInfoComponent} from './user/user-info/user-info.component';
 import {UserUpdateComponent} from './user/user-update/user-update.component';
+import {UserCreateComponent} from './user/user-create/user-create.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'logout',
     redirectTo: ''
+  },
+  {
+    path: 'registration',
+    component: UserCreateComponent
   },
   {
     path: 'user/all',

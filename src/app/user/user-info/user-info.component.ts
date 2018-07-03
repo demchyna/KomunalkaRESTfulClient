@@ -30,13 +30,7 @@ export class UserInfoComponent implements OnInit {
           this.user  = response.body;
         }
       }, (appError: AppError) => {
-        if (appError instanceof DataNotFoundError) {
-          alert(appError.error.message);
-        } else if (appError instanceof AccessDeniedError) {
-          alert(appError.error.message);
-        } else {
           throw appError;
-        }
       });
   }
 
@@ -45,7 +39,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   deleteUser(userId: number) {
-
+    this.router.navigate(['user/all']);
   }
 
 }

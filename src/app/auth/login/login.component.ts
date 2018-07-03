@@ -29,13 +29,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
         }
       }, (appError: AppError) => {
-        if (appError instanceof DataNotFoundError) {
-          alert(appError.error.message);
-        } else if (appError instanceof IncorrectPasswordError) {
-          alert(appError.error.message);
-        } else {
           throw appError;
-        }
       });
   }
 

@@ -5,22 +5,29 @@ import DataNotFoundError from '../errors/data-not-found-error';
 import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
 import AccessDeniedError from '../errors/access-denied-error';
+import User from '../models/User';
 
 @Injectable()
 export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
+  createUser(user: User): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.post<any>(
+      REST_API_URL + '/registration',
+      JSON.stringify(user),
+      { headers: requestHeaders, observe: 'response' }
+    ).catch((error: HttpErrorResponse) => {
+      return Observable.throw(new AppError(error));
+    });
+  }
+
   getAllUsers(): Observable<any> {
     return this.httpClient.get<any>(
       REST_API_URL + '/api/user/all',
       { observe: 'response' }
       ).catch((error: HttpErrorResponse) => {
-      if (error.status === 404) {
-        return Observable.throw(new DataNotFoundError(error));
-      } else if (error.status === 401) {
-        return Observable.throw(new AccessDeniedError(error));
-      }
       return Observable.throw(new AppError(error));
     });
   }
@@ -30,11 +37,17 @@ export class UserService {
       REST_API_URL + '/api/user/id/' + id,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
-      if (error.status === 404) {
-        return Observable.throw(new DataNotFoundError(error));
-      } else if (error.status === 401) {
-        return Observable.throw(new AccessDeniedError(error));
-      }
+      return Observable.throw(new AppError(error));
+    });
+  }
+
+  updateUser(user: User): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.put<any>(
+      REST_API_URL + '/api/user/update',
+      JSON.stringify(user),
+      { headers: requestHeaders, observe: 'response' }
+    ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }

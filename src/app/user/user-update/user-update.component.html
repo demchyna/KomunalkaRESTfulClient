@@ -1,3 +1,58 @@
-<p>
-  user-update works!
-</p>
+<div>
+  <form #data="ngForm" (ngSubmit)="updateUser(data.value)">
+    <table>
+      <tr>
+        <th colspan="2">
+          <h3>Edit user profile</h3>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <label for="first-name">First name:</label></td>
+        <td>
+          <input type="text" [(ngModel)]="user.first_name" name="first_name" id="first-name">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="last-name">Last name:</label></td>
+        <td>
+          <input type="text" [(ngModel)]="user.last_name" name="last_name" id="last-name">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="email">E-mail:</label></td>
+        <td>
+          <input type="text" [(ngModel)]="user.email" name="email" id="email">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="role">Roles:</label>
+        </td>
+        <td>
+          <select [(ngModel)]="user.authorities" name="authorities" id="role" multiple>
+            <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="description">Description:</label>
+        </td>
+        <td>
+          <textarea [(ngModel)]="user.description" name="description" id="description"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit">Update</button>
+        </td>
+        <td>
+          <button type="reset">Clear</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

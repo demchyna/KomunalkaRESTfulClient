@@ -14,6 +14,8 @@ import {appRouting} from './app.routing';
 import CommonErrorHandler from './errors/common-error-handler';
 import {AuthService} from './auth/auth.service';
 import {UserService} from './user/user.service';
+import {RoleService} from './role/role.service';
+import { UserCreateComponent } from './user/user-create/user-create.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem('jwt-token');
@@ -27,7 +29,8 @@ export function tokenGetter() {
     LoginComponent,
     UsersListComponent,
     UserInfoComponent,
-    UserUpdateComponent
+    UserUpdateComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ export function tokenGetter() {
   providers: [
     { provide: ErrorHandler, useClass: CommonErrorHandler },
     AuthService,
-    UserService
+    UserService,
+    RoleService
   ],
   bootstrap: [AppComponent]
 })

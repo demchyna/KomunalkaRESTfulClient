@@ -23,11 +23,6 @@ export class AuthService {
         JSON.stringify(user),
         { headers: requestHeaders, observe: 'response' }
       ).catch((error: HttpErrorResponse) => {
-        if (error.status === 404) {
-          return Observable.throw(new DataNotFoundError(error));
-        } else if (error.status === 401) {
-          return Observable.throw(new IncorrectPasswordError(error));
-        }
         return Observable.throw(new AppError(error));
     });
   }
