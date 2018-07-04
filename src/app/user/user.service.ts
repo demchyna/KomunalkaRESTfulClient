@@ -6,6 +6,7 @@ import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
 import AccessDeniedError from '../errors/access-denied-error';
 import User from '../models/User';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Injectable()
 export class UserService {
@@ -50,5 +51,16 @@ export class UserService {
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
+  }
+
+  get currentUser() {
+    const jwtToken = sessionStorage.getItem('jwt-token');
+    if (!jwtToken) {
+      return null;
+    }
+
+    console.log(new JwtHelperService().decodeToken(jwtToken));
+
+    return new JwtHelperService().decodeToken(jwtToken);
   }
 }

@@ -8,10 +8,16 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
     </span>
     <span *ngIf="!authService.isLoggedIn()">
+      | <a routerLink="/registration" routerLinkActive="active">Registration</a>
+    </span>
+    <span *ngIf="!authService.isLoggedIn()">
       | <a routerLink="/login" routerLinkActive="active">LogIn</a>
     </span>
     <span *ngIf="authService.isLoggedIn()">
       | <a routerLink="/user/all" routerLinkActive="active">All Users</a>
+    </span>
+    <span *ngIf="authService.isLoggedIn()">
+      | <a href="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Hi {{userService.currentUser.sub}}</a>
     </span>
     <span *ngIf="authService.isLoggedIn()">
       | <a routerLink="/logout" (click)="authService.logout()" routerLinkActive="active">LogOut</a>

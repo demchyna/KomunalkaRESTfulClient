@@ -1,6 +1,6 @@
-<p>
+<h3>
   List of registered users
-</p>
+</h3>
 <table border="1">
   <tr style="background-color: lightgray">
     <th>&nbsp;#&nbsp;</th>
@@ -9,7 +9,7 @@
     <th>Username</th>
     <th>E-mail</th>
   </tr>
-  <tr *ngFor="let user of users; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : 'gainsboro' }" (click)="selectedRow(user.id)">
+  <tr *ngFor="let user of users; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(user.id)">
     <td>{{i+1}}</td>
     <td>{{user.first_name}}</td>
     <td>{{user.last_name}}</td>
