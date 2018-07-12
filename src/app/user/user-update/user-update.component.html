@@ -3,19 +3,19 @@
     <table>
       <tr>
         <th colspan="2">
-          <h3>Edit user profile</h3>
+          <h3>Редагування профайлу користувача</h3>
         </th>
       </tr>
       <tr>
         <td>
-          <label for="first-name">First name:</label></td>
+          <label for="first-name">Ім'я:</label></td>
         <td>
           <input type="text" [(ngModel)]="user.first_name" name="first_name" id="first-name">
         </td>
       </tr>
       <tr>
         <td>
-          <label for="last-name">Last name:</label></td>
+          <label for="last-name">Прізвище:</label></td>
         <td>
           <input type="text" [(ngModel)]="user.last_name" name="last_name" id="last-name">
         </td>
@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <td>
-          <label for="role">Roles:</label>
+          <label for="role">Ролі:</label>
         </td>
         <td>
           <select [(ngModel)]="user.authorities" name="authorities" id="role" multiple>
@@ -39,7 +39,7 @@
       </tr>
       <tr>
         <td>
-          <label for="description">Description:</label>
+          <label for="description">Короткий опис:</label>
         </td>
         <td>
           <textarea [(ngModel)]="user.description" name="description" id="description"></textarea>
@@ -47,10 +47,10 @@
       </tr>
       <tr>
         <td>
-          <button type="submit">Update</button>
+          <button type="submit">Оновити</button>
         </td>
         <td>
-          <button type="reset">Clear</button>
+          <button type="reset">Очистити</button>
         </td>
       </tr>
     </table>

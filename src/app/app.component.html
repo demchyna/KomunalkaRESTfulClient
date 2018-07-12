@@ -4,23 +4,26 @@
     Welcome to {{ title }}!
   </h1>
   <div>
-    <span>
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <span *ngIf="authService.isLoggedIn()">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Домашня</a> |
     </span>
     <span *ngIf="!authService.isLoggedIn()">
-      | <a routerLink="/registration" routerLinkActive="active">Registration</a>
+      <a routerLink="/registration" routerLinkActive="active">Реєстрація</a>
     </span>
     <span *ngIf="!authService.isLoggedIn()">
-      | <a routerLink="/login" routerLinkActive="active">LogIn</a>
+      | <a routerLink="/login" routerLinkActive="active">Увійти</a>
     </span>
     <span *ngIf="authService.isLoggedIn()">
-      | <a routerLink="/user/all" routerLinkActive="active">All Users</a>
+      <a routerLink="/user/all" routerLinkActive="active">Список користувачів</a> |
     </span>
     <span *ngIf="authService.isLoggedIn()">
-      | <a href="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Hi {{userService.currentUser.sub}}</a>
+      <a routerLink="/category/all" routerLinkActive="active">Категорії</a> |
     </span>
     <span *ngIf="authService.isLoggedIn()">
-      | <a routerLink="/logout" (click)="authService.logout()" routerLinkActive="active">LogOut</a>
+      <a routerLink="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Привіт {{userService.currentUser.sub}} !</a> |
+    </span>
+    <span *ngIf="authService.isLoggedIn()">
+      <a routerLink="/logout" (click)="authService.logout()" routerLinkActive="active">Вийти</a>
     </span>
   </div>
 

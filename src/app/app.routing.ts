@@ -7,6 +7,9 @@ import {E404PageComponent} from './errors/404-page/404-page.component';
 import {UserInfoComponent} from './user/user-info/user-info.component';
 import {UserUpdateComponent} from './user/user-update/user-update.component';
 import {UserCreateComponent} from './user/user-create/user-create.component';
+import {CategoriesListComponent} from './category/categories-list/categories-list.component';
+import {MeterInfoComponent} from './meter/meter-info/meter-info.component';
+import {IndicatorCreateComponent} from './indicator/indicator-create/indicator-create.component';
 
 const routes: Routes = [
   {
@@ -19,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'logout',
-    redirectTo: ''
+    redirectTo: 'login'
   },
   {
     path: 'registration',
@@ -34,8 +37,20 @@ const routes: Routes = [
     component: UserInfoComponent
   },
   {
+    path: 'meter/:id/info',
+    component: MeterInfoComponent
+  },
+  {
     path: 'user/:id/update',
     component: UserUpdateComponent
+  },
+  {
+    path: 'category/all',
+    component: CategoriesListComponent
+  },
+  {
+    path: 'indicator/create',
+    component: IndicatorCreateComponent
   },
   {
     path: '**',

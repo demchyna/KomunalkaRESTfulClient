@@ -53,13 +53,21 @@ export class UserService {
     });
   }
 
+  deleteUser(id: number): Observable<any> {
+    return this.httpClient.delete<any>(
+      REST_API_URL + '/api/user/' + id + '/delete',
+      { observe: 'response' }
+    ).catch((error: HttpErrorResponse) => {
+      return Observable.throw(new AppError(error));
+    });
+  }
+
   get currentUser() {
     const jwtToken = sessionStorage.getItem('jwt-token');
     if (!jwtToken) {
       return null;
     }
 
-    console.log(new JwtHelperService().decodeToken(jwtToken));
 
     return new JwtHelperService().decodeToken(jwtToken);
   }

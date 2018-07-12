@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
 import {HttpResponse} from '@angular/common/http';
 import AccessDeniedError from '../../errors/access-denied-error';
@@ -7,6 +7,7 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import User from '../../models/User';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-user-info',
@@ -16,22 +17,23 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class UserInfoComponent implements OnInit {
 
   user: User = new User();
-  private userId: number;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {
-    this.route.params.subscribe( params => this.userId = params['id']);
+  constructor(private userService: UserService, private authService: AuthService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    this.userService.getUserById(this.userId)
-      .subscribe((response: HttpResponse<any>) => {
-        if (response) {
-          tokenSetter(response);
-          this.user  = response.body;
-        }
-      }, (appError: AppError) => {
+    this.route.params.subscribe( params => {
+      this.userService.getUserById(params['id'])
+        .subscribe((response: HttpResponse<any>) => {
+          if (response) {
+            tokenSetter(response);
+            this.user  = response.body;
+            this.user.create_date = (new Date(response.body.create_date)).toLocaleString();
+          }
+        }, (appError: AppError) => {
           throw appError;
-      });
+        });
+    });
   }
 
   editUser(userId: number) {
@@ -39,7 +41,19 @@ export class UserInfoComponent implements OnInit {
   }
 
   deleteUser(userId: number) {
-    this.router.navigate(['user/all']);
+    this.userService.deleteUser(userId)
+      .subscribe((response: HttpResponse<any>) => {
+        if (response) {
+          if (this.userService.currentUser.id === userId) {
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          } else {
+            this.router.navigate(['/user/all']);
+          }
+        }
+      }, (appError: AppError) => {
+        throw appError;
+      });
   }
 
 }

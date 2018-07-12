@@ -7,6 +7,7 @@ import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Router} from '@angular/router';
 import AccessDeniedError from '../../errors/access-denied-error';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-users-list',

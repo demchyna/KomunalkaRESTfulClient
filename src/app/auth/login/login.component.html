@@ -3,28 +3,28 @@
     <table>
       <tr>
         <th colspan="2">
-          <h3>LogIn</h3>
+          <h3>Увійти</h3>
         </th>
       </tr>
       <tr>
         <td>
-          <label for="username">Username:</label></td>
+          <label for="username">Логін:</label></td>
         <td>
           <input type="text" ngModel name="username" id="username">
         </td>
       </tr>
       <tr>
-        <td><label for="password">Password:</label></td>
+        <td><label for="password">Пароль:</label></td>
         <td>
           <input type="password" ngModel name="password" id="password">
         </td>
       </tr>
       <tr>
         <td>
-          <button type="submit">LogIn</button>
+          <button type="submit">Вхід</button>
         </td>
         <td>
-          <button type="reset">Cancel</button>
+          <a routerLink="/registration">Реєстрація</a>
         </td>
       </tr>
     </table>
