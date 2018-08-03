@@ -1,0 +1,32 @@
+<h3>Інформація по показнику з ID "{{indicator.id}}" </h3>
+<p>
+  <b>Назва лічильника: </b>{{meter.name}}
+</p>
+<p>
+  <b>Дата фіксації показів: </b>{{indicator.date}}
+</p>
+<p>
+  <b>Поточний показник: </b>{{indicator.current}} {{meter.unit.name}}
+</p>
+<p>
+  <b>Попередній показник: </b>{{indicator.previous}} {{meter.unit.name}}
+</p>
+<p>
+  <b>До оплати: </b>{{indicator.price}} {{tariff.currency}}
+</p>
+<p>
+  <b>Статус по оплаті: </b>
+  <span *ngIf="indicator.status">Оплачено</span>
+  <span *ngIf="!indicator.status">Неоплачено</span>
+</p>
+<p>
+  <b>Тариф: </b>{{tariff.rate}} {{tariff.currency}} / {{meter.unit.name}}
+</p>
+<p>
+  <b>Дата початку дії тарифу: </b>{{tariff.begin_date}}
+</p>
+<p *ngIf="indicator.description">
+  <b>Короткий опис: </b>{{indicator.description}}
+</p>
+<button (click)="editIndicator(indicator.id)">Редагувати показник</button>
+<button (click)="deleteIndicator(indicator.id)">Видалити показник</button>

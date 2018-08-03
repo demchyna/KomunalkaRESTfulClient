@@ -1,0 +1,32 @@
+<h3>
+  Список доступних категорій
+</h3>
+
+<table>
+  <tr *ngFor="let category of categories">
+    <td width="70%">
+      <details style="font-weight: bold">
+        <summary>{{category.name}}</summary>
+        <app-meters-list [categoryId]="category.id"></app-meters-list>
+        <table style="padding-left: 30px; padding-bottom: 10px">
+          <tr>
+            <td><button (click)="addMeter(category.id)">Додати лічильник</button></td>
+            <td><button (click)="addTariff(category.id)">Додати тариф</button></td>
+            <td (click)="tariffsList(category.id)" style="padding-left: 15px; cursor: pointer; color: #0000b7; text-decoration: underline;">Тарифи</td>
+          </tr>
+        </table>
+      </details>
+    </td>
+    <td valign="top">
+      <button (click)="editCategory(category.id)">Редагувати</button>
+    </td>
+    <td valign="top">
+      <button (click)="deleteCategory(category.id)">Видалити</button>
+    </td>
+  </tr>
+</table>
+
+
+
+<br>
+<button (click)="addCategory()">Додати нову категорію</button>

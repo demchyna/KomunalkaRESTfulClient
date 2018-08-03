@@ -29,8 +29,6 @@ export class UserUpdateComponent implements OnInit {
     this.user.email = data.email;
     this.user.description = data.description;
 
-    console.log(data.authorities);
-
     this.userService.updateUser(this.user)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

@@ -1,0 +1,55 @@
+<div>
+  <form #data="ngForm" (ngSubmit)="updateMeter(data.value)">
+    <table>
+      <tr>
+        <th colspan="2">
+          <h3>Редагування лічильника з категорії "{{category.name}}"</h3>
+        </th>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="name">Назва лічильника:</label></td>
+        <td>
+          <input type="text" [(ngModel)]="meter.name" name="name" id="name">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="unit">Одиниці вимірювання:</label>
+        </td>
+        <td>
+          <select [(ngModel)]="units[currentUnitId]" name="unit" id="unit">
+            <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="category">Категорія:</label>
+        </td>
+        <td>
+          <select [(ngModel)]="categories[currentCategoryId]" name="category" id="category">
+            <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="description">Короткий опис:</label>
+        </td>
+        <td>
+          <textarea [(ngModel)]="meter.description" name="description" id="description"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit">Оновити</button>
+        </td>
+        <td>
+          <button type="reset">Очистити</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

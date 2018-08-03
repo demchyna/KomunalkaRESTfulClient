@@ -3,57 +3,57 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
 import {Observable} from 'rxjs/Observable';
-import Category from '../models/Category';
+import Meter from '../models/Meter';
 
 @Injectable()
-export class CategoryService {
+export class MeterService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getCategoryById(id: number): Observable<any> {
+  getMeterByCategoryIdAndUserId(categoryId: number, userId: number): Observable<any> {
     return this.httpClient.get<any>(
-      REST_API_URL + '/api/category/id/' + id,
+      REST_API_URL + '/api/meter/category/' + categoryId + '/user/' + userId,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  getAllCategories(): Observable<any> {
+  getMeterById(id: number): Observable<any> {
     return this.httpClient.get<any>(
-      REST_API_URL + '/api/category/all',
+      REST_API_URL + '/api/meter/id/' + id,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  createCategory(category: Category): Observable<any> {
+  createMeter(meter: Meter): Observable<any> {
     const requestHeaders = { 'Content-Type': 'application/json' };
     return this.httpClient.post<any>(
-      REST_API_URL + '/api/category/create',
-      JSON.stringify(category),
+      REST_API_URL + '/api/meter/create',
+      JSON.stringify(meter),
       { headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  updateCategory(category: Category): Observable<any> {
+  updateMeter(meter: Meter): Observable<any> {
     const requestHeaders = { 'Content-Type': 'application/json' };
     return this.httpClient.put<any>(
-      REST_API_URL + '/api/category/update',
-      JSON.stringify(category),
+      REST_API_URL + '/api/meter/update',
+      JSON.stringify(meter),
       { headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  deleteCategory(id: number): Observable<any> {
+  deleteMeter(id: number): Observable<any> {
     return this.httpClient.delete<any>(
-      REST_API_URL + '/api/category/' + id + '/delete',
-      { observe: 'response' }
+      REST_API_URL + '/api/meter/' + id + '/delete',
+      {observe: 'response'}
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });

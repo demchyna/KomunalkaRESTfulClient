@@ -20,10 +20,24 @@ import { CategoriesListComponent } from './category/categories-list/categories-l
 import {CategoryService} from './category/category.service';
 import {MeterService} from './meter/meter.service';
 import { MetersListComponent } from './meter/meters-list/meters-list.component';
-import { MeterInfoComponent } from './meter/meter-info/meter-info.component';
+import { MeterIndicatorsInfoComponent } from './meter/meter-indicators-info/meter-indicators-info.component';
 import { IndicatorsListComponent } from './indicator/indicators-list/indicators-list.component';
 import {IndicatorService} from './indicator/indicator.service';
 import { IndicatorCreateComponent } from './indicator/indicator-create/indicator-create.component';
+import {TariffService} from './tariff/tariff.service';
+import { IndicatorUpdateComponent } from './indicator/indicator-update/indicator-update.component';
+import { IndicatorInfoComponent } from './indicator/indicator-info/indicator-info.component';
+import { CategoryCreateComponent } from './category/category-create/category-create.component';
+import { CategoryUpdateComponent } from './category/category-update/category-update.component';
+import { MeterCreateComponent } from './meter/meter-create/meter-create.component';
+import { MeterUpdateComponent } from './meter/meter-update/meter-update.component';
+import {UnitService} from './unit/unit.service';
+import { MeterInfoComponent } from './meter/meter-info/meter-info.component';
+import { TariffCreateComponent } from './tariff/tariff-create/tariff-create.component';
+import { TariffUpdateComponent } from './tariff/tariff-update/tariff-update.component';
+import { TariffInfoComponent } from './tariff/tariff-info/tariff-info.component';
+import { TariffsListComponent } from './tariff/tariffs-list/tariffs-list.component';
+import { CategoryTariffsInfoComponent } from './category/category-tariffs-info/category-tariffs-info.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem('jwt-token');
@@ -41,9 +55,21 @@ export function tokenGetter() {
     UserCreateComponent,
     CategoriesListComponent,
     MetersListComponent,
-    MeterInfoComponent,
+    MeterIndicatorsInfoComponent,
     IndicatorsListComponent,
     IndicatorCreateComponent,
+    IndicatorUpdateComponent,
+    IndicatorInfoComponent,
+    CategoryCreateComponent,
+    CategoryUpdateComponent,
+    MeterCreateComponent,
+    MeterUpdateComponent,
+    MeterInfoComponent,
+    TariffCreateComponent,
+    TariffUpdateComponent,
+    TariffInfoComponent,
+    TariffsListComponent,
+    CategoryTariffsInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +83,7 @@ export function tokenGetter() {
       }
     }),
     FormsModule,
-    appRouting
+    appRouting,
   ],
   providers: [
     { provide: ErrorHandler, useClass: CommonErrorHandler },
@@ -67,6 +93,8 @@ export function tokenGetter() {
     CategoryService,
     MeterService,
     IndicatorService,
+    TariffService,
+    UnitService
   ],
   bootstrap: [AppComponent]
 })

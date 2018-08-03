@@ -1,0 +1,70 @@
+<div>
+  <form #data="ngForm" (ngSubmit)="registerUser(data.value)">
+    <table>
+      <tr>
+        <th colspan="2">
+          <h3>Реєстрація нового користувача</h3>
+        </th>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="username">Логін:</label></td>
+        <td>
+          <input type="text" ngModel name="username" id="username">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="password">Пароль:</label></td>
+        <td>
+          <input type="password" ngModel name="password" id="password">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="confirm">Підтвердження:</label></td>
+        <td>
+          <input type="password" ngModel name="confirm" id="confirm">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="first-name">Ім'я:</label></td>
+        <td>
+          <input type="text" ngModel name="first_name" id="first-name">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="last-name">Прізвище:</label></td>
+        <td>
+          <input type="text" ngModel name="last_name" id="last-name">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="email">E-mail:</label></td>
+        <td>
+          <input type="text" ngModel name="email" id="email">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="description">Короткий опис:</label>
+        </td>
+        <td>
+          <textarea ngModel name="description" id="description"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit">Створити</button>
+        </td>
+        <td>
+          <button type="reset">Очистити</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

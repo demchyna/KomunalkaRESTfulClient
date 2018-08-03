@@ -3,8 +3,12 @@ export default class Indicator {
     public id?: number,
     public current?: number,
     public date?: string,
-    public description?: string,
     public previous?: number,
-    public meterId?: number
+    public previousId?: number,
+    public meterId?: number,
+    public tariffId?: number,
+    public status?: boolean,
+    public price?: number,
+    public description?: string,
   ) {  }
 }

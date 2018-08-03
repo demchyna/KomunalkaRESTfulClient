@@ -3,59 +3,69 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
 import {Observable} from 'rxjs/Observable';
-import Category from '../models/Category';
+import Indicator from '../models/Indicator';
 
 @Injectable()
-export class CategoryService {
+export class IndicatorService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getCategoryById(id: number): Observable<any> {
+  getIndicatorById(id: number): Observable<any> {
     return this.httpClient.get<any>(
-      REST_API_URL + '/api/category/id/' + id,
+      REST_API_URL + '/api/indicator/id/' + id,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  getAllCategories(): Observable<any> {
+  getIndicatorByMeterId(id: number): Observable<any> {
     return this.httpClient.get<any>(
-      REST_API_URL + '/api/category/all',
+      REST_API_URL + '/api/indicator/meter/' + id,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  createCategory(category: Category): Observable<any> {
+  createIndicator(indicator: Indicator): Observable<any> {
     const requestHeaders = { 'Content-Type': 'application/json' };
     return this.httpClient.post<any>(
-      REST_API_URL + '/api/category/create',
-      JSON.stringify(category),
+      REST_API_URL + '/api/indicator/create',
+      JSON.stringify(indicator),
       { headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
 
-  updateCategory(category: Category): Observable<any> {
-    const requestHeaders = { 'Content-Type': 'application/json' };
-    return this.httpClient.put<any>(
-      REST_API_URL + '/api/category/update',
-      JSON.stringify(category),
-      { headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
-  }
-
-  deleteCategory(id: number): Observable<any> {
-    return this.httpClient.delete<any>(
-      REST_API_URL + '/api/category/' + id + '/delete',
+  getLastAddedIndicatorByMeterId(id: number): Observable<any> {
+    return this.httpClient.get<any>(
+      REST_API_URL + '/api/indicator/last/meter/' + id,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
   }
+
+  updateIndicator(indicator: Indicator): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.put<any>(
+      REST_API_URL + '/api/indicator/update',
+      JSON.stringify(indicator),
+      { headers: requestHeaders, observe: 'response' }
+    ).catch((error: HttpErrorResponse) => {
+      return Observable.throw(new AppError(error));
+    });
+  }
+
+  deleteIndicator(id: number): Observable<any> {
+    return this.httpClient.delete<any>(
+      REST_API_URL + '/api/indicator/' + id + '/delete',
+      { observe: 'response' }
+    ).catch((error: HttpErrorResponse) => {
+      return Observable.throw(new AppError(error));
+    });
+  }
+
 }

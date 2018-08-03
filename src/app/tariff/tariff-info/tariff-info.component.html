@@ -1,0 +1,21 @@
+<h3>Інформація по тарифу з ID "{{tariff.id}}" </h3>
+<p>
+  <b>Назва категорії: </b>{{category.name}}
+</p>
+<p>
+  <b>Назва тарифу: </b>{{tariff.name}}
+</p>
+<p>
+  <b>Тариф: </b>{{tariff.rate}} {{tariff.currency}} / {{tariff.unit.name}}
+</p>
+<p>
+  <b>Дата початку дії тарифу: </b>{{tariff.begin_date}}
+</p>
+<p *ngIf="tariff.end_date">
+  <b>Дата закінчення дії тарифу: </b>{{tariff.end_date}}
+</p>
+<p *ngIf="tariff.description">
+  <b>Короткий опис: </b>{{tariff.description}}
+</p>
+<button (click)="editTariff(tariff.id)">Редагувати тариф</button>
+<button (click)="deleteTariff(tariff.id)">Видалити тариф</button>

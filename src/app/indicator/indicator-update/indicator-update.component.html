@@ -1,0 +1,61 @@
+<div>
+  <form #data="ngForm" (ngSubmit)="updateIndicator(data.value)">
+    <table>
+      <tr>
+        <th colspan="2">
+          <h3>Редагування показника для лічильника "{{meter.name}}"</h3>
+        </th>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="current">Поточний показник:</label></td>
+        <td>
+          <input type="number" [(ngModel)]="indicator.current" name="current" id="current">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="date">Дата фіксації:</label></td>
+        <td>
+          <input type="date" [(ngModel)]="indicator.date" name="date" id="date">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="status">Оплачено:</label></td>
+        <td>
+          <input type="checkbox" [(ngModel)]="indicator.status" name="status" id="status">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="tariff">Тариф:</label>
+        </td>
+        <td>
+          <select [(ngModel)]="tariffs[currentTariffId]" name="tariff" id="tariff">
+            <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}}</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="description">Короткий опис:</label>
+        </td>
+        <td>
+          <textarea [(ngModel)]="indicator.description" name="description" id="description"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit">Оновити</button>
+        </td>
+        <td>
+          <button type="reset">Очистити</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

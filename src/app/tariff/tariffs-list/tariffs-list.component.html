@@ -1,0 +1,26 @@
+<table border="1">
+  <tr style="background-color: lightgray">
+    <th rowspan="2">&nbsp;#&nbsp;</th>
+    <th rowspan="2">Назва тарифу</th>
+    <th rowspan="2" colspan="2">Тариф</th>
+    <th colspan="2">Дата дії тарифу</th>
+    <th rowspan="2">Короткий опис</th>
+    <th rowspan="2" colspan="2">Редагувати / Видалити</th>
+  </tr>
+  <tr style="background-color: lightgray">
+    <th>діє з</th>
+    <th>діє до</th>
+  </tr>
+  <tr *ngFor="let tariff of tariffs; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(tariff.id)">
+    <td>{{i+1}}</td>
+    <td>{{tariff.name}}</td>
+    <td>{{tariff.rate}}</td>
+    <td>{{tariff.currency}} / {{tariff.unit.name}}</td>
+    <td>{{tariff.begin_date}}</td>
+    <td>{{tariff.end_date}}</td>
+    <td>{{tariff.description}}</td>
+    <td><button (click)="editTariff(tariff.id, $event)">Редагувати</button></td>
+    <td><button (click)="deleteTariff(tariff.id, $event)">Видалити</button></td>
+  </tr>
+</table><br>
+<button (click)="addTariff()">Додати тариф</button>

@@ -1,0 +1,12 @@
+<h3>Інформація про лічильник з категорії "{{category.name}}" </h3>
+<p>
+  <b>Назва лічильника: </b>{{meter.name}}
+</p>
+<p>
+  <b>Одиниці вимірювання: </b>{{unit.name}}
+</p>
+<p *ngIf="meter.description">
+  <b>Короткий опис: </b>{{meter.description}}
+</p>
+<button (click)="editMeter(meter.id)">Редагувати лічильник</button>
+<button (click)="deleteMeter(meter.id)">Видалити лічильник</button>

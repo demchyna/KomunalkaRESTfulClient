@@ -1,0 +1,9 @@
+<div *ngIf="meters.length > 0; then metersList else noMeters"></div>
+<ng-template #metersList>
+  <ul>
+    <li *ngFor="let meter of meters" style="font-weight: normal" (click)="selectedMeter(meter.id)">{{ meter.name }}</li>
+  </ul>
+</ng-template>
+<ng-template #noMeters>
+  <p style="font-weight: normal">У цій категорії лічильників не виявлено!</p>
+</ng-template>

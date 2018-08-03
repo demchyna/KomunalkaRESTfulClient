@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {UserService} from '../user.service';
 import {HttpResponse} from '@angular/common/http';
 import AccessDeniedError from '../../errors/access-denied-error';
@@ -18,8 +18,10 @@ export class UserInfoComponent implements OnInit {
 
   user: User = new User();
 
-  constructor(private userService: UserService, private authService: AuthService, private route: ActivatedRoute, private router: Router) {
-  }
+  constructor(private userService: UserService,
+              private authService: AuthService,
+              private route: ActivatedRoute,
+              private router: Router) {  }
 
   ngOnInit() {
     this.route.params.subscribe( params => {
@@ -55,5 +57,4 @@ export class UserInfoComponent implements OnInit {
         throw appError;
       });
   }
-
 }
