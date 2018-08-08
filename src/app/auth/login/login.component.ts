@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HttpResponse } from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -7,13 +7,16 @@ import DataNotFoundError from '../../errors/data-not-found-error';
 import IncorrectPasswordError from '../../errors/incorrect-password-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+
+  loginSubscription: Subscription;
 
   constructor(private authService: AuthService, private router: Router) {  }
 
@@ -22,7 +25,7 @@ export class LoginComponent implements OnInit {
     user.username = data.username;
     user.password = data.password;
 
-    this.authService.login(user)
+    this.loginSubscription = this.authService.login(user)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
@@ -36,4 +39,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy(): void {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
+  }
 }

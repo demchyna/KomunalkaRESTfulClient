@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../category/category.service';
 import {TariffService} from '../tariff.service';
 import {UnitService} from '../../unit/unit.service';
@@ -8,13 +8,19 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import Tariff from '../../models/Tariff';
 import Unit from '../../models/Unit';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-tariff-update',
   templateUrl: './tariff-update.component.html',
   styleUrls: ['./tariff-update.component.css']
 })
-export class TariffUpdateComponent implements OnInit {
+export class TariffUpdateComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getTariffByIdSubscription: Subscription;
+  getAllUnitsSubscription: Subscription;
+  updateTariffSubscription: Subscription;
 
   tariffId: number;
   tariff: Tariff = new Tariff();
@@ -26,17 +32,17 @@ export class TariffUpdateComponent implements OnInit {
               private unitService: UnitService,
               private route: ActivatedRoute,
               private router: Router) {
-    this.route.params.subscribe( params => this.tariffId = params['id']);
+    this.paramsSubscription = this.route.params.subscribe( params => this.tariffId = params['id']);
   }
 
   ngOnInit() {
-    this.tariffService.getTariffById(this.tariffId)
+    this.getTariffByIdSubscription = this.tariffService.getTariffById(this.tariffId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           this.tariff = response.body;
 
-          this.unitService.getAllUnits()
+          this.getAllUnitsSubscription = this.unitService.getAllUnits()
             .subscribe((unitResp: HttpResponse<any>) => {
               if (unitResp) {
                 this.units = unitResp.body;
@@ -68,7 +74,7 @@ export class TariffUpdateComponent implements OnInit {
     this.tariff.description = data.description;
     this.tariff.unit = data.unit;
 
-    this.tariffService.updateTariff(this.tariff)
+    this.updateTariffSubscription = this.tariffService.updateTariff(this.tariff)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
@@ -79,4 +85,18 @@ export class TariffUpdateComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getTariffByIdSubscription) {
+      this.getTariffByIdSubscription.unsubscribe();
+    }
+    if (this.getAllUnitsSubscription) {
+      this.getAllUnitsSubscription.unsubscribe();
+    }
+    if (this.updateTariffSubscription) {
+      this.updateTariffSubscription.unsubscribe();
+    }
+  }
 }

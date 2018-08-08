@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
@@ -9,13 +9,20 @@ import Tariff from '../../models/Tariff';
 import {TariffService} from '../tariff.service';
 import {UnitService} from '../../unit/unit.service';
 import Unit from '../../models/Unit';
+import {Subscription} from 'rxjs/Subscription';
+import {UserService} from '../../user/user.service';
 
 @Component({
   selector: 'app-tariff-create',
   templateUrl: './tariff-create.component.html',
   styleUrls: ['./tariff-create.component.css']
 })
-export class TariffCreateComponent implements OnInit {
+export class TariffCreateComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getCategoryByIdSubscription: Subscription;
+  getAllUnitsSubscription: Subscription;
+  createTariffSubscription: Subscription;
 
   category: Category = new Category();
   units: Unit[] = [];
@@ -23,12 +30,13 @@ export class TariffCreateComponent implements OnInit {
   constructor(private categoryService: CategoryService,
               private tariffService: TariffService,
               private unitService: UnitService,
+              private userService: UserService,
               private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.categoryService.getCategoryById(params['id'])
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getCategoryByIdSubscription = this.categoryService.getCategoryById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -39,7 +47,7 @@ export class TariffCreateComponent implements OnInit {
         });
     });
 
-    this.unitService.getAllUnits()
+    this.getAllUnitsSubscription = this.unitService.getAllUnits()
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
@@ -64,14 +72,28 @@ export class TariffCreateComponent implements OnInit {
     tariff.category = this.category;
     tariff.unit = data.unit;
 
-    this.tariffService.createTariff(tariff)
+    this.createTariffSubscription = this.tariffService.createTariff(tariff)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/all']);
+          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
         throw appError;
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
+    }
+    if (this.getAllUnitsSubscription) {
+      this.getAllUnitsSubscription.unsubscribe();
+    }
+    if (this.createTariffSubscription) {
+      this.createTariffSubscription.unsubscribe();
+    }
+  }
 }

@@ -34,7 +34,7 @@
           <label for="tariff">Тариф:</label>
         </td>
         <td>
-          <select [(ngModel)]="tariffs[currentTariffId]" name="tariff" id="tariff">
+          <select [ngModel]="tariffs[currentTariffId]" name="tariff" id="tariff">
             <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}}</option>
           </select>
         </td>

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Event
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
-import {NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {CategoryService} from '../category.service';
 import Category from '../../models/Category';
 import {MeterService} from '../../meter/meter.service';
@@ -15,25 +15,32 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './categories-list.component.html',
   styleUrls: ['./categories-list.component.css'],
 })
-export class CategoriesListComponent implements OnInit {
+export class CategoriesListComponent implements OnInit, OnDestroy {
 
-  categories: Category[];
+  paramsSubscription: Subscription;
+  getCategoryByUserIdSubscription: Subscription;
+  deleteCategorySubscription: Subscription;
+
+  categories: Category[] = [];
 
   constructor(private categoryService: CategoryService,
               private meterService: MeterService,
               private userService: UserService,
+              private route: ActivatedRoute,
               private router: Router) {  }
 
   ngOnInit() {
-    this.categoryService.getAllCategories()
-      .subscribe((response: HttpResponse<any>) => {
-        if (response) {
-          tokenSetter(response);
-          this.categories = response.body;
-        }
-      }, (appError: AppError) => {
-        throw appError;
-      });
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(params['id'])
+        .subscribe((response: HttpResponse<any>) => {
+          if (response) {
+            tokenSetter(response);
+            this.categories = response.body;
+          }
+        }, (appError: AppError) => {
+          throw appError;
+        });
+    });
   }
 
   addCategory() {
@@ -45,7 +52,7 @@ export class CategoriesListComponent implements OnInit {
   }
 
   deleteCategory(categoryId: number) {
-    this.categoryService.deleteCategory(categoryId)
+    this.deleteCategorySubscription = this.categoryService.deleteCategory(categoryId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           this.ngOnInit();
@@ -59,11 +66,19 @@ export class CategoriesListComponent implements OnInit {
     this.router.navigate(['meter/create/category/' + categoryId]);
   }
 
-  addTariff(categoryId: number) {
-    this.router.navigate(['tariff/create/category/' + categoryId]);
-  }
-
   tariffsList(categoryId: number) {
     this.router.navigate(['category/' + categoryId + '/tariffs/info']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getCategoryByUserIdSubscription) {
+      this.getCategoryByUserIdSubscription.unsubscribe();
+    }
+    if (this.deleteCategorySubscription) {
+      this.deleteCategorySubscription.unsubscribe();
+    }
   }
 }

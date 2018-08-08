@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {IndicatorService} from '../indicator.service';
 import {Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
@@ -10,16 +10,20 @@ import {TariffService} from '../../tariff/tariff.service';
 import Tariff from '../../models/Tariff';
 import {Observable} from 'rxjs/Observable';
 import {log} from 'util';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-indicators-list',
   templateUrl: './indicators-list.component.html',
   styleUrls: ['./indicators-list.component.css'],
 })
-export class IndicatorsListComponent implements OnInit, OnChanges {
+export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
+
+  getIndicatorByMeterIdSubscription: Subscription;
+  getTariffByIdSubscription: Subscription;
+  deleteIndicatorSubscription: Subscription;
 
   @Input() meterProps: Meter;
-
   indicatorsAndTariffs: IndicatorAndTariff[] = [];
 
   constructor(private indicatorService: IndicatorService, private tariffService: TariffService, private router: Router) {
@@ -30,7 +34,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['meterProps'] && this.meterProps.id !== undefined) {
-      this.indicatorService.getIndicatorByMeterId(this.meterProps.id)
+      this.getIndicatorByMeterIdSubscription = this.indicatorService.getIndicatorByMeterId(this.meterProps.id)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -39,7 +43,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges {
             indicators = response.body;
 
             indicators.forEach((indicator) => {
-              this.tariffService.getTariffById(indicator.tariffId)
+              this.getTariffByIdSubscription = this.tariffService.getTariffById(indicator.tariffId)
                 .subscribe((resp: HttpResponse<any>) => {
                   if (resp) {
                     tokenSetter(resp);
@@ -75,7 +79,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges {
   }
 
   deleteIndicator(indicatorId: number, $event) {
-    this.indicatorService.deleteIndicator(indicatorId)
+    this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicatorId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           $event.stopPropagation();
@@ -86,6 +90,17 @@ export class IndicatorsListComponent implements OnInit, OnChanges {
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.getIndicatorByMeterIdSubscription) {
+      this.getIndicatorByMeterIdSubscription.unsubscribe();
+    }
+    if (this.getTariffByIdSubscription) {
+      this.getTariffByIdSubscription.unsubscribe();
+    }
+    if (this.deleteIndicatorSubscription) {
+      this.deleteIndicatorSubscription.unsubscribe();
+    }
+  }
 }
 
 interface IndicatorAndTariff {

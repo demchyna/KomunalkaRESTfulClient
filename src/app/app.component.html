@@ -17,7 +17,7 @@
       <a routerLink="/user/all" routerLinkActive="active">Список користувачів</a> |
     </span>
     <span *ngIf="authService.isLoggedIn()">
-      <a routerLink="/category/all" routerLinkActive="active">Категорії</a> |
+      <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active">Категорії</a> |
     </span>
     <span *ngIf="authService.isLoggedIn()">
       <a routerLink="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Привіт {{userService.currentUser.sub}} !</a> |

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
@@ -11,13 +11,19 @@ import {CategoryService} from '../../category/category.service';
 import Category from '../../models/Category';
 import Meter from '../../models/Meter';
 import {UserService} from '../../user/user.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-meter-create',
   templateUrl: './meter-create.component.html',
   styleUrls: ['./meter-create.component.css']
 })
-export class MeterCreateComponent implements OnInit {
+export class MeterCreateComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getCategoryByIdSubscription: Subscription;
+  getAllUnitsSubscription: Subscription;
+  createMeterSubscription: Subscription;
 
   category: Category = new Category();
   units: Unit[] = [];
@@ -31,8 +37,8 @@ export class MeterCreateComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe( params => {
-      this.categoryService.getCategoryById(params['id'])
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getCategoryByIdSubscription = this.categoryService.getCategoryById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -43,7 +49,7 @@ export class MeterCreateComponent implements OnInit {
         });
     });
 
-    this.unitService.getAllUnits()
+    this.getAllUnitsSubscription = this.unitService.getAllUnits()
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
@@ -60,16 +66,30 @@ export class MeterCreateComponent implements OnInit {
     meter.name = data.name;
     meter.category = this.category;
     meter.unit = data.unit;
-    meter.user = this.userService.currentUser;
     meter.description = data.description;
 
-    this.meterService.createMeter(meter)
+    this.createMeterSubscription = this.meterService.createMeter(meter)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/all']);
+          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
         throw appError;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
+    }
+    if (this.getAllUnitsSubscription) {
+      this.getAllUnitsSubscription.unsubscribe();
+    }
+    if (this.createMeterSubscription) {
+      this.createMeterSubscription.unsubscribe();
+    }
   }
 }

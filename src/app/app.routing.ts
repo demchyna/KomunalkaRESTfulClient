@@ -84,7 +84,7 @@ const routes: Routes = [
     component: UserUpdateComponent
   },
   {
-    path: 'category/all',
+    path: 'category/user/:id',
     component: CategoriesListComponent,
   },
   {

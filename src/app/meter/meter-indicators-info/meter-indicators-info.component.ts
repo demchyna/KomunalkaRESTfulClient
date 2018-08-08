@@ -1,17 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MeterService} from '../meter.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import Meter from '../../models/Meter';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-meter-indicators-info',
   templateUrl: './meter-indicators-info.component.html',
   styleUrls: ['./meter-indicators-info.component.css']
 })
-export class MeterIndicatorsInfoComponent implements OnInit {
+export class MeterIndicatorsInfoComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getMeterByIdSubscription: Subscription;
 
   meter: Meter = new Meter();
 
@@ -19,8 +23,8 @@ export class MeterIndicatorsInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.meterService.getMeterById(params['id'])
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getMeterByIdSubscription = this.meterService.getMeterById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -36,4 +40,12 @@ export class MeterIndicatorsInfoComponent implements OnInit {
     this.router.navigate(['/meter/' + meterId + '/info']);
   }
 
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getMeterByIdSubscription) {
+      this.getMeterByIdSubscription.unsubscribe();
+    }
+  }
 }

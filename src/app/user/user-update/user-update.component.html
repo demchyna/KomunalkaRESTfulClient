@@ -32,7 +32,7 @@
           <label for="role">Ролі:</label>
         </td>
         <td>
-          <select [(ngModel)]="user.authorities" name="authorities" id="role" multiple>
+          <select [ngModel]="user.authorities" name="authorities" id="role" multiple>
             <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
           </select>
         </td>

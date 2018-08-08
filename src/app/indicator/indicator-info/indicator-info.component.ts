@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import Indicator from '../../models/Indicator';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
@@ -9,13 +9,20 @@ import {MeterService} from '../../meter/meter.service';
 import {TariffService} from '../../tariff/tariff.service';
 import {IndicatorService} from '../indicator.service';
 import Meter from '../../models/Meter';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-indicator-info',
   templateUrl: './indicator-info.component.html',
   styleUrls: ['./indicator-info.component.css']
 })
-export class IndicatorInfoComponent implements OnInit {
+export class IndicatorInfoComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getIndicatorByIdSubscription: Subscription;
+  getTariffByIdSubscription: Subscription;
+  getMeterByIdSubscription: Subscription;
+  deleteIndicatorSubscription: Subscription;
 
   indicator: Indicator = new Indicator();
   tariff: Tariff = new Tariff();
@@ -28,14 +35,14 @@ export class IndicatorInfoComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.indicatorService.getIndicatorById(params['id'])
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getIndicatorByIdSubscription = this.indicatorService.getIndicatorById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
             this.indicator = response.body;
 
-            this.tariffService.getTariffById(this.indicator.tariffId)
+            this.getTariffByIdSubscription = this.tariffService.getTariffById(this.indicator.tariffId)
               .subscribe((tariffResp: HttpResponse<any>) => {
                 if (tariffResp) {
                   tokenSetter(tariffResp);
@@ -45,7 +52,7 @@ export class IndicatorInfoComponent implements OnInit {
                 throw appError;
               });
 
-            this.meterService.getMeterById(this.indicator.meterId)
+            this.getMeterByIdSubscription = this.meterService.getMeterById(this.indicator.meterId)
               .subscribe((meterResp: HttpResponse<any>) => {
                 if (meterResp) {
                   tokenSetter(meterResp);
@@ -67,7 +74,7 @@ export class IndicatorInfoComponent implements OnInit {
   }
 
   deleteIndicator(indicatorId: number) {
-    this.indicatorService.deleteIndicator(indicatorId)
+    this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicatorId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           this.router.navigate(['/meter/' + this.meter.id + '/info']);
@@ -77,4 +84,21 @@ export class IndicatorInfoComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getIndicatorByIdSubscription) {
+      this.getIndicatorByIdSubscription.unsubscribe();
+    }
+    if (this.getTariffByIdSubscription) {
+      this.getTariffByIdSubscription.unsubscribe();
+    }
+    if (this.getMeterByIdSubscription) {
+      this.getMeterByIdSubscription.unsubscribe();
+    }
+    if (this.deleteIndicatorSubscription) {
+      this.deleteIndicatorSubscription.unsubscribe();
+    }
+  }
 }

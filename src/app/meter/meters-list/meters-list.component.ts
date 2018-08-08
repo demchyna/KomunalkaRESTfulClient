@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
@@ -6,18 +6,21 @@ import {MeterService} from '../meter.service';
 import Meter from '../../models/Meter';
 import {UserService} from '../../user/user.service';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-meters-list',
   templateUrl: './meters-list.component.html',
   styleUrls: ['./meters-list.component.css']
 })
-export class MetersListComponent implements OnInit, OnChanges {
+export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
+
+  getMeterByCategoryIdSubscription: Subscription;
 
   @Input() private categoryId: number;
   meters: Meter[];
 
-  constructor(private meterService: MeterService, private userService: UserService, private router: Router) {
+  constructor(private meterService: MeterService, private router: Router) {
   }
 
   ngOnInit() {
@@ -26,7 +29,7 @@ export class MetersListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['categoryId'] && this.categoryId !== undefined) {
-      this.meterService.getMeterByCategoryIdAndUserId(this.categoryId, this.userService.currentUser.id)
+      this.getMeterByCategoryIdSubscription = this.meterService.getMeterByCategoryId(this.categoryId)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -42,4 +45,9 @@ export class MetersListComponent implements OnInit, OnChanges {
     this.router.navigate(['/meter/' + meterId + '/indicators/info']);
   }
 
+  ngOnDestroy(): void {
+    if (this.getMeterByCategoryIdSubscription) {
+      this.getMeterByCategoryIdSubscription.unsubscribe();
+    }
+  }
 }

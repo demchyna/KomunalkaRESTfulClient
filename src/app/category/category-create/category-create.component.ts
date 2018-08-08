@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import Category from '../../models/Category';
 import {CategoryService} from '../category.service';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+import {UserService} from '../../user/user.service';
 
 @Component({
   selector: 'app-category-create',
   templateUrl: './category-create.component.html',
   styleUrls: ['./category-create.component.css']
 })
-export class CategoryCreateComponent implements OnInit {
+export class CategoryCreateComponent implements OnInit, OnDestroy {
 
-  constructor(private categoryService: CategoryService, private router: Router) { }
+  createCategorySubscription: Subscription;
+
+  constructor(private categoryService: CategoryService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,15 +26,21 @@ export class CategoryCreateComponent implements OnInit {
 
     category.name = data.name;
     category.description = data.description;
+    category.user = this.userService.currentUser;
 
-    this.categoryService.createCategory(category)
+    this.createCategorySubscription = this.categoryService.createCategory(category)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/all']);
+          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
         throw appError;
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.createCategorySubscription) {
+      this.createCategorySubscription.unsubscribe();
+    }
+  }
 }

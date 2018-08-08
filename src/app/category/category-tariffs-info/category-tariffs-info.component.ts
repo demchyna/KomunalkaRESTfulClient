@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../category.service';
 import Category from '../../models/Category';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-category-tariffs-info',
   templateUrl: './category-tariffs-info.component.html',
   styleUrls: ['./category-tariffs-info.component.css']
 })
-export class CategoryTariffsInfoComponent implements OnInit {
+export class CategoryTariffsInfoComponent implements OnInit, OnDestroy {
+
+  getCategoryByIdSubscription: Subscription;
 
   category: Category = new Category();
 
@@ -19,7 +22,7 @@ export class CategoryTariffsInfoComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe( params => {
-      this.categoryService.getCategoryById(params['id'])
+      this.getCategoryByIdSubscription = this.categoryService.getCategoryById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -31,4 +34,9 @@ export class CategoryTariffsInfoComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
+    }
+  }
 }

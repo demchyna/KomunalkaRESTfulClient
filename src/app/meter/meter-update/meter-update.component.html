@@ -19,7 +19,7 @@
           <label for="unit">Одиниці вимірювання:</label>
         </td>
         <td>
-          <select [(ngModel)]="units[currentUnitId]" name="unit" id="unit">
+          <select [ngModel]="units[currentUnitId]" name="unit" id="unit">
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
@@ -29,7 +29,7 @@
           <label for="category">Категорія:</label>
         </td>
         <td>
-          <select [(ngModel)]="categories[currentCategoryId]" name="category" id="category">
+          <select [ngModel]="categories[currentCategoryId]" name="category" id="category">
             <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
           </select>
         </td>

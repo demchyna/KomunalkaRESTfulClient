@@ -8,7 +8,6 @@ export default class Meter {
     public name?: string,
     public description?: string,
     public unit: Unit = new Unit(),
-    public category: Category = new Category(),
-    public user: User = new User()
+    public category: Category = new Category()
   ) {  }
 }

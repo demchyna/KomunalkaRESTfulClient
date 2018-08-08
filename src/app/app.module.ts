@@ -77,7 +77,11 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
+
         whitelistedDomains: ['localhost:8080'],
+
+        // whitelistedDomains: ['thawing-escarpment-35369.herokuapp.com'],
+
         blacklistedRoutes: [''],
         skipWhenExpired: true
       }

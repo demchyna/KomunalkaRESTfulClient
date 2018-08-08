@@ -10,9 +10,9 @@ export class MeterService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMeterByCategoryIdAndUserId(categoryId: number, userId: number): Observable<any> {
+  getMeterByCategoryId(categoryId: number): Observable<any> {
     return this.httpClient.get<any>(
-      REST_API_URL + '/api/meter/category/' + categoryId + '/user/' + userId,
+      REST_API_URL + '/api/meter/category/' + categoryId,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));

@@ -19,9 +19,9 @@ export class CategoryService {
     });
   }
 
-  getAllCategories(): Observable<any> {
+  getCategoryByUserId(userId: number): Observable<any> {
     return this.httpClient.get<any>(
-      REST_API_URL + '/api/category/all',
+      REST_API_URL + '/api/category/user/' + userId,
       { observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));

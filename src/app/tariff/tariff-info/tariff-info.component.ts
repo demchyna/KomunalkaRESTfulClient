@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
@@ -7,13 +7,19 @@ import {TariffService} from '../tariff.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import Tariff from '../../models/Tariff';
 import Category from '../../models/Category';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-tariff-info',
   templateUrl: './tariff-info.component.html',
   styleUrls: ['./tariff-info.component.css']
 })
-export class TariffInfoComponent implements OnInit {
+export class TariffInfoComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getTariffByIdSubscription: Subscription;
+  getCategoryByIdSubscription: Subscription;
+  deleteTariffSubscription: Subscription;
 
   tariff: Tariff = new Tariff();
   category: Category = new Category();
@@ -24,14 +30,14 @@ export class TariffInfoComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.tariffService.getTariffById(params['id'])
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getTariffByIdSubscription = this.tariffService.getTariffById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
             this.tariff = response.body;
 
-            this.categoryService.getCategoryById(this.tariff.category.id)
+            this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.category.id)
               .subscribe((categoryResp: HttpResponse<any>) => {
                 if (categoryResp) {
                   tokenSetter(categoryResp);
@@ -52,7 +58,7 @@ export class TariffInfoComponent implements OnInit {
   }
 
   deleteTariff(tariffId: number) {
-    this.tariffService.deleteTariff(tariffId)
+    this.deleteTariffSubscription = this.tariffService.deleteTariff(tariffId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           this.router.navigate(['category/' + this.category.id + '/tariffs/info']);
@@ -62,4 +68,18 @@ export class TariffInfoComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getTariffByIdSubscription) {
+      this.getTariffByIdSubscription.unsubscribe();
+    }
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
+    }
+    if (this.deleteTariffSubscription) {
+      this.deleteTariffSubscription.unsubscribe();
+    }
+  }
 }

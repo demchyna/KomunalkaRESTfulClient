@@ -8,13 +8,18 @@ import AppError from '../../errors/app-error';
 import User from '../../models/User';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.css']
 })
-export class UserInfoComponent implements OnInit {
+export class UserInfoComponent implements OnInit, OnDestroy {
+
+  paramsUserSubscription: Subscription;
+  getUserByIdUserSubscription: Subscription;
+  deleteUserUserSubscription: Subscription;
 
   user: User = new User();
 
@@ -24,8 +29,8 @@ export class UserInfoComponent implements OnInit {
               private router: Router) {  }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.userService.getUserById(params['id'])
+    this.paramsUserSubscription = this.route.params.subscribe( params => {
+      this.getUserByIdUserSubscription = this.userService.getUserById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
@@ -43,7 +48,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   deleteUser(userId: number) {
-    this.userService.deleteUser(userId)
+    this.deleteUserUserSubscription = this.userService.deleteUser(userId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           if (this.userService.currentUser.id === userId) {
@@ -56,5 +61,17 @@ export class UserInfoComponent implements OnInit {
       }, (appError: AppError) => {
         throw appError;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.paramsUserSubscription) {
+      this.paramsUserSubscription.unsubscribe();
+    }
+    if (this.getUserByIdUserSubscription) {
+      this.getUserByIdUserSubscription.unsubscribe();
+    }
+    if (this.deleteUserUserSubscription) {
+      this.deleteUserUserSubscription.unsubscribe();
+    }
   }
 }

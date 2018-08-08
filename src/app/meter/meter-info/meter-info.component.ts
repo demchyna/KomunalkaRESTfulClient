@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
@@ -10,13 +10,20 @@ import {ActivatedRoute, Router} from '@angular/router';
 import Meter from '../../models/Meter';
 import Category from '../../models/Category';
 import Unit from '../../models/Unit';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-meter-info',
   templateUrl: './meter-info.component.html',
   styleUrls: ['./meter-info.component.css']
 })
-export class MeterInfoComponent implements OnInit {
+export class MeterInfoComponent implements OnInit, OnDestroy {
+
+  paramsSubscription: Subscription;
+  getMeterByIdSubscription: Subscription;
+  getCategoryByIdSubscription: Subscription;
+  getUnitByIdSubscription: Subscription;
+  deleteMeterSubscription: Subscription;
 
   meter: Meter = new Meter();
   category: Category = new Category();
@@ -30,14 +37,14 @@ export class MeterInfoComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.meterService.getMeterById(params['id'])
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      this.getMeterByIdSubscription = this.meterService.getMeterById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
             this.meter = response.body;
 
-            this.categoryService.getCategoryById(this.meter.category.id)
+            this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.category.id)
               .subscribe((categoryResp: HttpResponse<any>) => {
                 if (categoryResp) {
                   tokenSetter(categoryResp);
@@ -47,7 +54,7 @@ export class MeterInfoComponent implements OnInit {
                 throw appError;
               });
 
-            this.unitService.getUnitById(this.meter.unit.id)
+            this.getUnitByIdSubscription = this.unitService.getUnitById(this.meter.unit.id)
               .subscribe((unitResp: HttpResponse<any>) => {
                 if (unitResp) {
                   tokenSetter(unitResp);
@@ -69,14 +76,31 @@ export class MeterInfoComponent implements OnInit {
   }
 
   deleteMeter(meterId: number) {
-    this.meterService.deleteMeter(meterId)
+    this.deleteMeterSubscription = this.meterService.deleteMeter(meterId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/all']);
+          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
         throw appError;
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.getMeterByIdSubscription) {
+      this.getMeterByIdSubscription.unsubscribe();
+    }
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
+    }
+    if (this.getUnitByIdSubscription) {
+      this.getUnitByIdSubscription.unsubscribe();
+    }
+    if (this.deleteMeterSubscription) {
+      this.deleteMeterSubscription.unsubscribe();
+    }
+  }
 }

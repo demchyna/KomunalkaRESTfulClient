@@ -27,7 +27,7 @@
         </td>
         <td>
           <input type="text" [(ngModel)]="tariff.currency" name="currency" id="currency"> /
-          <select [(ngModel)]="units[currentUnitId]" name="unit" id="unit">
+          <select [ngModel]="units[currentUnitId]" name="unit" id="unit">
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>

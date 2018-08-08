@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import User from '../../models/User';
 import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
@@ -7,13 +7,16 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {RoleService} from '../../role/role.service';
 import {UserService} from '../user.service';
 import Role from '../../models/Role';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.css']
 })
-export class UserCreateComponent implements OnInit {
+export class UserCreateComponent implements OnInit, OnDestroy {
+
+  createUserSubscription: Subscription;
 
   constructor(private userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) { }
 
@@ -34,7 +37,7 @@ export class UserCreateComponent implements OnInit {
     user.description = data.description;
     user.authorities = [];
 
-    this.userService.createUser(user)
+    this.createUserSubscription = this.userService.createUser(user)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           this.router.navigate(['login']);
@@ -47,4 +50,9 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy(): void {
+    if (this.createUserSubscription) {
+      this.createUserSubscription.unsubscribe();
+    }
+  }
 }
