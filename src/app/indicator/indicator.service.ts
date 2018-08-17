@@ -59,10 +59,12 @@ export class IndicatorService {
     });
   }
 
-  deleteIndicator(id: number): Observable<any> {
-    return this.httpClient.delete<any>(
-      REST_API_URL + '/api/indicator/' + id + '/delete',
-      { observe: 'response' }
+  deleteIndicator(indicator: Indicator): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.request<any>(
+      'delete',
+      REST_API_URL + '/api/indicator/delete',
+      { body: JSON.stringify(indicator), headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });

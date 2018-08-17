@@ -76,10 +76,21 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
   }
 
   deleteMeter(meterId: number) {
-    this.deleteMeterSubscription = this.meterService.deleteMeter(meterId)
+    this.getMeterByIdSubscription = this.meterService.getMeterById(meterId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
+          tokenSetter(response);
+          const meter = response.body;
+
+          this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
         }
       }, (appError: AppError) => {
         throw appError;

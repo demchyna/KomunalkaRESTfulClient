@@ -13,16 +13,18 @@
         <td>
           <input type="text" ngModel name="name" id="name">
         </td>
+        <td *ngIf="meterErrors['name']" style="color: red">{{meterErrors['name']}}</td>
       </tr>
       <tr>
         <td>
           <label for="unit">Одиниці вимірювання:</label>
         </td>
         <td>
-          <select ngModel name="unit" id="unit">
+          <select [ngModel]="null" name="unit" id="unit">
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
+        <td *ngIf="meterErrors['unit']" style="color: red">{{meterErrors['unit']}}</td>
       </tr>
       <tr>
         <td>

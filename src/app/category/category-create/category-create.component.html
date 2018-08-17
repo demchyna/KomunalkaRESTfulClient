@@ -12,6 +12,7 @@
         <td>
           <input type="text" ngModel name="name" id="name">
         </td>
+        <td *ngIf="categoryErrors['name']" style="color: red">{{categoryErrors['name']}}</td>
       </tr>
       <tr>
         <td>

@@ -19,6 +19,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
   getCategoryByUserIdSubscription: Subscription;
+  getCategoryByIdSubscription: Subscription;
   deleteCategorySubscription: Subscription;
 
   categories: Category[] = [];
@@ -52,10 +53,21 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(categoryId: number) {
-    this.deleteCategorySubscription = this.categoryService.deleteCategory(categoryId)
+    this.getCategoryByIdSubscription = this.categoryService.getCategoryById(categoryId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.ngOnInit();
+          tokenSetter(response);
+          const category = response.body;
+
+          this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.ngOnInit();
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
         }
       }, (appError: AppError) => {
         throw appError;
@@ -76,6 +88,9 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
     }
     if (this.getCategoryByUserIdSubscription) {
       this.getCategoryByUserIdSubscription.unsubscribe();
+    }
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
     }
     if (this.deleteCategorySubscription) {
       this.deleteCategorySubscription.unsubscribe();

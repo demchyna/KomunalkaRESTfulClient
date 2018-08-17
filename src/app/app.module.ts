@@ -38,15 +38,25 @@ import { TariffUpdateComponent } from './tariff/tariff-update/tariff-update.comp
 import { TariffInfoComponent } from './tariff/tariff-info/tariff-info.component';
 import { TariffsListComponent } from './tariff/tariffs-list/tariffs-list.component';
 import { CategoryTariffsInfoComponent } from './category/category-tariffs-info/category-tariffs-info.component';
+import {AuthGuardService} from './guards/auth-guard/auth-guard.service';
+import {E403PageComponent} from './errors/403-page/403-page.component';
+import {AdminGuardService} from './guards/admin-guard/admin-guard.service';
+
 
 export function tokenGetter() {
-  return sessionStorage.getItem('jwt-token');
+
+  let jwtToken = '';
+  if (sessionStorage.getItem('jwt-token')) {
+    jwtToken = sessionStorage.getItem('jwt-token').substr(7);
+  }
+  return jwtToken;
 }
 
 @NgModule({
   declarations: [
     AppComponent,
     E404PageComponent,
+    E403PageComponent,
     HomeComponent,
     LoginComponent,
     UsersListComponent,
@@ -69,7 +79,7 @@ export function tokenGetter() {
     TariffUpdateComponent,
     TariffInfoComponent,
     TariffsListComponent,
-    CategoryTariffsInfoComponent,
+    CategoryTariffsInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +108,9 @@ export function tokenGetter() {
     MeterService,
     IndicatorService,
     TariffService,
-    UnitService
+    UnitService,
+    AuthGuardService,
+    AdminGuardService
   ],
   bootstrap: [AppComponent]
 })

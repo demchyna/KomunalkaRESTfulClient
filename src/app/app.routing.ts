@@ -21,15 +21,20 @@ import {TariffCreateComponent} from './tariff/tariff-create/tariff-create.compon
 import {CategoryTariffsInfoComponent} from './category/category-tariffs-info/category-tariffs-info.component';
 import {TariffInfoComponent} from './tariff/tariff-info/tariff-info.component';
 import {TariffUpdateComponent} from './tariff/tariff-update/tariff-update.component';
+import {AuthGuardService} from './guards/auth-guard/auth-guard.service';
+import {E403PageComponent} from './errors/403-page/403-page.component';
+import {AdminGuardService} from './guards/admin-guard/admin-guard.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'login',
@@ -45,76 +50,102 @@ const routes: Routes = [
   },
   {
     path: 'user/all',
-    component: UsersListComponent
+    component: UsersListComponent,
+    canActivate: [AuthGuardService, AdminGuardService]
   },
   {
     path: 'user/:id/info',
-    component: UserInfoComponent
+    component: UserInfoComponent,
+    canActivate: [AuthGuardService]
+
   },
   {
     path: 'meter/create/category/:id',
-    component: MeterCreateComponent
+    component: MeterCreateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'meter/:id/indicators/info',
-    component: MeterIndicatorsInfoComponent
+    component: MeterIndicatorsInfoComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'meter/:id/info',
-    component: MeterInfoComponent
+    component: MeterInfoComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'meter/:id/update',
-    component: MeterUpdateComponent
+    component: MeterUpdateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'tariff/create/category/:id',
-    component: TariffCreateComponent
+    component: TariffCreateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'tariff/:id/info',
-    component: TariffInfoComponent
+    component: TariffInfoComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'tariff/:id/update',
-    component: TariffUpdateComponent
+    component: TariffUpdateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'user/:id/update',
-    component: UserUpdateComponent
+    component: UserUpdateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'category/user/:id',
     component: CategoriesListComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'category/:id/tariffs/info',
-    component: CategoryTariffsInfoComponent
+    component: CategoryTariffsInfoComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'category/create',
-    component: CategoryCreateComponent
+    component: CategoryCreateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'category/:id/update',
-    component: CategoryUpdateComponent
+    component: CategoryUpdateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'indicator/create/meter/:id',
-    component: IndicatorCreateComponent
+    component: IndicatorCreateComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'indicator/:id/info',
-    component: IndicatorInfoComponent
+    component: IndicatorInfoComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'indicator/:id/update',
-    component: IndicatorUpdateComponent
+    component: IndicatorUpdateComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'no-access',
+    component: E403PageComponent
+  },
+  {
+    path: 'not-found',
+    component: E404PageComponent
   },
   {
     path: '**',
-    component: E404PageComponent
+    redirectTo: 'not-found'
   }
 ];
 
-export const appRouting: ModuleWithProviders = RouterModule.forRoot(routes);
+export const appRouting: ModuleWithProviders = RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' });

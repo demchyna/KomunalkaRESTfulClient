@@ -9,6 +9,7 @@ import AppError from '../../errors/app-error';
 import Tariff from '../../models/Tariff';
 import Unit from '../../models/Unit';
 import {Subscription} from 'rxjs/Subscription';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-tariff-update',
@@ -26,6 +27,7 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
   tariff: Tariff = new Tariff();
   units: Unit[] = [];
   currentUnitId: number;
+  tariffErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private categoryService: CategoryService,
               private tariffService: TariffService,
@@ -81,7 +83,11 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/tariff/' + this.tariffId + '/info']);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.tariffErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

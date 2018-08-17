@@ -3,22 +3,23 @@
     <table>
       <tr>
         <th colspan="2">
-          <h3>Редагування категорії "{{category.name}}"</h3>
+          <h3>Редагування категорії "{{categoryName}}"</h3>
         </th>
       </tr>
       <tr>
         <td>
           <label for="name">Назва категорії:</label></td>
         <td>
-          <input type="text" [(ngModel)]="category.name" name="name" id="name">
+          <input type="text" [ngModel]="category.name" name="name" id="name">
         </td>
+        <td *ngIf="categoryErrors['name']" style="color: red">{{categoryErrors['name']}}</td>
       </tr>
       <tr>
         <td>
           <label for="description">Короткий опис:</label>
         </td>
         <td>
-          <textarea [(ngModel)]="category.description" name="description" id="description"></textarea>
+          <textarea [ngModel]="category.description" name="description" id="description"></textarea>
         </td>
       </tr>
       <tr>

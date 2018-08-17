@@ -11,6 +11,7 @@ import {UnitService} from '../../unit/unit.service';
 import Unit from '../../models/Unit';
 import {Subscription} from 'rxjs/Subscription';
 import {UserService} from '../../user/user.service';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-tariff-create',
@@ -26,6 +27,7 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
 
   category: Category = new Category();
   units: Unit[] = [];
+  tariffErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private categoryService: CategoryService,
               private tariffService: TariffService,
@@ -78,7 +80,11 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.tariffErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

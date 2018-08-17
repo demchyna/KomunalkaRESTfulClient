@@ -19,11 +19,12 @@ export class UserInfoComponent implements OnInit, OnDestroy {
 
   paramsUserSubscription: Subscription;
   getUserByIdUserSubscription: Subscription;
+  getUserByIdSubscription: Subscription;
   deleteUserUserSubscription: Subscription;
 
   user: User = new User();
 
-  constructor(private userService: UserService,
+  constructor(protected userService: UserService,
               private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router) {  }
@@ -48,19 +49,35 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(userId: number) {
-    this.deleteUserUserSubscription = this.userService.deleteUser(userId)
+
+    this.getUserByIdSubscription = this.userService.getUserById(userId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          if (this.userService.currentUser.id === userId) {
-            this.authService.logout();
-            this.router.navigate(['/login']);
-          } else {
-            this.router.navigate(['/user/all']);
-          }
+          tokenSetter(response);
+          const user = response.body;
+
+          this.deleteUserUserSubscription = this.userService.deleteUser(user)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                if (this.userService.currentUser.id === userId) {
+                  this.authService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                  this.router.navigate(['/user/all']);
+                }
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
         }
       }, (appError: AppError) => {
         throw appError;
       });
+  }
+
+  categoriesList(userId: number) {
+    this.router.navigate(['category/user/' + userId]);
   }
 
   ngOnDestroy(): void {
@@ -69,6 +86,9 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     }
     if (this.getUserByIdUserSubscription) {
       this.getUserByIdUserSubscription.unsubscribe();
+    }
+    if (this.getUserByIdSubscription) {
+      this.getUserByIdSubscription.unsubscribe();
     }
     if (this.deleteUserUserSubscription) {
       this.deleteUserUserSubscription.unsubscribe();

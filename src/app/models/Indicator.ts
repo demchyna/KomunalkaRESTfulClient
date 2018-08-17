@@ -10,5 +10,6 @@ export default class Indicator {
     public status?: boolean,
     public price?: number,
     public description?: string,
+    public userId?: number
   ) {  }
 }

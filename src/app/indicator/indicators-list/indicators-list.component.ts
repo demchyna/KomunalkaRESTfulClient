@@ -1,6 +1,6 @@
 import {Component, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {IndicatorService} from '../indicator.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
@@ -21,6 +21,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   getIndicatorByMeterIdSubscription: Subscription;
   getTariffByIdSubscription: Subscription;
+  getIndicatorByIdSubscription: Subscription;
   deleteIndicatorSubscription: Subscription;
 
   @Input() meterProps: Meter;
@@ -79,11 +80,24 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   deleteIndicator(indicatorId: number, $event) {
-    this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicatorId)
+    $event.stopPropagation();
+
+    this.getIndicatorByIdSubscription = this.indicatorService.getIndicatorById(indicatorId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          $event.stopPropagation();
-          this.router.navigate(['/meter/' + this.meterProps.id + '/indicators/info']);
+          tokenSetter(response);
+          const indicator = response.body;
+
+          this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                  this.router.navigate(['/meter/' + this.meterProps.id + '/indicators/info']));
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
         }
       }, (appError: AppError) => {
         throw appError;
@@ -96,6 +110,9 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (this.getTariffByIdSubscription) {
       this.getTariffByIdSubscription.unsubscribe();
+    }
+    if (this.getIndicatorByIdSubscription) {
+      this.getIndicatorByIdSubscription.unsubscribe();
     }
     if (this.deleteIndicatorSubscription) {
       this.deleteIndicatorSubscription.unsubscribe();

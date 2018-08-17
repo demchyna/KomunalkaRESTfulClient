@@ -12,6 +12,7 @@ import Category from '../../models/Category';
 import Meter from '../../models/Meter';
 import {UserService} from '../../user/user.service';
 import {Subscription} from 'rxjs/Subscription';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-meter-create',
@@ -27,6 +28,7 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
 
   category: Category = new Category();
   units: Unit[] = [];
+  meterErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private meterService: MeterService,
               private categoryService: CategoryService,
@@ -74,7 +76,11 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.meterErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

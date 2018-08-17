@@ -11,48 +11,58 @@
         <td>
           <label for="name">Назва тарифу:</label></td>
         <td colspan="3">
-          <input type="text" [(ngModel)]="tariff.name" name="name" id="name" size="50">
+          <input type="text" [ngModel]="tariff.name" name="name" id="name" size="50">
         </td>
+        <td *ngIf="tariffErrors['name']" style="color: red">{{tariffErrors['name']}}</td>
       </tr>
-
       <tr>
         <td>
           <label for="rate">Тариф:</label>
         </td>
         <td>
-          <input type="text" [(ngModel)]="tariff.rate" name="rate" id="rate">
+          <input type="text" [ngModel]="tariff.rate" name="rate" id="rate">
         </td>
         <td>
           <label for="currency">одиниці:</label>
         </td>
         <td>
-          <input type="text" [(ngModel)]="tariff.currency" name="currency" id="currency"> /
+          <input type="text" [ngModel]="tariff.currency" name="currency" id="currency"> /
           <select [ngModel]="units[currentUnitId]" name="unit" id="unit">
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
+        <td *ngIf="tariffErrors['unit']" style="color: red">{{tariffErrors['unit']}}</td>
       </tr>
-
+      <tr>
+        <td></td>
+        <td *ngIf="tariffErrors['rate']" style="color: red">{{tariffErrors['rate']}}</td>
+        <td></td>
+        <td *ngIf="tariffErrors['currency']" style="color: red">{{tariffErrors['currency']}}</td>
+      </tr>
+      <tr>
       <tr>
         <td>
           <label for="begin-date">Дата дії з:</label>
         </td>
         <td>
-          <input type="date" [(ngModel)]="tariff.begin_date" name="begin_date" id="begin-date">
+          <input type="date" [ngModel]="tariff.begin_date" name="begin_date" id="begin-date">
         </td>
         <td>
           <label for="end-date">до:</label></td>
         <td>
-          <input type="date" [(ngModel)]="tariff.end_date" name="end_date" id="end-date">
+          <input type="date" [ngModel]="tariff.end_date" name="end_date" id="end-date">
         </td>
       </tr>
-
+      <tr>
+        <td></td>
+        <td *ngIf="tariffErrors['begin_date']" style="color: red">{{tariffErrors['begin_date']}}</td>
+      </tr>
       <tr>
         <td>
           <label for="description">Короткий опис:</label>
         </td>
         <td colspan="3">
-          <textarea [(ngModel)]="tariff.description" name="description" id="description"></textarea>
+          <textarea [ngModel]="tariff.description" name="description" id="description"></textarea>
         </td>
       </tr>
       <tr>

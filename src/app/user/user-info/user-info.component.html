@@ -29,3 +29,10 @@
 </p>
 <button (click)="editUser(user.id)">Редагувати</button>
 <button (click)="deleteUser(user.id)">Видалити профіль</button>
+
+<h3 (click)="categoriesList(user.id)" style="cursor: pointer; color: #0000b7;">
+  Список  категорій користувача
+  <span style="cursor: pointer; color: #000000">
+    "{{user.username}}"
+  </span>
+</h3>

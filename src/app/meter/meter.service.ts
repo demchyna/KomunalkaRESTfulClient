@@ -50,10 +50,12 @@ export class MeterService {
     });
   }
 
-  deleteMeter(id: number): Observable<any> {
-    return this.httpClient.delete<any>(
-      REST_API_URL + '/api/meter/' + id + '/delete',
-      {observe: 'response'}
+  deleteMeter(meter: Meter): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.request<any>(
+      'delete',
+      REST_API_URL + '/api/meter/delete',
+      { body: JSON.stringify(meter), headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });

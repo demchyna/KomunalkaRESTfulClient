@@ -8,6 +8,7 @@ import {RoleService} from '../../role/role.service';
 import {UserService} from '../user.service';
 import Role from '../../models/Role';
 import {Subscription} from 'rxjs/Subscription';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-user-create',
@@ -18,6 +19,8 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
   createUserSubscription: Subscription;
 
+  userErrors: Map<string, string> = new Map<string, string>();
+
   constructor(private userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) { }
 
   registerUser(data: any): void {
@@ -27,6 +30,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
       user.password = data.password;
     } else {
       this.router.navigate(['registration']);
+      this.userErrors['confirm'] = 'паролі не співпадають';
       return;
     }
 
@@ -43,7 +47,11 @@ export class UserCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['login']);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.userErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

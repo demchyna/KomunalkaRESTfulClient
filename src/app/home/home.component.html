@@ -1,3 +1,6 @@
-<h3>
-  Моя домашня сторінка
+<h3 (click)="categoriesList()" style="cursor: pointer; color: #0000b7;">
+  Список  категорій користувача
+  <span style="cursor: pointer; color: #000000" (click)="userInfo($event)">
+    "{{userService.currentUser.sub}}"
+  </span>
 </h3>

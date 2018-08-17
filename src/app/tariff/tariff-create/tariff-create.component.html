@@ -13,8 +13,8 @@
         <td colspan="3">
           <input type="text" ngModel name="name" id="name" size="50">
         </td>
+        <td *ngIf="tariffErrors['name']" style="color: red">{{tariffErrors['name']}}</td>
       </tr>
-
       <tr>
         <td>
           <label for="rate">Тариф:</label>
@@ -27,12 +27,18 @@
         </td>
         <td>
           <input type="text" ngModel name="currency" id="currency"> /
-          <select ngModel name="unit" id="unit">
+          <select [ngModel]="null" name="unit" id="unit">
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
+        <td *ngIf="tariffErrors['unit']" style="color: red">{{tariffErrors['unit']}}</td>
       </tr>
-
+      <tr>
+        <td></td>
+        <td *ngIf="tariffErrors['rate']" style="color: red">{{tariffErrors['rate']}}</td>
+        <td></td>
+        <td *ngIf="tariffErrors['currency']" style="color: red">{{tariffErrors['currency']}}</td>
+      </tr>
       <tr>
         <td>
           <label for="begin-date">Дата дії з:</label>
@@ -46,7 +52,10 @@
           <input type="date" ngModel name="end_date" id="end-date">
         </td>
       </tr>
-
+      <tr>
+        <td></td>
+        <td *ngIf="tariffErrors['begin_date']" style="color: red">{{tariffErrors['begin_date']}}</td>
+      </tr>
       <tr>
         <td>
           <label for="description">Короткий опис:</label>

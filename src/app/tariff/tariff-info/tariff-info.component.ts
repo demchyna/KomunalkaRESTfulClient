@@ -57,11 +57,22 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
     this.router.navigate(['/tariff/' + tariffId + '/update']);
   }
 
-  deleteTariff(tariffId: number) {
-    this.deleteTariffSubscription = this.tariffService.deleteTariff(tariffId)
+  deleteTariff(tariffId: number, $event) {
+    this.getTariffByIdSubscription = this.tariffService.getTariffById(tariffId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['category/' + this.category.id + '/tariffs/info']);
+          tokenSetter(response);
+          const tariff = response.body;
+
+          this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.router.navigate(['category/' + this.category.id + '/tariffs/info']);
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
         }
       }, (appError: AppError) => {
         throw appError;

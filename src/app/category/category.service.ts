@@ -50,10 +50,12 @@ export class CategoryService {
     });
   }
 
-  deleteCategory(id: number): Observable<any> {
-    return this.httpClient.delete<any>(
-      REST_API_URL + '/api/category/' + id + '/delete',
-      { observe: 'response' }
+  deleteCategory(category: Category): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.request<any>(
+      'delete',
+    REST_API_URL + '/api/category/delete',
+      { body: JSON.stringify(category), headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });

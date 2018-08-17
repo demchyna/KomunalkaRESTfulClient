@@ -17,6 +17,7 @@ export class TariffsListComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
   getTariffByCategoryIdSubscription: Subscription;
+  getTariffByIdSubscription: Subscription;
   deleteTariffSubscription: Subscription;
 
   @Input() categoryId: number;
@@ -55,11 +56,24 @@ export class TariffsListComponent implements OnInit, OnDestroy {
   }
 
   deleteTariff(tariffId: number, $event) {
-    this.deleteTariffSubscription = this.tariffService.deleteTariff(tariffId)
+    $event.stopPropagation();
+
+    this.getTariffByIdSubscription = this.tariffService.getTariffById(tariffId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          $event.stopPropagation();
-          this.router.navigate(['category/' + this.categoryId + '/tariffs/info']);
+          tokenSetter(response);
+          const tariff = response.body;
+
+          this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                  this.router.navigate(['category/' + this.categoryId + '/tariffs/info']));
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
         }
       }, (appError: AppError) => {
         throw appError;
@@ -72,6 +86,9 @@ export class TariffsListComponent implements OnInit, OnDestroy {
     }
     if (this.getTariffByCategoryIdSubscription) {
       this.getTariffByCategoryIdSubscription.unsubscribe();
+    }
+    if (this.getTariffByIdSubscription) {
+      this.getTariffByIdSubscription.unsubscribe();
     }
     if (this.deleteTariffSubscription) {
       this.deleteTariffSubscription.unsubscribe();

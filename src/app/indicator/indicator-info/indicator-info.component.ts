@@ -73,12 +73,23 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
     this.router.navigate(['/indicator/' + indicatorId + '/update']);
   }
 
-  deleteIndicator(indicatorId: number) {
-    this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicatorId)
+  deleteIndicator(indicatorId: number, $event) {
+    this.getIndicatorByIdSubscription = this.indicatorService.getIndicatorById(indicatorId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/meter/' + this.meter.id + '/info']);
-        }
+          tokenSetter(response);
+          const indicator = response.body;
+
+          this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.router.navigate(['/meter/' + this.meter.id + '/info']);
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
+      }
       }, (appError: AppError) => {
         throw appError;
       });

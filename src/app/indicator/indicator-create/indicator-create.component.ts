@@ -11,6 +11,8 @@ import {MeterService} from '../../meter/meter.service';
 import {TariffService} from '../../tariff/tariff.service';
 import Tariff from '../../models/Tariff';
 import {Subscription} from 'rxjs/Subscription';
+import {UserService} from '../../user/user.service';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-indicator-create',
@@ -28,11 +30,13 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
   meter: Meter = new Meter();
   tariffs: Tariff[];
   lastIndicator: Indicator = new Indicator();
+  indicatorErrors: Map<string, string> = new Map<string, string>();
 
   constructor(
     private indicatorService: IndicatorService,
     private meterService: MeterService,
     private tariffService: TariffService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -83,6 +87,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
     indicator.meterId = this.meter.id;
     indicator.tariffId = data.tariff.id;
     indicator.description = data.description;
+    indicator.userId = this.userService.currentUser.id;
 
     this.createIndicatorSubscription = this.indicatorService.createIndicator(indicator)
       .subscribe((response: HttpResponse<any>) => {
@@ -90,7 +95,11 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/meter/' + indicator.meterId + '/indicators/info']);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.indicatorErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

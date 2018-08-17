@@ -11,8 +11,9 @@
         <td>
           <label for="name">Назва лічильника:</label></td>
         <td>
-          <input type="text" [(ngModel)]="meter.name" name="name" id="name">
+          <input type="text" [ngModel]="meter.name" name="name" id="name">
         </td>
+        <td *ngIf="meterErrors['name']" style="color: red">{{meterErrors['name']}}</td>
       </tr>
       <tr>
         <td>
@@ -23,6 +24,7 @@
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
+        <td *ngIf="meterErrors['unit']" style="color: red">{{meterErrors['unit']}}</td>
       </tr>
       <tr>
         <td>
@@ -33,13 +35,14 @@
             <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
           </select>
         </td>
+        <td *ngIf="meterErrors['category']" style="color: red">{{meterErrors['category']}}</td>
       </tr>
       <tr>
         <td>
           <label for="description">Короткий опис:</label>
         </td>
         <td>
-          <textarea [(ngModel)]="meter.description" name="description" id="description"></textarea>
+          <textarea [ngModel]="meter.description" name="description" id="description"></textarea>
         </td>
       </tr>
       <tr>

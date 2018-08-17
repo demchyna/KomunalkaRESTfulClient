@@ -3,31 +3,34 @@
     <table>
       <tr>
         <th colspan="2">
-          <h3>Редагування профайлу користувача</h3>
+          <h3>Редагування профайлу користувача "{{user.username}}"</h3>
         </th>
       </tr>
       <tr>
         <td>
           <label for="first-name">Ім'я:</label></td>
         <td>
-          <input type="text" [(ngModel)]="user.first_name" name="first_name" id="first-name">
+          <input type="text" [ngModel]="user.first_name" name="first_name" id="first-name">
         </td>
+        <td *ngIf="userErrors['first_name']" style="color: red">{{userErrors['first_name']}}</td>
       </tr>
       <tr>
         <td>
           <label for="last-name">Прізвище:</label></td>
         <td>
-          <input type="text" [(ngModel)]="user.last_name" name="last_name" id="last-name">
+          <input type="text" [ngModel]="user.last_name" name="last_name" id="last-name">
         </td>
+        <td *ngIf="userErrors['last_name']" style="color: red">{{userErrors['last_name']}}</td>
       </tr>
       <tr>
         <td>
           <label for="email">E-mail:</label></td>
         <td>
-          <input type="text" [(ngModel)]="user.email" name="email" id="email">
+          <input type="text" [ngModel]="user.email" name="email" id="email">
         </td>
+        <td *ngIf="userErrors['email']" style="color: red">{{userErrors['email']}}</td>
       </tr>
-      <tr>
+      <tr *ngIf="userService.isAdmin()">
         <td>
           <label for="role">Ролі:</label>
         </td>
@@ -42,7 +45,7 @@
           <label for="description">Короткий опис:</label>
         </td>
         <td>
-          <textarea [(ngModel)]="user.description" name="description" id="description"></textarea>
+          <textarea [ngModel]="user.description" name="description" id="description"></textarea>
         </td>
       </tr>
       <tr>

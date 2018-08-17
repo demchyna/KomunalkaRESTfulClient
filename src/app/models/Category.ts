@@ -5,7 +5,6 @@ export default class Category {
     public id?: number,
     public name?: string,
     public description?: string,
-    public user: User = new User()
-
+    public user: User = null
   ) {  }
 }

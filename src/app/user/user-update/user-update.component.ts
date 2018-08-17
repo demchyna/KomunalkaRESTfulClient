@@ -8,6 +8,7 @@ import AppError from '../../errors/app-error';
 import Role from '../../models/Role';
 import {RoleService} from '../../role/role.service';
 import {Subscription} from 'rxjs/Subscription';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-user-update',
@@ -24,8 +25,10 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
   user: User = new User();
   roles: Role[];
   private userId: number;
+  userErrors: Map<string, string> = new Map<string, string>();
 
-  constructor(private userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
+
+  constructor(protected userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
     this.paramsUserSubscription = this.route.params.subscribe( params => this.userId = params['id']);
   }
 
@@ -33,6 +36,9 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
     this.user.first_name = data.first_name;
     this.user.last_name = data.last_name;
     this.user.email = data.email;
+    if (this.userService.isAdmin()) {
+      this.user.authorities = data.authorities;
+    }
     this.user.description = data.description;
 
     this.updateUserUserSubscription = this.userService.updateUser(this.user)
@@ -42,21 +48,26 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/user/' + this.userId + '/info']);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.userErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 
   ngOnInit() {
-
-    this.getAllRolesUserSubscription = this.roleService.getAllRoles()
-    .subscribe((response: HttpResponse<any>) => {
-      if (response) {
-        tokenSetter(response);
-        this.roles = response.body;
-      }
-    }, (appError: AppError) => {
-      throw appError;
-    });
+    if (this.userService.isAdmin()) {
+      this.getAllRolesUserSubscription = this.roleService.getAllRoles()
+        .subscribe((response: HttpResponse<any>) => {
+          if (response) {
+            tokenSetter(response);
+            this.roles = response.body;
+          }
+        }, (appError: AppError) => {
+          throw appError;
+        });
+    }
 
     this.getUserByIdUserSubscription = this.userService.getUserById(this.userId)
       .subscribe((response: HttpResponse<any>) => {

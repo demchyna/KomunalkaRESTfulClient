@@ -10,6 +10,7 @@ import {TariffService} from '../../tariff/tariff.service';
 import Meter from '../../models/Meter';
 import Tariff from '../../models/Tariff';
 import {Subscription} from 'rxjs/Subscription';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-indicator-update',
@@ -29,6 +30,7 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
   meter: Meter = new Meter();
   tariffs: Tariff[] = [];
   currentTariffId: number;
+  indicatorErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private indicatorService: IndicatorService,
               private meterService: MeterService,
@@ -89,7 +91,11 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/indicator/' + this.indicatorId + '/info']);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.indicatorErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

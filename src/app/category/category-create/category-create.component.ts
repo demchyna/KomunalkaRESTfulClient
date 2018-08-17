@@ -6,6 +6,7 @@ import {CategoryService} from '../category.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {UserService} from '../../user/user.service';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-category-create',
@@ -15,6 +16,8 @@ import {UserService} from '../../user/user.service';
 export class CategoryCreateComponent implements OnInit, OnDestroy {
 
   createCategorySubscription: Subscription;
+
+  categoryErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private categoryService: CategoryService, private userService: UserService, private router: Router) { }
 
@@ -34,7 +37,11 @@ export class CategoryCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.categoryErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

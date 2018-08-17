@@ -53,10 +53,12 @@ export class UserService {
     });
   }
 
-  deleteUser(id: number): Observable<any> {
-    return this.httpClient.delete<any>(
-      REST_API_URL + '/api/user/' + id + '/delete',
-      { observe: 'response' }
+  deleteUser(user: User): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.request<any>(
+      'delete',
+      REST_API_URL + '/api/user/delete',
+      { body: JSON.stringify(user), headers: requestHeaders, observe: 'response' }
     ).catch((error: HttpErrorResponse) => {
       return Observable.throw(new AppError(error));
     });
@@ -67,8 +69,16 @@ export class UserService {
     if (!jwtToken) {
       return null;
     }
-
-
     return new JwtHelperService().decodeToken(jwtToken);
+  }
+
+  isAdmin(): boolean {
+    let isAdmin = false;
+    this.currentUser.roles.map( (role) => {
+      if (role.name === 'admin') {
+        isAdmin = true;
+      }
+    });
+    return isAdmin;
   }
 }

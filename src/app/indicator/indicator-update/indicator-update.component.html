@@ -11,24 +11,26 @@
         <td>
           <label for="current">Поточний показник:</label></td>
         <td>
-          <input type="number" [(ngModel)]="indicator.current" name="current" id="current">
+          <input type="number" [ngModel]="indicator.current" name="current" id="current">
         </td>
+        <td *ngIf="indicatorErrors['current']" style="color: red">{{indicatorErrors['current']}}</td>
       </tr>
       <tr>
         <td>
           <label for="date">Дата фіксації:</label></td>
         <td>
-          <input type="date" [(ngModel)]="indicator.date" name="date" id="date">
+          <input type="date" [ngModel]="indicator.date" name="date" id="date">
         </td>
+        <td *ngIf="indicatorErrors['date']" style="color: red">{{indicatorErrors['date']}}</td>
       </tr>
       <tr>
         <td>
           <label for="status">Оплачено:</label></td>
         <td>
-          <input type="checkbox" [(ngModel)]="indicator.status" name="status" id="status">
+          <input type="checkbox" [ngModel]="indicator.status" name="status" id="status">
         </td>
+        <td *ngIf="indicatorErrors['status']" style="color: red">{{indicatorErrors['status']}}</td>
       </tr>
-
       <tr>
         <td>
           <label for="tariff">Тариф:</label>
@@ -38,14 +40,14 @@
             <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}}</option>
           </select>
         </td>
+        <td *ngIf="indicatorErrors['tariffId']" style="color: red">{{indicatorErrors['tariffId']}}</td>
       </tr>
-
       <tr>
         <td>
           <label for="description">Короткий опис:</label>
         </td>
         <td>
-          <textarea [(ngModel)]="indicator.description" name="description" id="description"></textarea>
+          <textarea [ngModel]="indicator.description" name="description" id="description"></textarea>
         </td>
       </tr>
       <tr>

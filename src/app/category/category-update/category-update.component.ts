@@ -7,6 +7,7 @@ import {CategoryService} from '../category.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {UserService} from '../../user/user.service';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-category-update',
@@ -21,6 +22,8 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
 
   category: Category = new Category();
   private categoryId: number;
+  categoryName: string;
+  categoryErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private categoryService: CategoryService,
               private userService: UserService,
@@ -36,6 +39,7 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.category = response.body;
+          this.categoryName = this.category.name;
         }
       }, (appError: AppError) => {
         throw appError;
@@ -54,7 +58,11 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
           this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
         }
       }, (appError: AppError) => {
-        throw appError;
+        if (appError.status === 422) {
+          this.categoryErrors = (<ValidationError>appError.error).validationErrors;
+        } else {
+          throw appError;
+        }
       });
   }
 

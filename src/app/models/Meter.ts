@@ -1,6 +1,5 @@
 import Unit from './Unit';
 import Category from './Category';
-import User from './User';
 
 export default class Meter {
   constructor(
