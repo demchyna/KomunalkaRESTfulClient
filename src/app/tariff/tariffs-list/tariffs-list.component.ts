@@ -22,6 +22,8 @@ export class TariffsListComponent implements OnInit, OnDestroy {
 
   @Input() categoryId: number;
   tariffs: Tariff[] = [];
+  currentPage = 1;
+  itemsNumber = 3;
 
   constructor(private tariffService: TariffService,
               private unitService: UnitService,

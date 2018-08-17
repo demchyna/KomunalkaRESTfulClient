@@ -24,6 +24,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
   deleteUserUserSubscription: Subscription;
 
   users: User[];
+  currentPage = 1;
+  itemsNumber = 3;
 
   constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
 

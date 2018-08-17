@@ -10,7 +10,7 @@
     <th>E-mail</th>
     <th colspan="2">Редагувати / Видалити</th>
   </tr>
-  <tr *ngFor="let user of users; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(user.id)">
+  <tr *ngFor="let user of users | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage }; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(user.id)">
     <td>{{i+1}}</td>
     <td>{{user.first_name}}</td>
     <td>{{user.last_name}}</td>
@@ -20,3 +20,5 @@
     <td><button (click)="deleteUser(user.id, $event)">Видалити</button></td>
   </tr>
 </table>
+<br>
+<pagination-controls class="pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна"></pagination-controls>

@@ -11,7 +11,7 @@
     <th>діє з</th>
     <th>діє до</th>
   </tr>
-  <tr *ngFor="let tariff of tariffs; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(tariff.id)">
+  <tr *ngFor="let tariff of tariffs | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage }; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(tariff.id)">
     <td>{{i+1}}</td>
     <td>{{tariff.name}}</td>
     <td>{{tariff.rate}}</td>
@@ -22,5 +22,8 @@
     <td><button (click)="editTariff(tariff.id, $event)">Редагувати</button></td>
     <td><button (click)="deleteTariff(tariff.id, $event)">Видалити</button></td>
   </tr>
-</table><br>
+</table>
+<br>
+<pagination-controls class="pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна"></pagination-controls>
+<br>
 <button (click)="addTariff()">Додати тариф</button>
