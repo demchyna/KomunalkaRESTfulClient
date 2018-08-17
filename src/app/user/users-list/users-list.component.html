@@ -8,6 +8,7 @@
     <th>Прізвище</th>
     <th>Логін</th>
     <th>E-mail</th>
+    <th colspan="2">Редагувати / Видалити</th>
   </tr>
   <tr *ngFor="let user of users; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(user.id)">
     <td>{{i+1}}</td>
@@ -15,5 +16,7 @@
     <td>{{user.last_name}}</td>
     <td>{{user.username}}</td>
     <td>{{user.email}}</td>
+    <td><button (click)="editUser(user.id, $event)">Редагувати</button></td>
+    <td><button (click)="deleteUser(user.id, $event)">Видалити</button></td>
   </tr>
 </table>

@@ -9,6 +9,8 @@ import {Router} from '@angular/router';
 import AccessDeniedError from '../../errors/access-denied-error';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import ValidationError from '../../models/ValidationError';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-users-list',
@@ -18,10 +20,12 @@ import {Subscription} from 'rxjs/Subscription';
 export class UsersListComponent implements OnInit, OnDestroy {
 
   getAllUsersUserSubscription: Subscription;
+  getUserByIdSubscription: Subscription;
+  deleteUserUserSubscription: Subscription;
 
   users: User[];
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.getAllUsersUserSubscription = this.userService.getAllUsers()
@@ -37,6 +41,40 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   selectedRow(userId: number) {
     this.router.navigate(['/user/' + userId + '/info']);
+  }
+
+  editUser(userId: number, $event) {
+    $event.stopPropagation();
+    this.router.navigate(['/user/' + userId + '/update']);
+  }
+
+  deleteUser(userId: number, $event) {
+    $event.stopPropagation();
+
+    this.getUserByIdSubscription = this.userService.getUserById(userId)
+      .subscribe((response: HttpResponse<any>) => {
+        if (response) {
+          tokenSetter(response);
+          const user = response.body;
+
+          this.deleteUserUserSubscription = this.userService.deleteUser(user)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                if (this.userService.currentUser.id === userId) {
+                  this.authService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                  this.router.navigate(['/user/all']);
+                }
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
+        }
+      }, (appError: AppError) => {
+        throw appError;
+      });
   }
 
   ngOnDestroy(): void {

@@ -41,7 +41,8 @@ import { CategoryTariffsInfoComponent } from './category/category-tariffs-info/c
 import {AuthGuardService} from './guards/auth-guard/auth-guard.service';
 import {E403PageComponent} from './errors/403-page/403-page.component';
 import {AdminGuardService} from './guards/admin-guard/admin-guard.service';
-
+import {OrderModule} from 'ngx-order-pipe';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 export function tokenGetter() {
 
@@ -79,7 +80,7 @@ export function tokenGetter() {
     TariffUpdateComponent,
     TariffInfoComponent,
     TariffsListComponent,
-    CategoryTariffsInfoComponent
+    CategoryTariffsInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +99,8 @@ export function tokenGetter() {
     }),
     FormsModule,
     appRouting,
+    OrderModule,
+    NgxPaginationModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: CommonErrorHandler },
@@ -110,7 +113,7 @@ export function tokenGetter() {
     TariffService,
     UnitService,
     AuthGuardService,
-    AdminGuardService
+    AdminGuardService,
   ],
   bootstrap: [AppComponent]
 })

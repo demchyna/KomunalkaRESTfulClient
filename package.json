@@ -23,6 +23,10 @@
     "@angular/router": "^5.2.0",
     "@auth0/angular-jwt": "^1.1.0",
     "core-js": "^2.4.1",
+    "ng2-order-pipe": "^0.1.5",
+    "ngx-order-pipe": "^2.0.1",
+    "ngx-pagination": "^3.2.0",
+    "normalize.css": "^8.0.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },

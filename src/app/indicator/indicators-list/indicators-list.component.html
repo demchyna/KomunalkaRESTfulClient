@@ -1,18 +1,44 @@
 <table border="1">
   <tr style="background-color: lightgray">
-    <th>&nbsp;#&nbsp;</th>
-    <th>Дата фіксації</th>
-    <th>Попередній показник</th>
-    <th>Поточний показник</th>
-    <th>Одиниці вимірювання</th>
-    <th colspan="2">Тариф</th>
-    <th colspan="2">Вартість</th>
-    <th>Статус</th>
-    <th>Короткий опис</th>
-    <th colspan="2">Редагувати / Видалити</th>
-
+    <th rowspan="2">&nbsp;#&nbsp;</th>
+    <th rowspan="2" [class.active]="order === 'indicator.date'" (click)="setOrder('indicator.date')">Дата фіксації
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th colspan="2">Показник</th>
+    <th rowspan="2" [class.active]="order === 'tariff.unit.name'" (click)="setOrder('tariff.unit.name')">Одиниці вимірювання
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th rowspan="2" colspan="2" [class.active]="order === 'tariff.rate'" (click)="setOrder('tariff.rate')">Тариф
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th rowspan="2" colspan="2" [class.active]="order === 'indicator.price'" (click)="setOrder('indicator.price')">Вартість
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th rowspan="2" [class.active]="order === 'indicator.status'" (click)="setOrder('indicator.status')">Статус
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th rowspan="2" [class.active]="order === 'indicator.description'" (click)="setOrder('indicator.description')">Короткий опис
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th rowspan="2" colspan="2">Редагувати / Видалити</th>
   </tr>
-  <tr *ngFor="let indicatorAndTariff of indicatorsAndTariffs; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(indicatorAndTariff.indicator.id)">
+  <tr style="background-color: lightgray">
+    <th [class.active]="order === 'indicator.previous'" (click)="setOrder('indicator.previous')">попередній
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+    <th [class.active]="order === 'indicator.current'" (click)="setOrder('indicator.current')">поточний
+      <span [hidden]="reverse">&#9660;</span>
+      <span [hidden]="!reverse">&#9650;</span>
+    </th>
+  </tr>
+  <tr *ngFor="let indicatorAndTariff of indicatorsAndTariffs | orderBy: order:!reverse:'case-insensitive' | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage }; index as i; even as isEven" [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }" (click)="selectedRow(indicatorAndTariff.indicator.id)" align="center">
     <td>{{i+1}}</td>
     <td>{{indicatorAndTariff.indicator.date}}</td>
     <td>{{indicatorAndTariff.indicator.previous}}</td>
@@ -21,6 +47,7 @@
 
     <!--<td *ngIf="tariffService.getTariffById(indicator.tariffId) | async as tariff">{{tariff.body.rate}}</td>-->
     <!--<td>{{(tariff$ | async)?.body.rate}}</td>-->
+
     <td>{{indicatorAndTariff.tariff.rate}}</td>
     <td>{{indicatorAndTariff.tariff.currency}} / {{indicatorAndTariff.tariff.unit.name}}</td>
     <td>{{indicatorAndTariff.indicator.price}}</td>
@@ -33,6 +60,9 @@
     <td><button (click)="editIndicator(indicatorAndTariff.indicator.id, $event)">Редагувати</button></td>
     <td><button (click)="deleteIndicator(indicatorAndTariff.indicator.id, $event)">Видалити</button></td>
   </tr>
-</table><br>
+</table>
+<br>
+<pagination-controls class="pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна"></pagination-controls>
+<br>
 <button (click)="addIndicator()">Додати показник</button>
 <button>Згенерувати звіт</button>

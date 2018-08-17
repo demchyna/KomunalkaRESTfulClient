@@ -8,9 +8,8 @@ import Indicator from '../../models/Indicator';
 import Meter from '../../models/Meter';
 import {TariffService} from '../../tariff/tariff.service';
 import Tariff from '../../models/Tariff';
-import {Observable} from 'rxjs/Observable';
-import {log} from 'util';
 import {Subscription} from 'rxjs/Subscription';
+import {OrderPipe} from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-indicators-list',
@@ -26,8 +25,18 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() meterProps: Meter;
   indicatorsAndTariffs: IndicatorAndTariff[] = [];
+  order = 'indicator.date';
+  reverse = false;
+  currentPage = 1;
+  itemsNumber = 3;
+  sortedIndicatorsAndTariffs: IndicatorAndTariff[] = [];
 
-  constructor(private indicatorService: IndicatorService, private tariffService: TariffService, private router: Router) {
+  constructor(private indicatorService: IndicatorService,
+              private tariffService: TariffService,
+              private router: Router,
+              private orderPipe: OrderPipe) {
+
+    this.sortedIndicatorsAndTariffs = orderPipe.transform(this.indicatorsAndTariffs, 'indicator.date');
   }
 
   ngOnInit() {
@@ -102,6 +111,13 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
       }, (appError: AppError) => {
         throw appError;
       });
+  }
+
+  setOrder(value: string) {
+    if (this.order === value) {
+      this.reverse = !this.reverse;
+    }
+    this.order = value;
   }
 
   ngOnDestroy(): void {
