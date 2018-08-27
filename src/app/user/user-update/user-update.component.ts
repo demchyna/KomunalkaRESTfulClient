@@ -28,7 +28,7 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
   userErrors: Map<string, string> = new Map<string, string>();
 
 
-  constructor(protected userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
+  constructor(public userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
     this.paramsUserSubscription = this.route.params.subscribe( params => this.userId = params['id']);
   }
 

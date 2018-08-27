@@ -73,7 +73,7 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
     this.router.navigate(['/indicator/' + indicatorId + '/update']);
   }
 
-  deleteIndicator(indicatorId: number, $event) {
+  deleteIndicator(indicatorId: number) {
     this.getIndicatorByIdSubscription = this.indicatorService.getIndicatorById(indicatorId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

@@ -11,7 +11,7 @@ import {UsersListComponent} from './user/users-list/users-list.component';
 import {UserInfoComponent} from './user/user-info/user-info.component';
 import {UserUpdateComponent} from './user/user-update/user-update.component';
 import {appRouting} from './app.routing';
-import CommonErrorHandler from './errors/common-error-handler';
+import {CommonErrorHandler} from './errors/common-error-handler';
 import {AuthService} from './auth/auth.service';
 import {UserService} from './user/user.service';
 import {RoleService} from './role/role.service';
@@ -92,9 +92,9 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
 
-        whitelistedDomains: ['localhost:8080'],
+        // whitelistedDomains: ['localhost:8080'],
 
-        // whitelistedDomains: ['thawing-escarpment-35369.herokuapp.com'],
+        whitelistedDomains: ['thawing-escarpment-35369.herokuapp.com'],
 
         blacklistedRoutes: [''],
         skipWhenExpired: true

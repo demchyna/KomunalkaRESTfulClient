@@ -11,5 +11,5 @@ import {UserService} from './user/user.service';
 export class AppComponent {
   title = 'Komunalka';
 
-  constructor(protected authService: AuthService, protected userService: UserService) {}
+  constructor(public authService: AuthService, public userService: UserService) {}
 }

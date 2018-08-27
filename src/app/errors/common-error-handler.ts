@@ -4,12 +4,10 @@ import AccessDeniedError from './access-denied-error';
 import DataNotFoundError from './data-not-found-error';
 import ErrorInfo from '../models/ErrorInfo';
 import {Router} from '@angular/router';
-import InvalidDataError from './invalid-data-error';
-import ValidationError from '../models/ValidationError';
 import ForbiddenError from './forbidden-error';
 
 @Injectable()
-export default class CommonErrorHandler implements ErrorHandler {
+export class CommonErrorHandler implements ErrorHandler {
 
   errorInfo: ErrorInfo;
 
