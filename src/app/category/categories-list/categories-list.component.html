@@ -6,7 +6,7 @@
   <tr *ngFor="let category of categories">
     <td width="70%">
       <details style="font-weight: bold">
-        <summary>{{category.name}}</summary>
+        <summary style="cursor: pointer">{{category.name}}</summary>
         <app-meters-list [categoryId]="category.id"></app-meters-list>
         <table style="padding-left: 30px; padding-bottom: 10px">
           <tr>

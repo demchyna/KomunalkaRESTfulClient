@@ -1,9 +1,9 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div>
+<div id="main">
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <div>
+  <div id="top-menu-left">
     <span *ngIf="authService.isLoggedIn()">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Домашня</a> |
     </span>
@@ -13,12 +13,14 @@
     <span *ngIf="!authService.isLoggedIn()">
       | <a routerLink="/login" routerLinkActive="active">Увійти</a>
     </span>
-    <span *ngIf="authService.isLoggedIn() && userService.isAdmin()">
-      <a routerLink="/user/all" routerLinkActive="active">Користувачі</a> |
-    </span>
     <span *ngIf="authService.isLoggedIn()">
-      <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active">Категорії</a> |
+      <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active">Категорії</a>
     </span>
+    <span *ngIf="authService.isLoggedIn() && userService.isAdmin()">
+      | <a routerLink="/user/all" routerLinkActive="active">Користувачі</a>
+    </span>
+  </div>
+  <div id="top-menu-right">
     <span *ngIf="authService.isLoggedIn()">
       <a routerLink="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Привіт {{userService.currentUser.sub}} !</a> |
     </span>
@@ -26,7 +28,8 @@
       <a routerLink="/logout" (click)="authService.logout()" routerLinkActive="active">Вийти</a>
     </span>
   </div>
-
-  <router-outlet></router-outlet>
-
+  <div id="content">
+    <router-outlet></router-outlet>
+    <ng4-loading-spinner></ng4-loading-spinner>
+  </div>
 </div>

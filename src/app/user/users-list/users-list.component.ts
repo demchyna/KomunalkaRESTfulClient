@@ -2,15 +2,12 @@ import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
-import DataNotFoundError from '../../errors/data-not-found-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Router} from '@angular/router';
-import AccessDeniedError from '../../errors/access-denied-error';
-import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
-import ValidationError from '../../models/ValidationError';
 import {AuthService} from '../../auth/auth.service';
+import {OrderPipe} from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-users-list',
@@ -24,10 +21,20 @@ export class UsersListComponent implements OnInit, OnDestroy {
   deleteUserUserSubscription: Subscription;
 
   users: User[];
+  firstNameValue = '';
+  lastNameValue = '';
+  usernameValue = '';
+  emailValue = '';
+  order = 'id';
+  reverse = false;
   currentPage = 1;
-  itemsNumber = 3;
+  itemsNumber = 10;
+  maxIntegerValue = Number.MAX_SAFE_INTEGER;
+  sortedUsers: User[] = [];
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router, private orderPipe: OrderPipe) {
+    this.sortedUsers = this.orderPipe.transform(this.users, 'id');
+  }
 
   ngOnInit() {
     this.getAllUsersUserSubscription = this.userService.getAllUsers()
@@ -77,6 +84,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
       }, (appError: AppError) => {
         throw appError;
       });
+  }
+
+  setOrder(value: string) {
+    if (this.order === value) {
+      this.reverse = !this.reverse;
+    }
+    this.order = value;
+  }
+
+  clickEvent($event) {
+    $event.stopPropagation();
   }
 
   ngOnDestroy(): void {

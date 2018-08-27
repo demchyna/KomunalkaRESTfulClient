@@ -10,6 +10,7 @@ import {TariffService} from '../../tariff/tariff.service';
 import Tariff from '../../models/Tariff';
 import {Subscription} from 'rxjs/Subscription';
 import {OrderPipe} from 'ngx-order-pipe';
+import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-indicators-list',
@@ -25,16 +26,26 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() meterProps: Meter;
   indicatorsAndTariffs: IndicatorAndTariff[] = [];
+  indicatorDateValue = '';
+  tariffUnitNameValue = '';
+  tariffRateValue = '';
+  indicatorPriceValue = '';
+  indicatorStatusValue = '';
+  indicatorDescriptionValue = '';
+  indicatorPreviousValue = '';
+  indicatorCurrentValue = '';
   order = 'indicator.date';
-  reverse = false;
+  reverse = true;
   currentPage = 1;
-  itemsNumber = 3;
+  itemsNumber = 10;
+  maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedIndicatorsAndTariffs: IndicatorAndTariff[] = [];
 
   constructor(private indicatorService: IndicatorService,
               private tariffService: TariffService,
               private router: Router,
-              private orderPipe: OrderPipe) {
+              private orderPipe: OrderPipe,
+              private spinnerService: Ng4LoadingSpinnerService) {
 
     this.sortedIndicatorsAndTariffs = orderPipe.transform(this.indicatorsAndTariffs, 'indicator.date');
   }
@@ -43,6 +54,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.spinnerService.show();
     if (changes['meterProps'] && this.meterProps.id !== undefined) {
       this.getIndicatorByMeterIdSubscription = this.indicatorService.getIndicatorByMeterId(this.meterProps.id)
         .subscribe((response: HttpResponse<any>) => {
@@ -69,6 +81,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
                 });
             });
           }
+          this.spinnerService.hide();
         }, (appError: AppError) => {
           throw appError;
         });
@@ -118,6 +131,10 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
       this.reverse = !this.reverse;
     }
     this.order = value;
+  }
+
+  clickEvent($event) {
+    $event.stopPropagation();
   }
 
   ngOnDestroy(): void {

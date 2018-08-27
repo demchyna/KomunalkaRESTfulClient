@@ -1,7 +1,7 @@
 <div *ngIf="meters.length > 0; then metersList else noMeters"></div>
 <ng-template #metersList>
   <ul>
-    <li *ngFor="let meter of meters" style="font-weight: normal" (click)="selectedMeter(meter.id)">{{ meter.name }}</li>
+    <li *ngFor="let meter of meters" style="font-weight: normal; cursor: pointer" (click)="selectedMeter(meter.id)">{{ meter.name }}</li>
   </ul>
 </ng-template>
 <ng-template #noMeters>

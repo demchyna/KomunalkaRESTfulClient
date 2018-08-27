@@ -1,0 +1,18 @@
+th {
+  cursor: pointer;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+th span {
+  visibility: hidden;
+}
+th.active {
+  color: #000000;
+}
+th.active span {
+  visibility: visible;
+}
+
+.pagination /deep/ .ngx-pagination .current {
+  background: #000000;
+}

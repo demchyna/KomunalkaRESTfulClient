@@ -13,6 +13,6 @@ th.active span {
   visibility: visible;
 }
 
- .pagination /deep/ .ngx-pagination .current {
-   background: #000000;
- }
+.pagination /deep/ .ngx-pagination .current {
+  background: #000000;
+}

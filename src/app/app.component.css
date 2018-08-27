@@ -1,3 +1,21 @@
 .active {
   background: gainsboro;
 }
+
+#main {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#top-menu-left {
+  float: left;
+}
+
+#top-menu-right {
+  float: right;
+}
+
+#content {
+  padding-top: 15px;
+  clear: left;
+}

@@ -7,6 +7,7 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnitService} from '../../unit/unit.service';
 import {Subscription} from 'rxjs/Subscription';
+import {OrderPipe} from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-tariffs-list',
@@ -22,13 +23,27 @@ export class TariffsListComponent implements OnInit, OnDestroy {
 
   @Input() categoryId: number;
   tariffs: Tariff[] = [];
+  nameValue = '';
+  rateValue = '';
+  descriptionValue = '';
+  beginDateValue = '';
+  endDateValue = '';
+  order = 'name';
+  reverse = false;
   currentPage = 1;
-  itemsNumber = 3;
+  itemsNumber = 10;
+  maxIntegerValue = Number.MAX_SAFE_INTEGER;
+  sortedTariffs: Tariff[] = [];
+
 
   constructor(private tariffService: TariffService,
               private unitService: UnitService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private orderPipe: OrderPipe) {
+
+    this.sortedTariffs = this.orderPipe.transform(this.tariffs, 'name');
+  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -80,6 +95,17 @@ export class TariffsListComponent implements OnInit, OnDestroy {
       }, (appError: AppError) => {
         throw appError;
       });
+  }
+
+  setOrder(value: string) {
+    if (this.order === value) {
+      this.reverse = !this.reverse;
+    }
+    this.order = value;
+  }
+
+  clickEvent($event) {
+    $event.stopPropagation();
   }
 
   ngOnDestroy(): void {
