@@ -43,6 +43,8 @@ import {E403PageComponent} from './errors/403-page/403-page.component';
 import {AdminGuardService} from './guards/admin-guard/admin-guard.service';
 import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { SearchFilterPipe } from './helpers/search-filter.pipe';
+import {Ng4LoadingSpinnerModule} from 'ng4-loading-spinner';
 
 export function tokenGetter() {
 
@@ -81,6 +83,7 @@ export function tokenGetter() {
     TariffInfoComponent,
     TariffsListComponent,
     CategoryTariffsInfoComponent,
+    SearchFilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +103,8 @@ export function tokenGetter() {
     FormsModule,
     appRouting,
     OrderModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   providers: [
     { provide: ErrorHandler, useClass: CommonErrorHandler },
