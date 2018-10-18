@@ -7,7 +7,7 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import Role from '../../models/Role';
 import {RoleService} from '../../role/role.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 
 @Component({
@@ -33,8 +33,8 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
   }
 
   updateUser(data: any): void {
-    this.user.first_name = data.first_name;
-    this.user.last_name = data.last_name;
+    this.user.firstName = data.firstName;
+    this.user.lastName = data.lastName;
     this.user.email = data.email;
     if (this.userService.isAdmin()) {
       this.user.authorities = data.authorities;

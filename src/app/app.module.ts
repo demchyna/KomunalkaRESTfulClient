@@ -45,6 +45,8 @@ import {OrderModule} from 'ngx-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { SearchFilterPipe } from './helpers/search-filter.pipe';
 import {Ng4LoadingSpinnerModule} from 'ng4-loading-spinner';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 export function tokenGetter() {
 
@@ -101,6 +103,7 @@ export function tokenGetter() {
       }
     }),
     FormsModule,
+    BrowserAnimationsModule,
     appRouting,
     OrderModule,
     NgxPaginationModule,
@@ -108,6 +111,7 @@ export function tokenGetter() {
   ],
   providers: [
     { provide: ErrorHandler, useClass: CommonErrorHandler },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     AuthService,
     UserService,
     RoleService,

@@ -6,7 +6,7 @@ import Tariff from '../../models/Tariff';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnitService} from '../../unit/unit.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {OrderPipe} from 'ngx-order-pipe';
 
 @Component({

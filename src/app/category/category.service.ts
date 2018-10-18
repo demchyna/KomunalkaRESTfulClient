@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import Category from '../models/Category';
+import {catchError} from 'rxjs/operators';
+import {throwError} from 'rxjs/internal/observable/throwError';
 
 @Injectable()
 export class CategoryService {
@@ -14,18 +16,22 @@ export class CategoryService {
     return this.httpClient.get<any>(
       REST_API_URL + '/api/category/id/' + id,
       { observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   getCategoryByUserId(userId: number): Observable<any> {
     return this.httpClient.get<any>(
       REST_API_URL + '/api/category/user/' + userId,
       { observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   createCategory(category: Category): Observable<any> {
@@ -34,9 +40,11 @@ export class CategoryService {
       REST_API_URL + '/api/category/create',
       JSON.stringify(category),
       { headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   updateCategory(category: Category): Observable<any> {
@@ -45,9 +53,11 @@ export class CategoryService {
       REST_API_URL + '/api/category/update',
       JSON.stringify(category),
       { headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   deleteCategory(category: Category): Observable<any> {
@@ -56,8 +66,10 @@ export class CategoryService {
       'delete',
     REST_API_URL + '/api/category/delete',
       { body: JSON.stringify(category), headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 }

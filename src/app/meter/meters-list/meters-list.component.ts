@@ -6,7 +6,7 @@ import {MeterService} from '../meter.service';
 import Meter from '../../models/Meter';
 import {UserService} from '../../user/user.service';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-meters-list',

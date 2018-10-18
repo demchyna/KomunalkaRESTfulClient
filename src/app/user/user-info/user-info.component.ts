@@ -8,7 +8,7 @@ import AppError from '../../errors/app-error';
 import User from '../../models/User';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-user-info',
@@ -36,7 +36,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.user  = response.body;
-            this.user.create_date = (new Date(response.body.create_date)).toLocaleString();
+            this.user.createDate = (new Date(response.body.createDate)).toLocaleString();
           }
         }, (appError: AppError) => {
           throw appError;

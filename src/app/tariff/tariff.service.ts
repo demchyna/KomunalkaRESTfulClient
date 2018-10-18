@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {REST_API_URL} from '../helpers/http-request-helper';
 import AppError from '../errors/app-error';
 import Tariff from '../models/Tariff';
+import {catchError} from 'rxjs/operators';
+import {throwError} from 'rxjs/internal/observable/throwError';
 
 @Injectable()
 export class TariffService {
@@ -14,18 +16,22 @@ export class TariffService {
     return this.httpClient.get<any>(
       REST_API_URL + '/api/tariff/id/' + id,
       { observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   getTariffByCategoryId(id: number): Observable<any> {
     return this.httpClient.get<any>(
       REST_API_URL + '/api/tariff/category/' + id,
       { observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   createTariff(tariff: Tariff): Observable<any> {
@@ -34,9 +40,11 @@ export class TariffService {
       REST_API_URL + '/api/tariff/create',
       JSON.stringify(tariff),
       { headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   updateTariff(tariff: Tariff): Observable<any> {
@@ -45,9 +53,11 @@ export class TariffService {
       REST_API_URL + '/api/tariff/update',
       JSON.stringify(tariff),
       { headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 
   deleteTariff(tariff: Tariff): Observable<any> {
@@ -56,8 +66,10 @@ export class TariffService {
       'delete',
       REST_API_URL + '/api/tariff/delete',
       { body: JSON.stringify(tariff), headers: requestHeaders, observe: 'response' }
-    ).catch((error: HttpErrorResponse) => {
-      return Observable.throw(new AppError(error));
-    });
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
   }
 }

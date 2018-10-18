@@ -7,7 +7,7 @@ import {TariffService} from '../tariff.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import Tariff from '../../models/Tariff';
 import Category from '../../models/Category';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-tariff-info',
@@ -37,7 +37,7 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
             tokenSetter(response);
             this.tariff = response.body;
 
-            this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.category.id)
+            this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.categoryId)
               .subscribe((categoryResp: HttpResponse<any>) => {
                 if (categoryResp) {
                   tokenSetter(categoryResp);

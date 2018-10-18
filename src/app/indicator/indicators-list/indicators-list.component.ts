@@ -1,14 +1,12 @@
-import {Component, HostListener, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {IndicatorService} from '../indicator.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import Indicator from '../../models/Indicator';
 import Meter from '../../models/Meter';
-import {TariffService} from '../../tariff/tariff.service';
-import Tariff from '../../models/Tariff';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {OrderPipe} from 'ngx-order-pipe';
 import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 
@@ -25,7 +23,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   deleteIndicatorSubscription: Subscription;
 
   @Input() meterProps: Meter;
-  indicatorsAndTariffs: IndicatorAndTariff[] = [];
+  indicators: Indicator[] = [];
   indicatorDateValue = '';
   tariffUnitNameValue = '';
   tariffRateValue = '';
@@ -34,52 +32,32 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   indicatorDescriptionValue = '';
   indicatorPreviousValue = '';
   indicatorCurrentValue = '';
-  order = 'indicator.date';
+  order = 'date';
   reverse = true;
   currentPage = 1;
   itemsNumber = 10;
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
-  sortedIndicatorsAndTariffs: IndicatorAndTariff[] = [];
+  sortedIndicators: Indicator[] = [];
 
   constructor(private indicatorService: IndicatorService,
-              private tariffService: TariffService,
               private router: Router,
               private orderPipe: OrderPipe,
               private spinnerService: Ng4LoadingSpinnerService) {
 
-    this.sortedIndicatorsAndTariffs = orderPipe.transform(this.indicatorsAndTariffs, 'indicator.date');
+    this.sortedIndicators = orderPipe.transform(this.indicators, 'date');
   }
 
   ngOnInit() {
+    this.spinnerService.show();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.spinnerService.show();
     if (changes['meterProps'] && this.meterProps.id !== undefined) {
       this.getIndicatorByMeterIdSubscription = this.indicatorService.getIndicatorByMeterId(this.meterProps.id)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
-
-            let indicators: Indicator[], tariff: Tariff;
-            indicators = response.body;
-
-            indicators.forEach((indicator) => {
-              this.getTariffByIdSubscription = this.tariffService.getTariffById(indicator.tariffId)
-                .subscribe((resp: HttpResponse<any>) => {
-                  if (resp) {
-                    tokenSetter(resp);
-                    tariff = resp.body;
-                    const indicatorAndTariff = {
-                      'indicator': indicator,
-                      'tariff': tariff
-                    };
-                    this.indicatorsAndTariffs.push(indicatorAndTariff);
-                  }
-                }, (appError: AppError) => {
-                  throw appError;
-                });
-            });
+            this.indicators = response.body;
           }
           this.spinnerService.hide();
         }, (appError: AppError) => {
@@ -151,9 +129,4 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
       this.deleteIndicatorSubscription.unsubscribe();
     }
   }
-}
-
-interface IndicatorAndTariff {
-  indicator: Indicator;
-  tariff: Tariff;
 }

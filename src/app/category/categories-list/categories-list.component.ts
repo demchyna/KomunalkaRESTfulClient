@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
@@ -7,8 +7,7 @@ import {CategoryService} from '../category.service';
 import Category from '../../models/Category';
 import {MeterService} from '../../meter/meter.service';
 import {UserService} from '../../user/user.service';
-import Meter from '../../models/Meter';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-categories-list',

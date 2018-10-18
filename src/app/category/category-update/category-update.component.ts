@@ -5,7 +5,7 @@ import AppError from '../../errors/app-error';
 import Category from '../../models/Category';
 import {CategoryService} from '../category.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
 

@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import {Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import User from '../models/User';
-import DataNotFoundError from '../errors/data-not-found-error';
-import IncorrectPasswordError from '../errors/incorrect-password-error';
 import AppError from '../errors/app-error';
 import {REST_API_URL} from '../helpers/http-request-helper';
+import {throwError} from 'rxjs/internal/observable/throwError';
+import {catchError} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -22,9 +20,11 @@ export class AuthService {
         REST_API_URL + '/login',
         JSON.stringify(user),
         { headers: requestHeaders, observe: 'response' }
-      ).catch((error: HttpErrorResponse) => {
-        return Observable.throw(new AppError(error));
-    });
+      ).pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(new AppError(error));
+      })
+    );
   }
 
   logout(): void {

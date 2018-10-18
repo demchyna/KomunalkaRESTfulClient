@@ -4,7 +4,7 @@ import AppError from '../../errors/app-error';
 import Category from '../../models/Category';
 import {CategoryService} from '../category.service';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
 
@@ -29,7 +29,7 @@ export class CategoryCreateComponent implements OnInit, OnDestroy {
 
     category.name = data.name;
     category.description = data.description;
-    category.user = this.userService.currentUser;
+    category.userId = this.userService.currentUser.id;
 
     this.createCategorySubscription = this.categoryService.createCategory(category)
       .subscribe((response: HttpResponse<any>) => {

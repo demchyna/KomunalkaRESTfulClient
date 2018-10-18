@@ -20,7 +20,6 @@ export class CommonErrorHandler implements ErrorHandler {
     switch (appError.status) {
       case 404:
         this.errorInfo = <DataNotFoundError> appError.error;
-        // alert(this.errorInfo.message);
         router.navigate(['/not-found']);
         break;
       case 403:

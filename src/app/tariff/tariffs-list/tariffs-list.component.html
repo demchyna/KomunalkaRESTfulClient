@@ -26,14 +26,14 @@
     <th rowspan="2" colspan="2">Редагувати / Видалити</th>
   </tr>
   <tr style="background-color: lightgray">
-    <th [class.active]="order === 'begin_date'" (click)="setOrder('begin_date')">діє з
+    <th [class.active]="order === 'beginDate'" (click)="setOrder('beginDate')">діє з
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="beginDateValue" placeholder="Дата">
       </div>
     </th>
-    <th [class.active]="order === 'end_date'" (click)="setOrder('end_date')">діє до
+    <th [class.active]="order === 'endDate'" (click)="setOrder('endDate')">діє до
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
@@ -45,8 +45,8 @@
       | searchFilter: 'name' : nameValue
       | searchFilter: 'rate' : rateValue
       | searchFilter: 'description' : descriptionValue
-      | searchFilter: 'begin_date' : beginDateValue
-      | searchFilter: 'end_date' : endDateValue
+      | searchFilter: 'beginDate' : beginDateValue
+      | searchFilter: 'endDate' : endDateValue
       | orderBy: order:reverse:'case-insensitive'
       | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
       index as i;
@@ -58,9 +58,9 @@
     <td>{{i+1}}</td>
     <td>{{tariff.name}}</td>
     <td>{{tariff.rate}}</td>
-    <td>{{tariff.currency}} / {{tariff.unit.name}}</td>
-    <td>{{tariff.begin_date}}</td>
-    <td>{{tariff.end_date}}</td>
+    <td>{{tariff.currency}} / {{tariff.unitName}}</td>
+    <td>{{tariff.beginDate}}</td>
+    <td>{{tariff.endDate}}</td>
     <td>{{tariff.description}}</td>
     <td><button (click)="editTariff(tariff.id, $event)">Редагувати</button></td>
     <td><button (click)="deleteTariff(tariff.id, $event)">Видалити</button></td>

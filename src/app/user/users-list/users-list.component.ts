@@ -5,7 +5,7 @@ import AppError from '../../errors/app-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
 import {OrderPipe} from 'ngx-order-pipe';
 

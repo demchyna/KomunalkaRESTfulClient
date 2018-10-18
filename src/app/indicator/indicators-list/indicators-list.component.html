@@ -1,7 +1,7 @@
 <table border="1">
   <tr style="background-color: lightgray">
     <th rowspan="2">&nbsp;#&nbsp;</th>
-    <th rowspan="2" [class.active]="order === 'indicator.date'" (click)="setOrder('indicator.date')">Дата фіксації
+    <th rowspan="2" [class.active]="order === 'date'" (click)="setOrder('date')">Дата фіксації
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
@@ -9,35 +9,35 @@
       </div>
     </th>
     <th colspan="2">Показник</th>
-    <th rowspan="2" [class.active]="order === 'tariff.unit.name'" (click)="setOrder('tariff.unit.name')">Одиниці вимірювання
+    <th rowspan="2" [class.active]="order === 'unitName'" (click)="setOrder('unitName')">Одиниці вимірювання
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="tariffUnitNameValue" placeholder="Одиниці">
       </div>
     </th>
-    <th rowspan="2" colspan="2" [class.active]="order === 'tariff.rate'" (click)="setOrder('tariff.rate')">Тариф
+    <th rowspan="2" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">Тариф
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="tariffRateValue" placeholder="Тариф">
       </div>
     </th>
-    <th rowspan="2" colspan="2" [class.active]="order === 'indicator.price'" (click)="setOrder('indicator.price')">Вартість
+    <th rowspan="2" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">Вартість
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="indicatorPriceValue" placeholder="Вартість">
       </div>
     </th>
-    <th rowspan="2" [class.active]="order === 'indicator.status'" (click)="setOrder('indicator.status')">Статус
+    <th rowspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">Статус
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="indicatorStatusValue" placeholder="Статус">
       </div>
     </th>
-    <th rowspan="2" [class.active]="order === 'indicator.description'" (click)="setOrder('indicator.description')">Короткий опис
+    <th rowspan="2" [class.active]="order === 'description'" (click)="setOrder('description')">Короткий опис
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
@@ -47,14 +47,14 @@
     <th rowspan="2" colspan="2">Редагувати / Видалити</th>
   </tr>
   <tr style="background-color: lightgray">
-    <th [class.active]="order === 'indicator.previous'" (click)="setOrder('indicator.previous')">попередній
+    <th [class.active]="order === 'previous'" (click)="setOrder('previous')">попередній
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="indicatorPreviousValue" placeholder="Значення">
       </div>
     </th>
-    <th [class.active]="order === 'indicator.current'" (click)="setOrder('indicator.current')">поточний
+    <th [class.active]="order === 'current'" (click)="setOrder('current')">поточний
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
@@ -62,43 +62,39 @@
       </div>
     </th>
   </tr>
-  <tr *ngFor="let indicatorAndTariff of indicatorsAndTariffs
-      | searchFilter: 'indicator.date' : indicatorDateValue
-      | searchFilter: 'tariff.unit.name' : tariffUnitNameValue
-      | searchFilter: 'tariff.rate' : tariffRateValue
-      | searchFilter: 'indicator.price' : indicatorPriceValue
-      | searchFilter: 'indicator.status' : indicatorStatusValue
-      | searchFilter: 'indicator.description' : indicatorDescriptionValue
-      | searchFilter: 'indicator.previous' : indicatorPreviousValue
-      | searchFilter: 'indicator.current' : indicatorCurrentValue
+  <tr *ngFor="let indicator of indicators
+      | searchFilter: 'date' : indicatorDateValue
+      | searchFilter: 'unitName' : tariffUnitNameValue
+      | searchFilter: 'tariffRate' : tariffRateValue
+      | searchFilter: 'price' : indicatorPriceValue
+      | searchFilter: 'status' : indicatorStatusValue
+      | searchFilter: 'description' : indicatorDescriptionValue
+      | searchFilter: 'previous' : indicatorPreviousValue
+      | searchFilter: 'current' : indicatorCurrentValue
       | orderBy: order: reverse:'case-insensitive'
       | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
       index as i;
       even as isEven"
       [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
-      (click)="selectedRow(indicatorAndTariff.indicator.id)"
+      (click)="selectedRow(indicator.id)"
       align="center">
 
     <td>{{i+1}}</td>
-    <td>{{indicatorAndTariff.indicator.date}}</td>
-    <td>{{indicatorAndTariff.indicator.previous}}</td>
-    <td>{{indicatorAndTariff.indicator.current}}</td>
-    <td>{{indicatorAndTariff.tariff.unit.name}}</td>
-
-    <!--<td *ngIf="tariffService.getTariffById(indicator.tariffId) | async as tariff">{{tariff.body.rate}}</td>-->
-    <!--<td>{{(tariff$ | async)?.body.rate}}</td>-->
-
-    <td>{{indicatorAndTariff.tariff.rate}}</td>
-    <td>{{indicatorAndTariff.tariff.currency}} / {{indicatorAndTariff.tariff.unit.name}}</td>
-    <td>{{indicatorAndTariff.indicator.price}}</td>
-    <td>{{indicatorAndTariff.tariff.currency}}</td>
+    <td>{{indicator.date}}</td>
+    <td>{{indicator.previous}}</td>
+    <td>{{indicator.current}}</td>
+    <td>{{indicator.unitName}}</td>
+    <td>{{indicator.tariffRate}}</td>
+    <td>{{indicator.tariffCurrency}} / {{indicator.unitName}}</td>
+    <td>{{indicator.price}}</td>
+    <td>{{indicator.tariffCurrency}}</td>
     <td>
-      <span *ngIf="indicatorAndTariff.indicator.status">Оплачено</span>
-      <span *ngIf="!indicatorAndTariff.indicator.status">Неоплачено</span>
+      <span *ngIf="indicator.status">Оплачено</span>
+      <span *ngIf="!indicator.status">Неоплачено</span>
     </td>
-    <td>{{indicatorAndTariff.indicator.description}}</td>
-    <td><button (click)="editIndicator(indicatorAndTariff.indicator.id, $event)">Редагувати</button></td>
-    <td><button (click)="deleteIndicator(indicatorAndTariff.indicator.id, $event)">Видалити</button></td>
+    <td>{{indicator.description}}</td>
+    <td><button (click)="editIndicator(indicator.id, $event)">Редагувати</button></td>
+    <td><button (click)="deleteIndicator(indicator.id, $event)">Видалити</button></td>
   </tr>
 </table>
 <br>

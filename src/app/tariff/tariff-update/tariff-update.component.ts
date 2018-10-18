@@ -8,8 +8,9 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import Tariff from '../../models/Tariff';
 import Unit from '../../models/Unit';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
+import Category from '../../models/Category';
 
 @Component({
   selector: 'app-tariff-update',
@@ -20,11 +21,13 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
   getTariffByIdSubscription: Subscription;
+  getCategoryByIdSubscription: Subscription;
   getAllUnitsSubscription: Subscription;
   updateTariffSubscription: Subscription;
 
   tariffId: number;
   tariff: Tariff = new Tariff();
+  category: Category = new Category();
   units: Unit[] = [];
   currentUnitId: number;
   tariffErrors: Map<string, string> = new Map<string, string>();
@@ -44,13 +47,23 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           this.tariff = response.body;
 
+          this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.categoryId)
+            .subscribe((tariffResp: HttpResponse<any>) => {
+              if (tariffResp) {
+                tokenSetter(tariffResp);
+                this.category = tariffResp.body;
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
           this.getAllUnitsSubscription = this.unitService.getAllUnits()
             .subscribe((unitResp: HttpResponse<any>) => {
               if (unitResp) {
                 this.units = unitResp.body;
 
                 this.units.map((unit, index) => {
-                  if (unit.id === this.tariff.unit.id) {
+                  if (unit.id === this.tariff.unitId) {
                     this.currentUnitId = index;
                   }
                 });
@@ -69,12 +82,15 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
     this.tariff.name = data.name;
     this.tariff.rate = data.rate;
     this.tariff.currency = data.currency;
-    this.tariff.begin_date = data.begin_date;
-    if (data.end_date) {
-      this.tariff.end_date = data.end_date;
+    this.tariff.beginDate = data.beginDate;
+    if (data.endDate) {
+      this.tariff.endDate = data.endDate;
     }
     this.tariff.description = data.description;
-    this.tariff.unit = data.unit;
+
+    if (data.unit) {
+      this.tariff.unitId = data.unit.id;
+    }
 
     this.updateTariffSubscription = this.tariffService.updateTariff(this.tariff)
       .subscribe((response: HttpResponse<any>) => {
@@ -97,6 +113,9 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
     }
     if (this.getTariffByIdSubscription) {
       this.getTariffByIdSubscription.unsubscribe();
+    }
+    if (this.getCategoryByIdSubscription) {
+      this.getCategoryByIdSubscription.unsubscribe();
     }
     if (this.getAllUnitsSubscription) {
       this.getAllUnitsSubscription.unsubscribe();

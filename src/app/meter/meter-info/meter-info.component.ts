@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import Meter from '../../models/Meter';
 import Category from '../../models/Category';
 import Unit from '../../models/Unit';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-meter-info',
@@ -44,7 +44,7 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
             tokenSetter(response);
             this.meter = response.body;
 
-            this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.category.id)
+            this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.categoryId)
               .subscribe((categoryResp: HttpResponse<any>) => {
                 if (categoryResp) {
                   tokenSetter(categoryResp);
@@ -54,7 +54,7 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
                 throw appError;
               });
 
-            this.getUnitByIdSubscription = this.unitService.getUnitById(this.meter.unit.id)
+            this.getUnitByIdSubscription = this.unitService.getUnitById(this.meter.unitId)
               .subscribe((unitResp: HttpResponse<any>) => {
                 if (unitResp) {
                   tokenSetter(unitResp);

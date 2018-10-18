@@ -6,13 +6,13 @@
   <b>Назва тарифу: </b>{{tariff.name}}
 </p>
 <p>
-  <b>Тариф: </b>{{tariff.rate}} {{tariff.currency}} / {{tariff.unit.name}}
+  <b>Тариф: </b>{{tariff.rate}} {{tariff.currency}} / {{tariff.unitName}}
 </p>
 <p>
-  <b>Дата початку дії тарифу: </b>{{tariff.begin_date}}
+  <b>Дата початку дії тарифу: </b>{{tariff.beginDate}}
 </p>
-<p *ngIf="tariff.end_date">
-  <b>Дата закінчення дії тарифу: </b>{{tariff.end_date}}
+<p *ngIf="tariff.endDate">
+  <b>Дата закінчення дії тарифу: </b>{{tariff.endDate}}
 </p>
 <p *ngIf="tariff.description">
   <b>Короткий опис: </b>{{tariff.description}}

@@ -9,7 +9,7 @@ import Tariff from '../../models/Tariff';
 import {TariffService} from '../tariff.service';
 import {UnitService} from '../../unit/unit.service';
 import Unit from '../../models/Unit';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
 
@@ -66,13 +66,18 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
     tariff.name = data.name;
     tariff.rate = data.rate;
     tariff.currency = data.currency;
-    tariff.begin_date = data.begin_date;
-    if (data.end_date) {
-      tariff.end_date = data.end_date;
+    tariff.beginDate = data.beginDate;
+    if (data.endDate) {
+      tariff.endDate = data.endDate;
     }
     tariff.description = data.description;
-    tariff.category = this.category;
-    tariff.unit = data.unit;
+    tariff.categoryId = this.category.id;
+
+    if (data.unit) {
+      tariff.unitId = data.unit.id;
+    }
+
+    tariff.userId = this.userService.currentUser.id;
 
     this.createTariffSubscription = this.tariffService.createTariff(tariff)
       .subscribe((response: HttpResponse<any>) => {

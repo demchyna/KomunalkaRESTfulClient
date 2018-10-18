@@ -3,7 +3,7 @@
     <table>
       <tr>
         <th colspan="2">
-          <h3>Редагувати тариф з категорії "{{tariff.category.name}}"</h3>
+          <h3>Редагувати тариф з категорії "{{category.name}}"</h3>
         </th>
       </tr>
 
@@ -31,7 +31,7 @@
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
-        <td *ngIf="tariffErrors['unit']" style="color: red">{{tariffErrors['unit']}}</td>
+        <td *ngIf="tariffErrors['unitId']" style="color: red">{{tariffErrors['unitId']}}</td>
       </tr>
       <tr>
         <td></td>
@@ -45,17 +45,17 @@
           <label for="begin-date">Дата дії з:</label>
         </td>
         <td>
-          <input type="date" [ngModel]="tariff.begin_date" name="begin_date" id="begin-date">
+          <input type="date" [ngModel]="tariff.beginDate" name="beginDate" id="begin-date">
         </td>
         <td>
           <label for="end-date">до:</label></td>
         <td>
-          <input type="date" [ngModel]="tariff.end_date" name="end_date" id="end-date">
+          <input type="date" [ngModel]="tariff.endDate" name="endDate" id="end-date">
         </td>
       </tr>
       <tr>
         <td></td>
-        <td *ngIf="tariffErrors['begin_date']" style="color: red">{{tariffErrors['begin_date']}}</td>
+        <td *ngIf="tariffErrors['beginDate']" style="color: red">{{tariffErrors['beginDate']}}</td>
       </tr>
       <tr>
         <td>

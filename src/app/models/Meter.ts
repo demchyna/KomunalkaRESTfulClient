@@ -6,7 +6,8 @@ export default class Meter {
     public id?: number,
     public name?: string,
     public description?: string,
-    public unit: Unit = new Unit(),
-    public category: Category = new Category()
+    public categoryId?: number,
+    public unitId?: number,
+    public userId?: number
   ) {  }
 }

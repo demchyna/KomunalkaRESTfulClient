@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import Meter from '../../models/Meter';
 import Unit from '../../models/Unit';
 import Category from '../../models/Category';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 
 @Component({
@@ -52,7 +52,7 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           this.meter = response.body;
 
-          this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.category.id)
+          this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.categoryId)
             .subscribe((categoryResp: HttpResponse<any>) => {
               if (categoryResp) {
                 tokenSetter(categoryResp);
@@ -67,7 +67,7 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
               if (unitResp) {
                 this.units = unitResp.body;
                 this.units.map((unit, index) => {
-                  if (unit.id === this.meter.unit.id) {
+                  if (unit.id === this.meter.unitId) {
                     this.currentUnitId = index;
                   }
                 });
@@ -81,7 +81,7 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
               if (categoryResp) {
                 this.categories = categoryResp.body;
                 this.categories.map((category, index) => {
-                  if (category.id === this.meter.category.id) {
+                  if (category.id === this.meter.categoryId) {
                     this.currentCategoryId = index;
                   }
                 });
@@ -99,9 +99,15 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
   updateMeter(data: any): void {
 
     this.meter.name = data.name;
-    this.meter.category = data.category;
-    this.meter.unit = data.unit;
     this.meter.description = data.description;
+
+    if (data.category) {
+      this.meter.categoryId = data.category.id;
+    }
+
+    if (data.unit) {
+      this.meter.unitId = data.unit.id;
+    }
 
     this.updateMeterSubscription = this.meterService.updateMeter(this.meter)
       .subscribe((response: HttpResponse<any>) => {

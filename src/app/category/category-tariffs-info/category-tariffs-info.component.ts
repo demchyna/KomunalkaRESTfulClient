@@ -5,7 +5,7 @@ import AppError from '../../errors/app-error';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../category.service';
 import Category from '../../models/Category';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-category-tariffs-info',

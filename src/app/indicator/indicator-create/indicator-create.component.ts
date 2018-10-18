@@ -10,7 +10,7 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import {MeterService} from '../../meter/meter.service';
 import {TariffService} from '../../tariff/tariff.service';
 import Tariff from '../../models/Tariff';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
 
@@ -48,7 +48,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
             tokenSetter(response);
             this.meter = response.body;
 
-            this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.category.id)
+            this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.categoryId)
               .subscribe((resp: HttpResponse<any>) => {
                 if (resp) {
                   this.tariffs = resp.body;

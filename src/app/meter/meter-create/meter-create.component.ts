@@ -11,7 +11,7 @@ import {CategoryService} from '../../category/category.service';
 import Category from '../../models/Category';
 import Meter from '../../models/Meter';
 import {UserService} from '../../user/user.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 
 @Component({
@@ -66,9 +66,14 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
     const meter = new Meter();
 
     meter.name = data.name;
-    meter.category = this.category;
-    meter.unit = data.unit;
     meter.description = data.description;
+    meter.categoryId = this.category.id;
+
+    if (data.unit) {
+      meter.unitId = data.unit.id;
+    }
+
+    meter.userId = this.userService.currentUser.id;
 
     this.createMeterSubscription = this.meterService.createMeter(meter)
       .subscribe((response: HttpResponse<any>) => {

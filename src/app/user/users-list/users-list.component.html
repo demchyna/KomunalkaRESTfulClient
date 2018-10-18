@@ -4,14 +4,14 @@
 <table border="1">
   <tr style="background-color: lightgray">
     <th>&nbsp;#&nbsp;</th>
-    <th [class.active]="order === 'first_name'" (click)="setOrder('first_name')">Ім'я
+    <th [class.active]="order === 'firstName'" (click)="setOrder('firstName')">Ім'я
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
         <input type="search" [(ngModel)]="firstNameValue" placeholder="Ім'я">
       </div>
     </th>
-    <th [class.active]="order === 'last_name'" (click)="setOrder('last_name')">Прізвище
+    <th [class.active]="order === 'lastName'" (click)="setOrder('lastName')">Прізвище
       <span [hidden]="reverse">&#9660;</span>
       <span [hidden]="!reverse">&#9650;</span>
       <div (click)="clickEvent($event)">
@@ -35,8 +35,8 @@
     <th colspan="2">Редагувати / Видалити</th>
   </tr>
   <tr *ngFor="let user of users
-      | searchFilter: 'first_name' : firstNameValue
-      | searchFilter: 'last_name' : lastNameValue
+      | searchFilter: 'firstName' : firstNameValue
+      | searchFilter: 'lastName' : lastNameValue
       | searchFilter: 'username' : usernameValue
       | searchFilter: 'email' : emailValue
       | orderBy: order: reverse:'case-insensitive'
@@ -48,8 +48,8 @@
       align="center">
 
     <td>{{i+1}}</td>
-    <td>{{user.first_name}}</td>
-    <td>{{user.last_name}}</td>
+    <td>{{user.firstName}}</td>
+    <td>{{user.lastName}}</td>
     <td>{{user.username}}</td>
     <td>{{user.email}}</td>
     <td><button (click)="editUser(user.id, $event)">Редагувати</button></td>

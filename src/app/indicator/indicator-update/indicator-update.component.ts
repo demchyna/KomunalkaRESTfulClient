@@ -9,7 +9,7 @@ import {MeterService} from '../../meter/meter.service';
 import {TariffService} from '../../tariff/tariff.service';
 import Meter from '../../models/Meter';
 import Tariff from '../../models/Tariff';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 
 @Component({
@@ -52,7 +52,7 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
                 tokenSetter(meterResp);
                 this.meter = meterResp.body;
 
-                this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.category.id)
+                this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.categoryId)
                   .subscribe((tariffResp: HttpResponse<any>) => {
                     if (tariffResp) {
                       this.tariffs = tariffResp.body;

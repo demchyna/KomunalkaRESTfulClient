@@ -9,7 +9,7 @@ import {MeterService} from '../../meter/meter.service';
 import {TariffService} from '../../tariff/tariff.service';
 import {IndicatorService} from '../indicator.service';
 import Meter from '../../models/Meter';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-indicator-info',

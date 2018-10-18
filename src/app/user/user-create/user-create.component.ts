@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {RoleService} from '../../role/role.service';
 import {UserService} from '../user.service';
 import Role from '../../models/Role';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 
 @Component({
@@ -30,13 +30,13 @@ export class UserCreateComponent implements OnInit, OnDestroy {
       user.password = data.password;
     } else {
       this.router.navigate(['registration']);
-      this.userErrors['confirm'] = 'паролі не співпадають';
+      this.userErrors['confirm'] = 'Повинен співпадати з паролем вказаним у полі \'Пароль\'.';
       return;
     }
 
     user.username = data.username;
-    user.first_name = data.first_name;
-    user.last_name = data.last_name;
+    user.firstName = data.firstName;
+    user.lastName = data.lastName;
     user.email = data.email;
     user.description = data.description;
     user.authorities = [];

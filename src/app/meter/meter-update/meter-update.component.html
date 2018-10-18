@@ -24,7 +24,7 @@
             <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
           </select>
         </td>
-        <td *ngIf="meterErrors['unit']" style="color: red">{{meterErrors['unit']}}</td>
+        <td *ngIf="meterErrors['unitId']" style="color: red">{{meterErrors['unitId']}}</td>
       </tr>
       <tr>
         <td>
@@ -35,7 +35,7 @@
             <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
           </select>
         </td>
-        <td *ngIf="meterErrors['category']" style="color: red">{{meterErrors['category']}}</td>
+        <td *ngIf="meterErrors['categoryId']" style="color: red">{{meterErrors['categoryId']}}</td>
       </tr>
       <tr>
         <td>
