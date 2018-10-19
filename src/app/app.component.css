@@ -1,28 +1,25 @@
-
 .navbar-container {
   padding: 0;
 }
-
-
 
 .active {
   background: gainsboro;
 }
 
-.main-container {
-  padding-left: 30px;
-  padding-right: 30px;
+
+.separator {
+  height: 20px;
 }
 
-#top-menu-left {
-  float: left;
-}
 
-#top-menu-right {
-  float: right;
-}
+/*#col1 {*/
+  /*background-color: #f44336;*/
+/*}*/
 
-#content {
-  padding-top: 15px;
-  clear: left;
-}
+/*#col2 {*/
+  /*background-color: aquamarine;*/
+/*}*/
+
+/*#col3 {*/
+   /*background-color: #f44336;*/
+ /*}*/

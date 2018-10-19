@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/auth.service';
 import {HttpResponse} from '@angular/common/http';
 import {UserService} from './user/user.service';
@@ -13,9 +13,9 @@ export class AppComponent {
 
   navbarOpen = false;
 
+  constructor(public authService: AuthService, public userService: UserService) {}
+
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
   }
-
-  constructor(public authService: AuthService, public userService: UserService) {}
 }

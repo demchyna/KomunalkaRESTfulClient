@@ -1,30 +1,29 @@
-<div class="login-container">
+<div class="main-container">
   <form #data="ngForm" (ngSubmit)="signIn(data.value)">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <h3>Форма входу</h3>
+          <h5>Вхід в Komunalka App</h5>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div>
-          <mat-form-field class="login-input">
-            <mat-label>Логін</mat-label>
-            <input matInput ngModel name="username" placeholder="Введіть свій логін" required>
-            <mat-hint [hidden]="userErrors['username'] ? '' : 'hidden'" class="error-hint">{{userErrors['username']}}</mat-hint>
-          </mat-form-field>
+          <label for="username">Логін</label>
+          <input type="text" ngModel name="username" class="form-control" [ngClass]="{'is-invalid': userErrors['username']}" id="username" placeholder="Введіть ім'я користувача" required>
+          <div class="invalid-feedback">
+            {{userErrors['username']}}
+          </div>
         </div>
         <div>
-          <mat-form-field class="password-input">
-            <mat-label>Пароль</mat-label>
-            <input matInput ngModel name="password" placeholder="Enter your password" [type]="hide ? 'password' : 'text'" required>
-            <mat-icon matSuffix (click)="hide = !hide" svgIcon="{{hide ? 'visibility' : 'visibility_off'}}"></mat-icon>
-            <mat-hint [hidden]="userErrors['password'] ? '' : 'hidden'" class="error-hint">{{userErrors['password']}}</mat-hint>
-          </mat-form-field>
+          <label for="password">Пароль</label>
+          <input type="password" ngModel name="password" class="form-control" [ngClass]="{'is-invalid': userErrors['password']}" id="password" placeholder="Введіть пароль" required>
+          <div class="invalid-feedback">
+            {{userErrors['password']}}
+          </div>
         </div>
       </mat-card-content>
       <mat-card-actions id="login-actions">
-        <button mat-raised-button color="primary" type="submit">Вхід</button>
+        <button class="btn btn-primary" type="submit">Вхід</button>
         <a routerLink="/registration">Реєстрація</a>
       </mat-card-actions>
     </mat-card>

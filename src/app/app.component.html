@@ -11,69 +11,66 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-
       <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <span *ngIf="!authService.isLoggedIn()">
-              <a routerLink="/registration" routerLinkActive="active" class="nav-link">Реєстрація</a>
-            </span>
-          </li>
-          <li class="nav-item">
-            <span *ngIf="!authService.isLoggedIn()">
-              <a routerLink="/login" routerLinkActive="active" class="nav-link">Увійти</a>
-            </span>
-          </li>
 
+        <ul class="navbar-nav ml-auto" *ngIf="!authService.isLoggedIn()">
           <li class="nav-item">
-            <span *ngIf="authService.isLoggedIn()">
-              <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active" class="nav-link">Категорії</a>
-            </span>
+            <a routerLink="/registration" routerLinkActive="active" class="nav-link">Реєстрація</a>
           </li>
           <li class="nav-item">
-            <span *ngIf="authService.isLoggedIn() && userService.isAdmin()">
-              <a routerLink="/user/all" routerLinkActive="active" class="nav-link">Користувачі</a>
-            </span>
+            <a routerLink="/login" routerLinkActive="active" class="nav-link">Увійти</a>
           </li>
-
         </ul>
+
+        <ul class="navbar-nav mr-0" *ngIf="authService.isLoggedIn()">
+          <li class="nav-item">
+            <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active" class="nav-link">Категорії</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav mr-1" *ngIf="authService.isLoggedIn() && userService.isAdmin()">
+          <li class="nav-item">
+            <a routerLink="/user/all" routerLinkActive="active" class="nav-link">Користувачі</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" *ngIf="authService.isLoggedIn()">
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Привіт {{userService.currentUser.sub}}!
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+              <a routerLink="/user/{{userService.currentUser.id}}/info" routerLinkActive="active" class="dropdown-item">
+                <small>Налаштування</small>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a routerLink="/logout" (click)="authService.logout()" routerLinkActive="active" class="dropdown-item">
+                <small>Вийти</small>
+              </a>
+            </div>
+          </li>
+        </ul>
+
       </div>
     </nav>
   </mat-card-content>
 </mat-card>
 
 
-
-
-<div class="main-container">
-  <!--<h1>{{ title }}</h1>-->
-  <!--<div id="top-menu-left">-->
-    <!--<span *ngIf="authService.isLoggedIn()">-->
-      <!--<a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Домашня</a> |-->
-    <!--</span>-->
-    <!--<span *ngIf="!authService.isLoggedIn()">-->
-      <!--<a routerLink="/registration" routerLinkActive="active">Реєстрація</a>-->
-    <!--</span>-->
-    <!--<span *ngIf="!authService.isLoggedIn()">-->
-      <!--| <a routerLink="/login" routerLinkActive="active">Увійти</a>-->
-    <!--</span>-->
-    <!--<span *ngIf="authService.isLoggedIn()">-->
-      <!--<a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active">Категорії</a>-->
-    <!--</span>-->
-    <!--<span *ngIf="authService.isLoggedIn() && userService.isAdmin()">-->
-      <!--| <a routerLink="/user/all" routerLinkActive="active">Користувачі</a>-->
-    <!--</span>-->
-  <!--</div>-->
-  <div id="top-menu-right">
-    <span *ngIf="authService.isLoggedIn()">
-      <a routerLink="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Привіт {{userService.currentUser.sub}} !</a> |
-    </span>
-    <span *ngIf="authService.isLoggedIn()">
-      <a routerLink="/logout" (click)="authService.logout()" routerLinkActive="active">Вийти</a>
-    </span>
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-12 separator"></div>
   </div>
-  <div id="content">
-    <router-outlet></router-outlet>
-    <ng4-loading-spinner></ng4-loading-spinner>
+  <div class="row no-gutters">
+    <div class="d-none d-lg-block col-lg-1"></div>
+    <div class="col-md-12 col-lg-10">
+
+      <router-outlet></router-outlet>
+      <ng4-loading-spinner></ng4-loading-spinner>
+
+    </div>
+    <div class="d-none d-lg-block col-lg-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-12 separator"></div>
   </div>
 </div>
