@@ -1,0 +1,29 @@
+.login-container {
+  margin: 0 auto;
+  width: max-content;
+}
+
+mat-card {
+  width: max-content;
+}
+
+.login-input {
+  width: 250px;
+}
+
+.password-input {
+  width: 250px;
+}
+
+#login-actions {
+  padding-left: 20px;
+  padding-bottom: 15px;
+}
+
+mat-card-actions > a {
+  margin-left: 30px;
+}
+
+.error-hint {
+  color: #f44336;
+}

@@ -47,6 +47,9 @@ import { SearchFilterPipe } from './helpers/search-filter.pipe';
 import {Ng4LoadingSpinnerModule} from 'ng4-loading-spinner';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule, MatCardModule, MatInputModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 
 export function tokenGetter() {
 
@@ -103,7 +106,14 @@ export function tokenGetter() {
       }
     }),
     FormsModule,
+
     BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+
     appRouting,
     OrderModule,
     NgxPaginationModule,

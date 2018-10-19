@@ -8,6 +8,9 @@ import IncorrectPasswordError from '../../errors/incorrect-password-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Subscription} from 'rxjs';
+import {MatIconRegistry} from '@angular/material';
+import {DomSanitizer} from '@angular/platform-browser';
+import ValidationError from '../../models/ValidationError';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +19,20 @@ import {Subscription} from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  hide = true;
+  userErrors: Map<string, string> = new Map<string, string>();
+
+
   loginSubscription: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {  }
+  constructor(private authService: AuthService, private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'visibility',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons/visibility-24px.svg'));
+    iconRegistry.addSvgIcon(
+      'visibility_off',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons/visibility_off-24px.svg'));
+  }
 
   signIn(data: any): void {
     const user = new User;
@@ -32,7 +46,14 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate(['/']);
         }
       }, (appError: AppError) => {
+        if (appError.status === 422) {
+          this.userErrors = (<ValidationError>appError.error).validationErrors;
+        } else if (appError.status === 401) {
+          this.userErrors['username'] = 'Користувача з таким логіном або паролем не знайдено.';
+          this.userErrors['password'] = 'Користувача з таким логіном або паролем не знайдено.';
+        } else {
           throw appError;
+        }
       });
   }
 

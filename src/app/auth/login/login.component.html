@@ -1,32 +1,32 @@
-<div>
+<div class="login-container">
   <form #data="ngForm" (ngSubmit)="signIn(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Увійти</h3>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <label for="username">Логін:</label></td>
-        <td>
-          <input type="text" ngModel name="username" id="username">
-        </td>
-      </tr>
-      <tr>
-        <td><label for="password">Пароль:</label></td>
-        <td>
-          <input type="password" ngModel name="password" id="password">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Вхід</button>
-        </td>
-        <td>
-          <a routerLink="/registration">Реєстрація</a>
-        </td>
-      </tr>
-    </table>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h3>Форма входу</h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <mat-form-field class="login-input">
+            <mat-label>Логін</mat-label>
+            <input matInput ngModel name="username" placeholder="Введіть свій логін" required>
+            <mat-hint [hidden]="userErrors['username'] ? '' : 'hidden'" class="error-hint">{{userErrors['username']}}</mat-hint>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="password-input">
+            <mat-label>Пароль</mat-label>
+            <input matInput ngModel name="password" placeholder="Enter your password" [type]="hide ? 'password' : 'text'" required>
+            <mat-icon matSuffix (click)="hide = !hide" svgIcon="{{hide ? 'visibility' : 'visibility_off'}}"></mat-icon>
+            <mat-hint [hidden]="userErrors['password'] ? '' : 'hidden'" class="error-hint">{{userErrors['password']}}</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions id="login-actions">
+        <button mat-raised-button color="primary" type="submit">Вхід</button>
+        <a routerLink="/registration">Реєстрація</a>
+      </mat-card-actions>
+    </mat-card>
   </form>
 </div>
