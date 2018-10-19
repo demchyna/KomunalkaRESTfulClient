@@ -9,7 +9,13 @@ import {UserService} from './user/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Komunalka';
+  title = 'Komunalka App';
+
+  navbarOpen = false;
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
+  }
 
   constructor(public authService: AuthService, public userService: UserService) {}
 }

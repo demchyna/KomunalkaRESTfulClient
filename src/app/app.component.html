@@ -1,23 +1,69 @@
 <!--The content below is only a placeholder and can be replaced.-->
+
+<mat-card class="navbar-container">
+  <mat-card-content>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+      <a routerLink="/" class="navbar-brand">
+        {{ title }}
+      </a>
+
+      <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <span *ngIf="!authService.isLoggedIn()">
+              <a routerLink="/registration" routerLinkActive="active" class="nav-link">Реєстрація</a>
+            </span>
+          </li>
+          <li class="nav-item">
+            <span *ngIf="!authService.isLoggedIn()">
+              <a routerLink="/login" routerLinkActive="active" class="nav-link">Увійти</a>
+            </span>
+          </li>
+
+          <li class="nav-item">
+            <span *ngIf="authService.isLoggedIn()">
+              <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active" class="nav-link">Категорії</a>
+            </span>
+          </li>
+          <li class="nav-item">
+            <span *ngIf="authService.isLoggedIn() && userService.isAdmin()">
+              <a routerLink="/user/all" routerLinkActive="active" class="nav-link">Користувачі</a>
+            </span>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+  </mat-card-content>
+</mat-card>
+
+
+
+
 <div class="main-container">
-  <h1>{{ title }}</h1>
-  <div id="top-menu-left">
-    <span *ngIf="authService.isLoggedIn()">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Домашня</a> |
-    </span>
-    <span *ngIf="!authService.isLoggedIn()">
-      <a routerLink="/registration" routerLinkActive="active">Реєстрація</a>
-    </span>
-    <span *ngIf="!authService.isLoggedIn()">
-      | <a routerLink="/login" routerLinkActive="active">Увійти</a>
-    </span>
-    <span *ngIf="authService.isLoggedIn()">
-      <a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active">Категорії</a>
-    </span>
-    <span *ngIf="authService.isLoggedIn() && userService.isAdmin()">
-      | <a routerLink="/user/all" routerLinkActive="active">Користувачі</a>
-    </span>
-  </div>
+  <!--<h1>{{ title }}</h1>-->
+  <!--<div id="top-menu-left">-->
+    <!--<span *ngIf="authService.isLoggedIn()">-->
+      <!--<a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Домашня</a> |-->
+    <!--</span>-->
+    <!--<span *ngIf="!authService.isLoggedIn()">-->
+      <!--<a routerLink="/registration" routerLinkActive="active">Реєстрація</a>-->
+    <!--</span>-->
+    <!--<span *ngIf="!authService.isLoggedIn()">-->
+      <!--| <a routerLink="/login" routerLinkActive="active">Увійти</a>-->
+    <!--</span>-->
+    <!--<span *ngIf="authService.isLoggedIn()">-->
+      <!--<a routerLink="/category/user/{{userService.currentUser.id}}" routerLinkActive="active">Категорії</a>-->
+    <!--</span>-->
+    <!--<span *ngIf="authService.isLoggedIn() && userService.isAdmin()">-->
+      <!--| <a routerLink="/user/all" routerLinkActive="active">Користувачі</a>-->
+    <!--</span>-->
+  <!--</div>-->
   <div id="top-menu-right">
     <span *ngIf="authService.isLoggedIn()">
       <a routerLink="/user/{{userService.currentUser.id}}/info" routerLinkActive="active">Привіт {{userService.currentUser.sub}} !</a> |
