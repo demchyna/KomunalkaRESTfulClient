@@ -81,6 +81,14 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
     this.router.navigate(['category/' + categoryId + '/tariffs/info']);
   }
 
+  changeCollapseStatus(element, categoryName) {
+    if ((element.classList.contains('collapsed'))) {
+      element.textContent = '&dtrif;' + categoryName;
+    } else {
+      element.textContent = '▸' + categoryName;
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
