@@ -2,11 +2,10 @@
   <mat-card>
     <mat-card-content>
       <h5 style="display: inline">Список доступних категорій</h5>
-      <div id="add-category-button">
+      <div id="add-category-button-1">
         <button class="btn btn-primary" (click)="addCategory()">Додати категорію</button>
       </div>
       <hr>
-
       <div *ngFor="let category of categories; index as i" [attr.id]="'accordion-' + i">
         <div class="card">
           <div class="card-header" [attr.id]="'heading-' + i">
@@ -38,16 +37,9 @@
           </div>
         </div>
       </div>
-
-      <!--<div id="add-category-button">-->
-        <!--<button class="btn btn-primary" (click)="addCategory()">Додати нову категорію</button>-->
+      <!--<div id="add-category-button-2">-->
+        <!--<button class="btn btn-primary" (click)="addCategory()">Додати категорію</button>-->
       <!--</div>-->
-
     </mat-card-content>
-
   </mat-card>
 </div>
-
-
-
-<br>

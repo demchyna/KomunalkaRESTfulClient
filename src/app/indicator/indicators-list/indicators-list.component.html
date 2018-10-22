@@ -1,102 +1,125 @@
-<table border="1">
-  <tr style="background-color: lightgray">
-    <th rowspan="2">&nbsp;#&nbsp;</th>
-    <th rowspan="2" [class.active]="order === 'date'" (click)="setOrder('date')">Дата фіксації
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="indicatorDateValue" placeholder="Дата">
-      </div>
-    </th>
-    <th colspan="2">Показник</th>
-    <th rowspan="2" [class.active]="order === 'unitName'" (click)="setOrder('unitName')">Одиниці вимірювання
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="tariffUnitNameValue" placeholder="Одиниці">
-      </div>
-    </th>
-    <th rowspan="2" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">Тариф
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="tariffRateValue" placeholder="Тариф">
-      </div>
-    </th>
-    <th rowspan="2" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">Вартість
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="indicatorPriceValue" placeholder="Вартість">
-      </div>
-    </th>
-    <th rowspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">Статус
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="indicatorStatusValue" placeholder="Статус">
-      </div>
-    </th>
-    <th rowspan="2" [class.active]="order === 'description'" (click)="setOrder('description')">Короткий опис
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="indicatorDescriptionValue" placeholder="Опис">
-      </div>
-    </th>
-    <th rowspan="2" colspan="2">Редагувати / Видалити</th>
-  </tr>
-  <tr style="background-color: lightgray">
-    <th [class.active]="order === 'previous'" (click)="setOrder('previous')">попередній
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="indicatorPreviousValue" placeholder="Значення">
-      </div>
-    </th>
-    <th [class.active]="order === 'current'" (click)="setOrder('current')">поточний
-      <span [hidden]="reverse">&#9660;</span>
-      <span [hidden]="!reverse">&#9650;</span>
-      <div (click)="clickEvent($event)">
-        <input type="search" [(ngModel)]="indicatorCurrentValue" placeholder="Значення">
-      </div>
-    </th>
-  </tr>
-  <tr *ngFor="let indicator of indicators
-      | searchFilter: 'date' : indicatorDateValue
-      | searchFilter: 'unitName' : tariffUnitNameValue
-      | searchFilter: 'tariffRate' : tariffRateValue
-      | searchFilter: 'price' : indicatorPriceValue
-      | searchFilter: 'status' : indicatorStatusValue
-      | searchFilter: 'description' : indicatorDescriptionValue
-      | searchFilter: 'previous' : indicatorPreviousValue
-      | searchFilter: 'current' : indicatorCurrentValue
-      | orderBy: order: reverse:'case-insensitive'
-      | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
-      index as i;
-      even as isEven"
-      [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
-      (click)="selectedRow(indicator.id)"
-      align="center">
+<div class="table-responsive">
 
-    <td>{{i+1}}</td>
-    <td>{{indicator.date}}</td>
-    <td>{{indicator.previous}}</td>
-    <td>{{indicator.current}}</td>
-    <td>{{indicator.unitName}}</td>
-    <td>{{indicator.tariffRate}}</td>
-    <td>{{indicator.tariffCurrency}} / {{indicator.unitName}}</td>
-    <td>{{indicator.price}}</td>
-    <td>{{indicator.tariffCurrency}}</td>
-    <td>
-      <span *ngIf="indicator.status">Оплачено</span>
-      <span *ngIf="!indicator.status">Неоплачено</span>
-    </td>
-    <td>{{indicator.description}}</td>
-    <td><button (click)="editIndicator(indicator.id, $event)">Редагувати</button></td>
-    <td><button (click)="deleteIndicator(indicator.id, $event)">Видалити</button></td>
-  </tr>
+<table class="table table-bordered">
+  <thead class="table-sm">
+    <tr class="table-secondary">
+      <th class="text-center align-middle" scope="col" rowspan="3">&nbsp;#&nbsp;</th>
+      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'date'" (click)="setOrder('date')">Дата фіксації
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+      <th class="text-center align-middle" scope="col" colspan="2">Показник</th>
+      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'unitName'" (click)="setOrder('unitName')">Одиниці вимірювання
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">Тариф
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">Вартість
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">Статус
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+      <!--<th scope="col" rowspan="2" [class.active]="order === 'description'" (click)="setOrder('description')">Короткий опис-->
+        <!--<span [hidden]="reverse">&#9660;</span>-->
+        <!--<span [hidden]="!reverse">&#9650;</span>-->
+        <!--<div (click)="clickEvent($event)">-->
+          <!--<input type="search" [(ngModel)]="indicatorDescriptionValue" placeholder="Опис">-->
+        <!--</div>-->
+      <!--</th>-->
+      <th class="text-center align-middle" scope="col" rowspan="3" colspan="2">Редагувати / Видалити</th>
+    </tr>
+    <tr class="table-secondary">
+      <th class="text-center align-middle" scope="col" [class.active]="order === 'previous'" (click)="setOrder('previous')">попередній
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+      <th class="text-center align-middle" scope="col" [class.active]="order === 'current'" (click)="setOrder('current')">поточний
+        <span [hidden]="reverse">&#9660;</span>
+        <span [hidden]="!reverse">&#9650;</span>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="indicatorDateValue" placeholder="Дата">
+        </div>
+      </td>
+      <td>
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="indicatorPreviousValue" placeholder="Значення">
+        </div>
+      </td>
+      <td>
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="indicatorCurrentValue" placeholder="Значення">
+        </div>
+      </td>
+      <td>
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="tariffUnitNameValue" placeholder="Одиниці">
+        </div>
+      </td>
+      <td colspan="2">
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="tariffRateValue" placeholder="Тариф">
+        </div>
+      </td>
+      <td colspan="2">
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="indicatorPriceValue" placeholder="Вартість">
+        </div>
+      </td>
+      <td>
+        <div (click)="clickEvent($event)">
+          <input type="search" class="input-small" [(ngModel)]="indicatorStatusValue" placeholder="Статус">
+        </div>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let indicator of indicators
+        | searchFilter: 'date' : indicatorDateValue
+        | searchFilter: 'unitName' : tariffUnitNameValue
+        | searchFilter: 'tariffRate' : tariffRateValue
+        | searchFilter: 'price' : indicatorPriceValue
+        | searchFilter: 'status' : indicatorStatusValue
+        | searchFilter: 'description' : indicatorDescriptionValue
+        | searchFilter: 'previous' : indicatorPreviousValue
+        | searchFilter: 'current' : indicatorCurrentValue
+        | orderBy: order: reverse:'case-insensitive'
+        | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
+        index as i;
+        even as isEven"
+        [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
+        (click)="selectedRow(indicator.id)"
+        align="center">
+
+      <td>{{i+1}}</td>
+      <td>{{indicator.date}}</td>
+      <td>{{indicator.previous}}</td>
+      <td>{{indicator.current}}</td>
+      <td>{{indicator.unitName}}</td>
+      <td>{{indicator.tariffRate}}</td>
+      <td>{{indicator.tariffCurrency}} / {{indicator.unitName}}</td>
+      <td>{{indicator.price}}</td>
+      <td>{{indicator.tariffCurrency}}</td>
+      <td>
+        <span *ngIf="indicator.status">Оплачено</span>
+        <span *ngIf="!indicator.status">Неоплачено</span>
+      </td>
+      <!--<td>{{indicator.description}}</td>-->
+      <td><button (click)="editIndicator(indicator.id, $event)">Редагувати</button></td>
+      <td><button (click)="deleteIndicator(indicator.id, $event)">Видалити</button></td>
+    </tr>
+  </tbody>
 </table>
+</div>
 <br>
 <pagination-controls class="pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна" style="display: inline-block"></pagination-controls>
 <label for="itemsNumber">Записів на сторінку: </label>
@@ -104,6 +127,8 @@
   <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
   <option [ngValue]="maxIntegerValue">Всі</option>
 </select>
-<br>
-<button (click)="addIndicator()">Додати показник</button>
-<button>Згенерувати звіт</button>
+<div id="indicators-button-group">
+  <button class="btn btn-primary" id="add-indicator-button" (click)="addIndicator()">Додати показник</button>
+  <div class="button-separator"></div>
+  <button class="btn btn-success">Згенерувати звіт</button>
+</div>

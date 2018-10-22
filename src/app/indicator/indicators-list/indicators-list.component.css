@@ -16,3 +16,21 @@ th.active span {
 .pagination /deep/ .ngx-pagination .current {
   background: #000000;
 }
+
+.button-separator {
+  display: inline-block;
+  width: 10px;
+}
+
+#indicators-button-group {
+  margin-top: 10px;
+}
+
+#add-indicator-button {
+  float: right;
+}
+
+.input-small {
+  height: 20px;
+  width: 130px;
+}

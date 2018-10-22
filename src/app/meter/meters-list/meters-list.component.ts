@@ -16,11 +16,13 @@ import {Subscription} from 'rxjs';
 export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
 
   getMeterByCategoryIdSubscription: Subscription;
+  getMeterByIdSubscription: Subscription;
+  deleteMeterSubscription: Subscription;
 
   @Input() private categoryId: number;
   meters: Meter[];
 
-  constructor(private meterService: MeterService, private router: Router) {
+  constructor(private meterService: MeterService,private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -41,14 +43,48 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  selectedMeter(meterId: number, event) {
-    event.stopPropagation();
+  selectedMeter(meterId: number) {
     this.router.navigate(['/meter/' + meterId + '/indicators/info']);
+  }
+
+  editMeter(meterId: number, event) {
+    event.stopPropagation();
+    this.router.navigate(['/meter/' + meterId + '/update']);
+  }
+
+  deleteMeter(meterId: number, event) {
+    event.stopPropagation();
+    this.getMeterByIdSubscription = this.meterService.getMeterById(meterId)
+      .subscribe((response: HttpResponse<any>) => {
+        if (response) {
+          tokenSetter(response);
+          const meter = response.body;
+
+          this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
+            .subscribe((deleteResp: HttpResponse<any>) => {
+              if (deleteResp) {
+                this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                  this.router.navigate(['/category/user/' + this.userService.currentUser.id]));
+              }
+            }, (appError: AppError) => {
+              throw appError;
+            });
+
+        }
+      }, (appError: AppError) => {
+        throw appError;
+      });
   }
 
   ngOnDestroy(): void {
     if (this.getMeterByCategoryIdSubscription) {
       this.getMeterByCategoryIdSubscription.unsubscribe();
+    }
+    if (this.getMeterByIdSubscription) {
+      this.getMeterByIdSubscription.unsubscribe();
+    }
+    if (this.deleteMeterSubscription) {
+      this.deleteMeterSubscription.unsubscribe();
     }
   }
 }

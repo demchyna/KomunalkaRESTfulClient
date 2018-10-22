@@ -19,7 +19,12 @@
   margin-top: 10px;
 }
 
-#add-category-button {
+#add-category-button-1 {
   float: right;
   margin-top: -5px;
 }
+
+/*#add-category-button-2 {*/
+  /*float: right;*/
+  /*margin-top: 10px;*/
+/*}*/
