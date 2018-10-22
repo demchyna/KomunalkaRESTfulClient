@@ -14,13 +14,18 @@
             {{userErrors['username']}}
           </div>
         </div>
-        <div>
+        <div id="password-group">
           <label for="password">Пароль</label>
-          <input type="password" ngModel name="password" class="form-control" [ngClass]="{'is-invalid': userErrors['password']}" id="password" placeholder="Введіть пароль" required>
+          <span id="password-icon">
+            <i class="fa fa-2x" aria-hidden="true" [ngClass]="hidePassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hidePassword = !hidePassword"></i>
+          </span>
+          <input ngModel name="password" class="form-control" [type]="hidePassword ? 'password' : 'text'" [ngClass]="{'is-invalid': userErrors['password']}" id="password" placeholder="Введіть пароль" required>
           <div class="invalid-feedback">
             {{userErrors['password']}}
           </div>
+
         </div>
+
       </mat-card-content>
       <mat-card-actions id="login-actions">
         <button class="btn btn-primary" type="submit">Вхід</button>

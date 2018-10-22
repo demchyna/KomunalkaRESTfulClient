@@ -41,7 +41,8 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  selectedMeter(meterId: number) {
+  selectedMeter(meterId: number, event) {
+    event.stopPropagation();
     this.router.navigate(['/meter/' + meterId + '/indicators/info']);
   }
 

@@ -1,3 +1,25 @@
 .main-container {
   width: 100%;
 }
+
+#collapse-icon {
+  width: 20px;
+}
+
+#category-button-group {
+  float: right;
+}
+
+.button-separator {
+  display: inline-block;
+  width: 10px;
+}
+
+#meter-tariff-button-group {
+  margin-top: 10px;
+}
+
+#add-category-button {
+  float: right;
+  margin-top: -5px;
+}

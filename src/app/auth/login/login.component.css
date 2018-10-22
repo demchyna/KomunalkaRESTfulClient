@@ -9,6 +9,7 @@ mat-card {
 
 input {
   width: 300px;
+
 }
 
 .invalid-feedback {
@@ -26,4 +27,12 @@ mat-card-actions > button {
 
 mat-card-actions > a {
   margin-left: 30px;
+}
+
+#password-icon {
+  position: absolute;
+  left: 287px;
+  display: flex;
+  height: 37px;
+  align-items: center;
 }

@@ -1,9 +1,19 @@
 <div *ngIf="meters.length > 0; then metersList else noMeters"></div>
 <ng-template #metersList>
-  <ul>
-    <li *ngFor="let meter of meters" style="font-weight: normal; cursor: pointer; padding-bottom: 5px;" (click)="selectedMeter(meter.id)">{{ meter.name }}</li>
-  </ul>
+  <div>
+    <div class="alert alert-info meter-item" role="alert" *ngFor="let meter of meters" (click)="selectedMeter(meter.id, $event)">{{ meter.name }}
+      <div id="category-button-group">
+        <button class="btn btn-primary btn-sm">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <div class="button-separator"></div>
+        <button class="btn btn-danger btn-sm">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </ng-template>
 <ng-template #noMeters>
-  <p style="font-weight: normal">У цій категорії лічильників не виявлено!</p>
+  <div class="alert alert-warning meter-item" role="alert">У цій категорії лічильників не виявлено!</div>
 </ng-template>

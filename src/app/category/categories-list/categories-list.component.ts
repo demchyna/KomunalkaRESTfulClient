@@ -21,6 +21,8 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   getCategoryByIdSubscription: Subscription;
   deleteCategorySubscription: Subscription;
 
+  collapseStatus = true;
+
   categories: Category[] = [];
 
   constructor(private categoryService: CategoryService,
@@ -79,14 +81,6 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   tariffsList(categoryId: number) {
     this.router.navigate(['category/' + categoryId + '/tariffs/info']);
-  }
-
-  changeCollapseStatus(element, categoryName) {
-    if ((element.classList.contains('collapsed'))) {
-      element.textContent = '&dtrif;' + categoryName;
-    } else {
-      element.textContent = '▸' + categoryName;
-    }
   }
 
   ngOnDestroy(): void {

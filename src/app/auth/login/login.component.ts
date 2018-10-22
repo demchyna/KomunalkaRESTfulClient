@@ -21,6 +21,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   userErrors: Map<string, string> = new Map<string, string>();
 
+  hidePassword = true;
+
   loginSubscription: Subscription;
 
   constructor(private authService: AuthService, private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
