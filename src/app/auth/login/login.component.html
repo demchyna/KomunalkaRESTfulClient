@@ -1,12 +1,8 @@
 <div class="main-container">
   <form #data="ngForm" (ngSubmit)="signIn(data.value)">
     <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <h5>Вхід в Komunalka App</h5>
-        </mat-card-title>
-      </mat-card-header>
       <mat-card-content>
+        <h5>Вхід в Komunalka App</h5>
         <div>
           <label for="username">Логін</label>
           <input type="text" ngModel name="username" class="form-control" [ngClass]="{'is-invalid': userErrors['username']}" id="username" placeholder="Введіть ім'я користувача" required>
@@ -23,14 +19,12 @@
           <div class="invalid-feedback">
             {{userErrors['password']}}
           </div>
-
         </div>
-
+        <div id="login-actions">
+          <button class="btn btn-primary" type="submit">Вхід</button>
+          <a routerLink="/registration">Реєстрація</a>
+        </div>
       </mat-card-content>
-      <mat-card-actions id="login-actions">
-        <button class="btn btn-primary" type="submit">Вхід</button>
-        <a routerLink="/registration">Реєстрація</a>
-      </mat-card-actions>
     </mat-card>
   </form>
 </div>

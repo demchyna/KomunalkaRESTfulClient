@@ -17,8 +17,12 @@ input {
 }
 
 #login-actions {
-  padding-left: 20px;
-  padding-bottom: 15px;
+  margin-top: 10px;
+}
+
+#login-actions > button {
+  width: 200px;
+  margin-right: 15px;
 }
 
 mat-card-actions > button {

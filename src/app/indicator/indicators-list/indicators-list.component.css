@@ -1,7 +1,7 @@
 th {
   cursor: pointer;
-  margin-right: 15px;
-  margin-left: 15px;
+  /*margin-right: 15px;*/
+  /*margin-left: 15px;*/
 }
 th span {
   visibility: hidden;
@@ -32,5 +32,19 @@ th.active span {
 
 .input-small {
   height: 20px;
-  width: 130px;
+  width: 100%;
+}
+
+.button-separator {
+  display: inline-block;
+  width: 10px;
+}
+
+.sort-icons-container {
+  display: inline-block;
+  width: 15px;
+}
+
+th span .sort-icon {
+  visibility: visible;
 }

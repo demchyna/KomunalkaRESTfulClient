@@ -4,44 +4,107 @@
   <thead class="table-sm">
     <tr class="table-secondary">
       <th class="text-center align-middle" scope="col" rowspan="3">&nbsp;#&nbsp;</th>
-      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'date'" (click)="setOrder('date')">Дата фіксації
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'date'" (click)="setOrder('date')" id="test">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'date'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        Дата фіксації
       </th>
       <th class="text-center align-middle" scope="col" colspan="2">Показник</th>
-      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'unitName'" (click)="setOrder('unitName')">Одиниці вимірювання
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'unitName'" (click)="setOrder('unitName')">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'unitName'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        Одиниці вимірювання
       </th>
-      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">Тариф
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'tariffRate'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        Тариф
       </th>
-      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">Вартість
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'price'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        Вартість
       </th>
-      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">Статус
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'status'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        Статус
       </th>
-      <!--<th scope="col" rowspan="2" [class.active]="order === 'description'" (click)="setOrder('description')">Короткий опис-->
-        <!--<span [hidden]="reverse">&#9660;</span>-->
-        <!--<span [hidden]="!reverse">&#9650;</span>-->
-        <!--<div (click)="clickEvent($event)">-->
-          <!--<input type="search" [(ngModel)]="indicatorDescriptionValue" placeholder="Опис">-->
-        <!--</div>-->
-      <!--</th>-->
-      <th class="text-center align-middle" scope="col" rowspan="3" colspan="2">Редагувати / Видалити</th>
+      <th class="text-center align-middle" scope="col" rowspan="3" colspan="2">Редагувати / <br> Видалити</th>
     </tr>
     <tr class="table-secondary">
-      <th class="text-center align-middle" scope="col" [class.active]="order === 'previous'" (click)="setOrder('previous')">попередній
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" [class.active]="order === 'previous'" (click)="setOrder('previous')">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'previous'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        попередній
       </th>
-      <th class="text-center align-middle" scope="col" [class.active]="order === 'current'" (click)="setOrder('current')">поточний
-        <span [hidden]="reverse">&#9660;</span>
-        <span [hidden]="!reverse">&#9650;</span>
+      <th class="text-center align-middle" scope="col" [class.active]="order === 'current'" (click)="setOrder('current')">
+        <span class="sort-icons-container">
+          <span [hidden]="reverse">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'current'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+        поточний
       </th>
     </tr>
     <tr>
@@ -113,9 +176,15 @@
         <span *ngIf="indicator.status">Оплачено</span>
         <span *ngIf="!indicator.status">Неоплачено</span>
       </td>
-      <!--<td>{{indicator.description}}</td>-->
-      <td><button (click)="editIndicator(indicator.id, $event)">Редагувати</button></td>
-      <td><button (click)="deleteIndicator(indicator.id, $event)">Видалити</button></td>
+      <td colspan="2">
+        <button class="btn btn-primary btn-sm" (click)="editIndicator(indicator.id, $event)">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <div class="button-separator"></div>
+        <button class="btn btn-danger btn-sm" (click)="deleteIndicator(indicator.id, $event)">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
