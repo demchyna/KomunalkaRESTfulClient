@@ -29,7 +29,6 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   tariffRateValue = '';
   indicatorPriceValue = '';
   indicatorStatusValue = '';
-  indicatorDescriptionValue = '';
   indicatorPreviousValue = '';
   indicatorCurrentValue = '';
   order = 'date';
