@@ -1,10 +1,10 @@
 <div class="table-responsive">
 
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
   <thead class="table-sm">
     <tr class="table-secondary">
-      <th class="text-center align-middle" scope="col" rowspan="3">&nbsp;#&nbsp;</th>
-      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'date'" (click)="setOrder('date')" id="test">
+      <th class="text-center align-middle" scope="col" rowspan="2">&nbsp;#&nbsp;</th>
+      <th class="text-center align-middle" scope="col" [class.active]="order === 'date'" (click)="setOrder('date')" id="test">
         <span class="sort-icons-container">
           <span [hidden]="reverse || !(order === 'date')">
             <i class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -18,22 +18,20 @@
         </span>
         Дата фіксації
       </th>
-      <th class="text-center align-middle" scope="col" colspan="2">Показник</th>
-      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'unitName'" (click)="setOrder('unitName')">
+      <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'current'" (click)="setOrder('current')">
         <span class="sort-icons-container">
-          <span [hidden]="reverse || !(order === 'unitName')">
+          <span [hidden]="reverse || !(order === 'current')">
             <i class="fa fa-sort-desc" aria-hidden="true"></i>
           </span>
-          <span [hidden]="!reverse || !(order === 'unitName')">
+          <span [hidden]="!reverse || !(order === 'current')">
             <i class="fa fa-sort-asc" aria-hidden="true"></i>
           </span>
-          <span [hidden]="order === 'unitName'" class="sort-icon">
+          <span [hidden]="order === 'current'" class="sort-icon">
             <i class="fa fa-sort" aria-hidden="true"></i>
           </span>
         </span>
-        Одиниці вимірювання
-      </th>
-      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">
+        Поточний показник</th>
+      <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">
         <span class="sort-icons-container">
           <span [hidden]="reverse || !(order === 'tariffRate')">
             <i class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -47,7 +45,7 @@
         </span>
         Тариф
       </th>
-      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">
+      <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">
         <span class="sort-icons-container">
           <span [hidden]="reverse || !(order === 'price')">
             <i class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -61,7 +59,7 @@
         </span>
         Вартість
       </th>
-      <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">
+      <th class="text-center align-middle" scope="col" [class.active]="order === 'status'" (click)="setOrder('status')">
         <span class="sort-icons-container">
           <span [hidden]="reverse || !(order === 'status')">
             <i class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -75,57 +73,17 @@
         </span>
         Статус
       </th>
-      <th class="text-center align-middle" scope="col" rowspan="3" colspan="2">Редагувати / <br> Видалити</th>
+      <th class="text-center align-middle" scope="col" rowspan="2" colspan="2">Редагувати&nbsp;/ Видалити</th>
     </tr>
     <tr class="table-secondary">
-      <th class="text-center align-middle" scope="col" [class.active]="order === 'previous'" (click)="setOrder('previous')">
-        <span class="sort-icons-container">
-          <span [hidden]="reverse || !(order === 'previous')">
-            <i class="fa fa-sort-desc" aria-hidden="true"></i>
-          </span>
-          <span [hidden]="!reverse || !(order === 'previous')">
-            <i class="fa fa-sort-asc" aria-hidden="true"></i>
-          </span>
-          <span [hidden]="order === 'previous'" class="sort-icon">
-            <i class="fa fa-sort" aria-hidden="true"></i>
-          </span>
-        </span>
-        попередній
-      </th>
-      <th class="text-center align-middle" scope="col" [class.active]="order === 'current'" (click)="setOrder('current')">
-        <span class="sort-icons-container">
-          <span [hidden]="reverse || !(order === 'current')">
-            <i class="fa fa-sort-desc" aria-hidden="true"></i>
-          </span>
-          <span [hidden]="!reverse || !(order === 'current')">
-            <i class="fa fa-sort-asc" aria-hidden="true"></i>
-          </span>
-          <span [hidden]="order === 'current'" class="sort-icon">
-            <i class="fa fa-sort" aria-hidden="true"></i>
-          </span>
-        </span>
-        поточний
-      </th>
-    </tr>
-    <tr>
       <td>
         <div (click)="clickEvent($event)">
           <input type="search" class="input-small" [(ngModel)]="indicatorDateValue" placeholder="Дата">
         </div>
       </td>
-      <td>
-        <div (click)="clickEvent($event)">
-          <input type="search" class="input-small" [(ngModel)]="indicatorPreviousValue" placeholder="Значення">
-        </div>
-      </td>
-      <td>
+      <td colspan="2">
         <div (click)="clickEvent($event)">
           <input type="search" class="input-small" [(ngModel)]="indicatorCurrentValue" placeholder="Значення">
-        </div>
-      </td>
-      <td>
-        <div (click)="clickEvent($event)">
-          <input type="search" class="input-small" [(ngModel)]="tariffUnitNameValue" placeholder="Одиниці">
         </div>
       </td>
       <td colspan="2">
@@ -148,28 +106,43 @@
   <tbody>
     <tr *ngFor="let indicator of indicators
         | searchFilter: 'date' : indicatorDateValue
-        | searchFilter: 'unitName' : tariffUnitNameValue
+        | searchFilter: 'current' : indicatorCurrentValue
         | searchFilter: 'tariffRate' : tariffRateValue
         | searchFilter: 'price' : indicatorPriceValue
         | searchFilter: 'status' : indicatorStatusValue
-        | searchFilter: 'previous' : indicatorPreviousValue
-        | searchFilter: 'current' : indicatorCurrentValue
         | orderBy: order: reverse:'case-insensitive'
         | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
         index as i;
         even as isEven"
         [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
         (click)="selectedRow(indicator.id)"
-        align="center">
+        align="center" style="cursor: pointer">
 
-      <td>{{i+1}}</td>
-      <td>{{indicator.date}}</td>
-      <td>{{indicator.previous}}</td>
-      <td>{{indicator.current}}</td>
+      <td>
+        <span class="indicator-value">
+          {{itemsNumber*(currentPage-1)+(i+1)}}
+        </span>
+      </td>
+      <!--<td>{{indicator.date}}</td>-->
+      <td>{{changeDateFormat(indicator.date)}}</td>
+      <td>
+        <span class="indicator-value" matTooltip="Попередній показник: {{indicator.previous}} {{indicator.unitName}}"
+              matTooltipPosition="right" matTooltipClass="previous-indicator-tooltip">
+          {{indicator.current}}
+        </span>
+      </td>
       <td>{{indicator.unitName}}</td>
-      <td>{{indicator.tariffRate}}</td>
-      <td>{{indicator.tariffCurrency}} / {{indicator.unitName}}</td>
-      <td>{{indicator.price}}</td>
+      <td>
+        <span class="indicator-value">
+          {{indicator.tariffRate}}
+        </span>
+      </td>
+      <td>{{indicator.tariffCurrency}}&nbsp;/&nbsp;{{indicator.unitName}}</td>
+      <td>
+        <span class="indicator-value">
+          {{indicator.price}}
+        </span>
+      </td>
       <td>{{indicator.tariffCurrency}}</td>
       <td>
         <span *ngIf="indicator.status">Оплачено</span>

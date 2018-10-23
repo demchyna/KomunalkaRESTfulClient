@@ -48,3 +48,12 @@ th.active span {
 th span .sort-icon {
   visibility: visible;
 }
+
+.indicator-value {
+  font-size: 1.1em;
+}
+
+/deep/ .previous-indicator-tooltip {
+  font-size: 0.9em;
+  background: #E0A800;
+}

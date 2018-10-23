@@ -40,6 +40,10 @@ export class MeterIndicatorsInfoComponent implements OnInit, OnDestroy {
     this.router.navigate(['/meter/' + meterId + '/info']);
   }
 
+  addIndicator(meterId: number) {
+    this.router.navigate(['indicator/create/meter/' + meterId]);
+  }
+
   ngOnDestroy(): void {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();

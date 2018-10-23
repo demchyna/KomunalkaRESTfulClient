@@ -25,11 +25,9 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() meterProps: Meter;
   indicators: Indicator[] = [];
   indicatorDateValue = '';
-  tariffUnitNameValue = '';
   tariffRateValue = '';
   indicatorPriceValue = '';
   indicatorStatusValue = '';
-  indicatorPreviousValue = '';
   indicatorCurrentValue = '';
   order = 'date';
   reverse = true;
@@ -63,6 +61,11 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
           throw appError;
         });
     }
+  }
+
+  changeDateFormat(date) {
+    let myDate  = new Date(date);
+    return myDate.toLocaleDateString("uk-UA");
   }
 
   addIndicator() {
