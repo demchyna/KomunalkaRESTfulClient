@@ -1,76 +1,66 @@
-<div>
+<div class="main-container">
   <form #data="ngForm" (ngSubmit)="registerUser(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Реєстрація нового користувача</h3>
-        </th>
-      </tr>
-
-      <tr>
-        <td>
-          <label for="username">Логін:</label></td>
-        <td>
-          <input type="text" ngModel name="username" id="username">
-        </td>
-        <td *ngIf="userErrors['username']" style="color: red">{{userErrors['username']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="password">Пароль:</label></td>
-        <td>
-          <input type="password" ngModel name="password" id="password">
-        </td>
-        <td *ngIf="userErrors['password']" style="color: red">{{userErrors['password']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="confirm">Підтвердження:</label></td>
-        <td>
-          <input type="password" ngModel name="confirm" id="confirm">
-        </td>
-        <td *ngIf="userErrors['confirm']" style="color: red">{{userErrors['confirm']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="first-name">Ім'я:</label></td>
-        <td>
-          <input type="text" ngModel name="firstName" id="first-name">
-        </td>
-        <td *ngIf="userErrors['firstName']" style="color: red">{{userErrors['firstName']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="last-name">Прізвище:</label></td>
-        <td>
-          <input type="text" ngModel name="lastName" id="last-name">
-        </td>
-        <td *ngIf="userErrors['lastName']" style="color: red">{{userErrors['lastName']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="email">E-mail:</label></td>
-        <td>
-          <input type="text" ngModel name="email" id="email">
-        </td>
-        <td *ngIf="userErrors['email']" style="color: red">{{userErrors['email']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="description">Короткий опис:</label>
-        </td>
-        <td>
-          <textarea ngModel name="description" id="description"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Створити</button>
-        </td>
-        <td>
-          <button type="reset">Очистити</button>
-        </td>
-      </tr>
-    </table>
+    <mat-card>
+      <mat-card-content>
+        <h5>Реєстрація нового користувача</h5>
+        <div>
+          <label for="username">Логін</label>
+          <input type="text" ngModel name="username" class="form-control" [ngClass]="{'is-invalid': userErrors['username']}" id="username" placeholder="Введіть логін" required>
+          <div class="invalid-feedback">
+            {{userErrors['username']}}
+          </div>
+        </div>
+        <div>
+          <label for="password">Пароль</label>
+          <span class="password-icon">
+            <i class="fa fa-2x" aria-hidden="true" [ngClass]="hidePassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hidePassword = !hidePassword"></i>
+          </span>
+          <input type="password" ngModel name="password" [type]="hidePassword ? 'password' : 'text'" class="form-control" [ngClass]="{'is-invalid': userErrors['password']}" id="password" placeholder="Введіть пароль" required>
+          <div class="invalid-feedback">
+            {{userErrors['password']}}
+          </div>
+        </div>
+        <div>
+          <label for="confirm">Підтвердження паролю</label>
+          <span class="password-icon">
+            <i class="fa fa-2x" aria-hidden="true" [ngClass]="hideConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hideConfirmPassword = !hideConfirmPassword"></i>
+          </span>
+          <input type="password" ngModel name="confirm" [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control" [ngClass]="{'is-invalid': userErrors['confirm']}" id="confirm" placeholder="Підтвердження паролю" required>
+          <div class="invalid-feedback">
+            {{userErrors['confirm']}}
+          </div>
+        </div>
+        <div>
+          <label for="first-name">Ім'я</label>
+          <input type="text" ngModel name="firstName" class="form-control" [ngClass]="{'is-invalid': userErrors['firstName']}" id="first-name" placeholder="Введіть ім'я" required>
+          <div class="invalid-feedback">
+            {{userErrors['firstName']}}
+          </div>
+        </div>
+        <div>
+          <label for="last-name">Прізвище</label>
+          <input type="text" ngModel name="lastName" class="form-control" [ngClass]="{'is-invalid': userErrors['lastName']}" id="last-name" placeholder="Введіть прізвище" required>
+          <div class="invalid-feedback">
+            {{userErrors['lastName']}}
+          </div>
+        </div>
+        <div>
+          <label for="email">E-mail</label>
+          <input type="text" ngModel name="email" class="form-control" [ngClass]="{'is-invalid': userErrors['email']}" id="email" placeholder="Введіть E-mail" required>
+          <div class="invalid-feedback">
+            {{userErrors['email']}}
+          </div>
+        </div>
+        <div>
+          <label for="description">Короткий опис</label>
+          <textarea ngModel name="description" class="form-control" id="description"></textarea>
+        </div>
+        <div id="registration-actions">
+          <button type="submit" class="btn btn-success">Створити</button>
+          <div class="button-separator"></div>
+          <button type="reset" class="btn btn-primary">Очистити</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </form>
 </div>

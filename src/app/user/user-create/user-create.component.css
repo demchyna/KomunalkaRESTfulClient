@@ -1,0 +1,43 @@
+.main-container {
+  margin: 0 auto;
+  width: max-content;
+}
+
+mat-card {
+  width: max-content;
+}
+
+input {
+  width: 350px;
+  min-width: 300px;
+
+}
+
+.button-separator {
+  display: inline-block !important;
+  width: 10px;
+}
+
+.invalid-feedback {
+  max-width: 350px;
+}
+
+#registration-actions {
+  margin-top: 10px;
+}
+
+#registration-actions > button {
+  width: 130px;
+}
+
+.password-icon {
+  position: absolute;
+  left: 337px;
+  display: flex;
+  height: 37px;
+  align-items: center;
+}
+
+mat-card-content > div {
+  margin-top: 10px;
+}

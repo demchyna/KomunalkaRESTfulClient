@@ -1,3 +1,7 @@
+.main-container {
+  width: 100%;
+}
+
 #add-indicator-button {
   float: right;
   margin-top: -40px;

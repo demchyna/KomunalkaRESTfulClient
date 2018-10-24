@@ -23,6 +23,8 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   collapseStatus = true;
 
+  collapseStatuses: boolean[];
+
   categories: Category[] = [];
 
   constructor(private categoryService: CategoryService,
@@ -38,6 +40,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.categories = response.body;
+            this.collapseStatuses = new Array(this.categories.length).fill(false);
           }
         }, (appError: AppError) => {
           throw appError;

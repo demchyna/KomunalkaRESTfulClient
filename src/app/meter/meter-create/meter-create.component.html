@@ -1,47 +1,51 @@
-<div>
+<div class="main-container">
   <form #data="ngForm" (ngSubmit)="createMeter(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Додати лічильник до категорії "{{category.name}}"</h3>
-        </th>
-      </tr>
+    <mat-card>
+      <mat-card-content>
 
-      <tr>
-        <td>
-          <label for="name">Назва лічильника:</label></td>
-        <td>
-          <input type="text" ngModel name="name" id="name">
-        </td>
-        <td *ngIf="meterErrors['name']" style="color: red">{{meterErrors['name']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="unit">Одиниці вимірювання:</label>
-        </td>
-        <td>
-          <select [ngModel]="null" name="unit" id="unit">
-            <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
-          </select>
-        </td>
-        <td *ngIf="meterErrors['unitId']" style="color: red">{{meterErrors['unitId']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="description">Короткий опис:</label>
-        </td>
-        <td>
-          <textarea ngModel name="description" id="description"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Створити</button>
-        </td>
-        <td>
-          <button type="reset">Очистити</button>
-        </td>
-      </tr>
-    </table>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+
+              <h5>Додати лічильник до категорії "{{category.name}}"</h5>
+
+              <div>
+                <label for="name">Назва лічильника:</label>
+                <input type="text" ngModel name="name" class="form-control" id="name">
+                <div>
+                  {{meterErrors['name']}}
+                </div>
+              </div>
+
+              <div>
+                <label for="unit">Одиниці вимірювання:</label>
+                <select [ngModel]="null" name="unit" class="form-control" id="unit">
+                  <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+                </select>
+                <div>
+                  {{meterErrors['unitId']}}
+                </div>
+              </div>
+
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea ngModel name="description" class="form-control" id="description"></textarea>
+              </div>
+
+              <div>
+                <button type="submit" class="btn btn-success">Створити</button>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+
+            </div>
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+          </div>
+        </div>
+
+
+
+      </mat-card-content>
+    </mat-card>
   </form>
 </div>

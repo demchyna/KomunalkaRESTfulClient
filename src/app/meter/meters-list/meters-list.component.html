@@ -1,7 +1,7 @@
 <div *ngIf="meters.length > 0; then metersList else noMeters"></div>
 <ng-template #metersList>
   <div>
-    <div class="alert alert-info meter-item" role="alert" *ngFor="let meter of meters" (click)="selectedMeter(meter.id)">{{ meter.name }}
+    <div class="alert meter-item" role="alert" *ngFor="let meter of meters" (click)="selectedMeter(meter.id)">{{ meter.name }}
       <div id="category-button-group">
         <button class="btn btn-primary btn-sm" (click)="editMeter(meter.id, $event)">
           <i class="fa fa-pencil" aria-hidden="true"></i>

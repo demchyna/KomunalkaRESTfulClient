@@ -10,8 +10,8 @@
         <div class="card">
           <div class="card-header" [attr.id]="'heading-' + i">
             <h6 class="mb-0" style="cursor: pointer">
-              <span (click)="collapseStatus = !collapseStatus" class="collapsed" data-toggle="collapse" [attr.data-target]="'#collapse-' + i" aria-expanded="false" [attr.aria-controls]="'collapse-' + i">
-                <i class="fa" [ngClass]="collapseStatus ? 'fa-chevron-right' : 'fa-chevron-down'" aria-hidden="true" id="collapse-icon"></i> <b>{{category.name}}</b>
+              <span (click)="collapseStatuses[i] = !collapseStatuses[i]" class="collapsed" data-toggle="collapse" [attr.data-target]="'#collapse-' + i" aria-expanded="false" [attr.aria-controls]="'collapse-' + i">
+                <i class="fa" [ngClass]="collapseStatuses[i] ? 'fa-chevron-down' : 'fa-chevron-right'" aria-hidden="true" id="collapse-icon"></i> <b>{{category.name}}</b>
                 <div id="category-button-group">
                   <button class="btn btn-primary btn-sm" (click)="editCategory(category.id)">
                     <i class="fa fa-pencil" aria-hidden="true"></i>

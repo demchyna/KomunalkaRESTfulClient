@@ -1,7 +1,5 @@
 th {
   cursor: pointer;
-  /*margin-right: 15px;*/
-  /*margin-left: 15px;*/
 }
 th span {
   visibility: hidden;
@@ -13,21 +11,13 @@ th.active span {
   visibility: visible;
 }
 
-.pagination /deep/ .ngx-pagination .current {
-  background: #000000;
-}
-
-.button-separator {
-  display: inline-block;
-  width: 10px;
+.indicator-pagination /deep/ .ngx-pagination .current {
+  background: #007BFF;
+  border-radius: 3px;
 }
 
 #indicators-button-group {
   margin-top: 10px;
-}
-
-#add-indicator-button {
-  float: right;
 }
 
 .input-small {
@@ -36,7 +26,7 @@ th.active span {
 }
 
 .button-separator {
-  display: inline-block;
+  display: inline-block !important;
   width: 10px;
 }
 
@@ -57,3 +47,8 @@ th span .sort-icon {
   font-size: 0.9em;
   background: #E0A800;
 }
+
+#itemsNumber {
+  width: 60px;
+}
+

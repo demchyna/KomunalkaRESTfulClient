@@ -17,6 +17,9 @@ import ValidationError from '../../models/ValidationError';
 })
 export class UserCreateComponent implements OnInit, OnDestroy {
 
+  hidePassword = true;
+  hideConfirmPassword = true;
+
   createUserSubscription: Subscription;
 
   userErrors: Map<string, string> = new Map<string, string>();

@@ -1,6 +1,6 @@
 <div class="table-responsive">
 
-<table class="table table-bordered table-hover">
+<table class="table table-bordered">
   <thead class="table-sm">
     <tr class="table-secondary">
       <th class="text-center align-middle" scope="col" rowspan="2">&nbsp;#&nbsp;</th>
@@ -117,16 +117,14 @@
         [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
         (click)="selectedRow(indicator.id)"
         align="center" style="cursor: pointer">
-
       <td>
-        <span class="indicator-value">
+        <span class="indicator-value font-weight-bold">
           {{itemsNumber*(currentPage-1)+(i+1)}}
         </span>
       </td>
-      <!--<td>{{indicator.date}}</td>-->
       <td>{{changeDateFormat(indicator.date)}}</td>
       <td>
-        <span class="indicator-value" matTooltip="Попередній показник: {{indicator.previous}} {{indicator.unitName}}"
+        <span class="indicator-value font-weight-bold" matTooltip="Попередній показник: {{indicator.previous}} {{indicator.unitName}}"
               matTooltipPosition="right" matTooltipClass="previous-indicator-tooltip">
           {{indicator.current}}
         </span>
@@ -139,35 +137,50 @@
       </td>
       <td>{{indicator.tariffCurrency}}&nbsp;/&nbsp;{{indicator.unitName}}</td>
       <td>
-        <span class="indicator-value">
+        <span class="indicator-value font-weight-bold">
           {{indicator.price}}
         </span>
       </td>
       <td>{{indicator.tariffCurrency}}</td>
-      <td>
-        <span *ngIf="indicator.status">Оплачено</span>
-        <span *ngIf="!indicator.status">Неоплачено</span>
+      <td *ngIf="indicator.status" class="table-success">
+        <span >Оплачено</span>
+      </td>
+      <td *ngIf="!indicator.status" class="table-warning">
+        <span>Неоплачено</span>
       </td>
       <td colspan="2">
-        <button class="btn btn-primary btn-sm" (click)="editIndicator(indicator.id, $event)">
+
+        <button class="btn btn-primary btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="editIndicator(indicator.id, $event)">
           <i class="fa fa-pencil" aria-hidden="true"></i>
         </button>
-        <div class="button-separator"></div>
-        <button class="btn btn-danger btn-sm" (click)="deleteIndicator(indicator.id, $event)">
+        <button class="btn btn-primary btn-sm d-none d-xl-inline-block" (click)="editIndicator(indicator.id, $event)">
+          Редагувати
+        </button>
+        <div class="button-separator d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none"></div>
+        <button class="btn btn-danger btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="deleteIndicator(indicator.id, $event)">
           <i class="fa fa-trash" aria-hidden="true"></i>
         </button>
+        <button class="btn btn-danger btn-sm d-none d-xl-inline-block" (click)="deleteIndicator(indicator.id, $event)">
+          Видалити
+        </button>
+
       </td>
     </tr>
   </tbody>
 </table>
 </div>
 <br>
-<pagination-controls class="pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна" style="display: inline-block"></pagination-controls>
-<label for="itemsNumber">Записів на сторінку: </label>
-<select [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
-  <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
-  <option [ngValue]="maxIntegerValue">Всі</option>
-</select>
+
+<pagination-controls class="indicator-pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна" style="display: inline-block"></pagination-controls>
+
+<div class="float-right">
+  <label for="itemsNumber">Записів на сторінку:&nbsp;&nbsp;</label>
+  <select class="form-control-sm" [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
+    <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
+    <option [ngValue]="maxIntegerValue">Всі</option>
+  </select>
+</div>
+
 <div id="indicators-button-group">
   <button class="btn btn-primary" id="add-indicator-button" (click)="addIndicator()">Додати показник</button>
   <div class="button-separator"></div>
