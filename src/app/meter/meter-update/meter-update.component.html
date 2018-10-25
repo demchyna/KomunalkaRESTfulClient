@@ -1,58 +1,53 @@
-<div>
-  <form #data="ngForm" (ngSubmit)="updateMeter(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Редагування лічильника з категорії "{{category.name}}"</h3>
-        </th>
-      </tr>
 
-      <tr>
-        <td>
-          <label for="name">Назва лічильника:</label></td>
-        <td>
-          <input type="text" [ngModel]="meter.name" name="name" id="name">
-        </td>
-        <td *ngIf="meterErrors['name']" style="color: red">{{meterErrors['name']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="unit">Одиниці вимірювання:</label>
-        </td>
-        <td>
-          <select [ngModel]="units[currentUnitId]" name="unit" id="unit">
-            <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
-          </select>
-        </td>
-        <td *ngIf="meterErrors['unitId']" style="color: red">{{meterErrors['unitId']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="category">Категорія:</label>
-        </td>
-        <td>
-          <select [ngModel]="categories[currentCategoryId]" name="category" id="category">
-            <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
-          </select>
-        </td>
-        <td *ngIf="meterErrors['categoryId']" style="color: red">{{meterErrors['categoryId']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="description">Короткий опис:</label>
-        </td>
-        <td>
-          <textarea [ngModel]="meter.description" name="description" id="description"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Оновити</button>
-        </td>
-        <td>
-          <button type="reset">Очистити</button>
-        </td>
-      </tr>
-    </table>
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="updateMeter(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування лічильника з категорії "{{category.name}}"</h5>
+              <hr>
+              <div>
+                <label for="name">Назва лічильника:</label>
+                <input type="text" [ngModel]="meter.name" name="name" class="form-control" [ngClass]="{'is-invalid': meterErrors['name']}" id="name" placeholder="Введіть назву лічильника" required>
+                <div class="invalid-feedback">
+                  {{meterErrors['name']}}
+                </div>
+              </div>
+              <div>
+                <label for="unit">Одиниці вимірювання:</label>
+                <select [ngModel]="units[currentUnitId]" name="unit" class="form-control" [ngClass]="{'is-invalid': meterErrors['unitId']}" id="unit" required>
+                  <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{meterErrors['unitId']}}
+                </div>
+              </div>
+              <div>
+                <label for="unit">Категорія:</label>
+                <select [ngModel]="categories[currentCategoryId]" name="category"  class="form-control" [ngClass]="{'is-invalid': meterErrors['categoryId']}" id="category" required>
+                  <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{meterErrors['categoryId']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="meter.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="meter-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </form>
 </div>

@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {UnitService} from '../../unit/unit.service';
 import {Subscription} from 'rxjs';
 import {OrderPipe} from 'ngx-order-pipe';
+import {changeDateFormat} from '../../helpers/date-format-helper';
 
 @Component({
   selector: 'app-tariffs-list',
@@ -35,6 +36,7 @@ export class TariffsListComponent implements OnInit, OnDestroy {
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedTariffs: Tariff[] = [];
 
+  dateFormatter = changeDateFormat;
 
   constructor(private tariffService: TariffService,
               private unitService: UnitService,

@@ -1,2 +1,12 @@
-<h3>Список тарифів з категорії "{{category.name}}"</h3>
-<app-tariffs-list [categoryId]="category.id"></app-tariffs-list>
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+      <h5>Список тарифів з категорії "{{category.name}}"</h5>
+      <div id="add-tariff-button">
+        <button class="btn btn-primary" (click)="addTariff()">Додати тариф</button>
+      </div>
+      <hr>
+      <app-tariffs-list [categoryId]="category.id"></app-tariffs-list>
+    </mat-card-content>
+  </mat-card>
+</div>

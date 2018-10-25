@@ -1,63 +1,64 @@
-<div>
+<div class="main-container">
   <form #data="ngForm" (ngSubmit)="createIndicator(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Додати показник для лічильника "{{meter.name}}"</h3>
-        </th>
-      </tr>
-
-      <tr>
-        <td>
-          <label for="current">Поточний показник:</label></td>
-        <td>
-          <input type="number" ngModel name="current" id="current">
-        </td>
-        <td *ngIf="indicatorErrors['current']" style="color: red">{{indicatorErrors['current']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="date">Дата фіксації:</label></td>
-        <td>
-          <input type="date" ngModel name="date" id="date">
-        </td>
-        <td *ngIf="indicatorErrors['date']" style="color: red">{{indicatorErrors['date']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="status">Оплачено:</label></td>
-        <td>
-          <input type="checkbox" [ngModel]="false" name="status" id="status">
-        </td>
-        <td *ngIf="indicatorErrors['status']" style="color: red">{{indicatorErrors['status']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="tariff">Тариф:</label>
-        </td>
-        <td>
-          <select ngModel name="tariff" id="tariff">
-            <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}} {{tariff.currency}}</option>
-          </select>
-        </td>
-        <td *ngIf="indicatorErrors['tariffId']" style="color: red">{{indicatorErrors['tariffId']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="description">Короткий опис:</label>
-        </td>
-        <td>
-          <textarea ngModel name="description" id="description"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Створити</button>
-        </td>
-        <td>
-          <button type="reset">Очистити</button>
-        </td>
-      </tr>
-    </table>
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Додати показник для лічильника "{{meter.name}}"</h5>
+              <hr>
+              <div>
+                <label for="current">Поточний показник:</label>
+                <input type="number" ngModel name="current" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['current']}" id="current" placeholder="Введіть назву тарифу" required>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['current']}}
+                </div>
+              </div>
+              <div>
+                <label for="date">Дата фіксації:</label>
+                <input type="date" ngModel name="date" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['date']}" id="date" required>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['date']}}
+                </div>
+              </div>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <div class="col-8">
+                    <label for="tariff">Тариф:</label>
+                    <select [ngModel]="null" name="tariff" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['tariffId']}" id="tariff" required>
+                      <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
+                      <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}} {{tariff.currency}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      {{indicatorErrors['tariffId']}}
+                    </div>
+                  </div>
+                  <div class="col-1"></div>
+                  <div class="col align-self-end">
+                    <div class="form-group form-check">
+                      <input type="checkbox" [ngModel]="false" name="status" class="form-check-input" [ngClass]="{'is-invalid': indicatorErrors['status']}" id="status" required>
+                      <label for="status" class="form-check-label">Оплачено</label>
+                      <div class="invalid-feedback">
+                        {{indicatorErrors['status']}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea ngModel name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="indicator-actions">
+                <button type="submit" class="btn btn-success">Створити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </form>
 </div>

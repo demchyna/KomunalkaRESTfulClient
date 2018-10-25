@@ -28,7 +28,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
   createIndicatorSubscription: Subscription;
 
   meter: Meter = new Meter();
-  tariffs: Tariff[];
+  tariffs: Tariff[] = [];
   lastIndicator: Indicator = new Indicator();
   indicatorErrors: Map<string, string> = new Map<string, string>();
 
@@ -85,7 +85,9 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
       indicator.previousId = this.lastIndicator.id;
     }
     indicator.meterId = this.meter.id;
-    indicator.tariffId = data.tariff.id;
+    if (data.tariff) {
+      indicator.tariffId = data.tariff.id;
+    }
     indicator.description = data.description;
     indicator.userId = this.userService.currentUser.id;
 

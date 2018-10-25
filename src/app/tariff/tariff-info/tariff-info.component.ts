@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import Tariff from '../../models/Tariff';
 import Category from '../../models/Category';
 import {Subscription} from 'rxjs';
+import {changeDateFormat} from '../../helpers/date-format-helper';
 
 @Component({
   selector: 'app-tariff-info',
@@ -20,6 +21,8 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
   getTariffByIdSubscription: Subscription;
   getCategoryByIdSubscription: Subscription;
   deleteTariffSubscription: Subscription;
+
+  dateFormatter = changeDateFormat;
 
   tariff: Tariff = new Tariff();
   category: Category = new Category();

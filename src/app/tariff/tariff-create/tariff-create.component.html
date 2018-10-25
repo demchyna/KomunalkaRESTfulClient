@@ -1,77 +1,81 @@
-<div>
+<div class="main-container">
   <form #data="ngForm" (ngSubmit)="createTariff(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Додати тариф до категорії "{{category.name}}"</h3>
-        </th>
-      </tr>
-
-      <tr>
-        <td>
-          <label for="name">Назва тарифу:</label></td>
-        <td colspan="3">
-          <input type="text" ngModel name="name" id="name" size="50">
-        </td>
-        <td *ngIf="tariffErrors['name']" style="color: red">{{tariffErrors['name']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="rate">Тариф:</label>
-        </td>
-        <td>
-          <input type="text" ngModel name="rate" id="rate">
-        </td>
-        <td>
-          <label for="currency">одиниці:</label>
-        </td>
-        <td>
-          <input type="text" ngModel name="currency" id="currency"> /
-          <select [ngModel]="null" name="unit" id="unit">
-            <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
-          </select>
-        </td>
-        <td *ngIf="tariffErrors['unitId']" style="color: red">{{tariffErrors['unitId']}}</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td *ngIf="tariffErrors['rate']" style="color: red">{{tariffErrors['rate']}}</td>
-        <td></td>
-        <td *ngIf="tariffErrors['currency']" style="color: red">{{tariffErrors['currency']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="begin-date">Дата дії з:</label>
-        </td>
-        <td>
-          <input type="date" ngModel name="beginDate" id="begin-date">
-        </td>
-        <td>
-        <label for="end-date">до:</label></td>
-        <td>
-          <input type="date" ngModel name="endDate" id="end-date">
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td *ngIf="tariffErrors['beginDate']" style="color: red">{{tariffErrors['beginDate']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="description">Короткий опис:</label>
-        </td>
-        <td colspan="3">
-          <textarea ngModel name="description" id="description"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Створити</button>
-        </td>
-        <td>
-          <button type="reset">Очистити</button>
-        </td>
-      </tr>
-    </table>
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Додати тариф до категорії "{{category.name}}"</h5>
+              <hr>
+              <div>
+                <label for="name">Назва тарифу:</label>
+                <input type="text" ngModel name="name" class="form-control" [ngClass]="{'is-invalid': tariffErrors['name']}" id="name" placeholder="Введіть назву тарифу" required>
+                <div class="invalid-feedback">
+                  {{tariffErrors['name']}}
+                </div>
+              </div>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <div class="col-4">
+                    <label for="rate">Тариф:</label>
+                    <input type="text" ngModel name="rate" class="form-control" [ngClass]="{'is-invalid': tariffErrors['rate']}" id="rate" placeholder="Введіть значення тарифу" required>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['rate']}}
+                    </div>
+                  </div>
+                  <div class="col-1"></div>
+                  <div class="col-3">
+                    <label for="currency">Грошові одиниці:</label>
+                    <input type="text" ngModel name="currency" class="form-control" [ngClass]="{'is-invalid': tariffErrors['currency']}" id="currency" placeholder="Введіть одиниці" required>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['currency']}}
+                    </div>
+                  </div>
+                  <div class="col-auto p-0">
+                    <h2 class="m-0 pt-4">/</h2>
+                  </div>
+                  <div class="col">
+                    <label for="unit">Одиниці вимірювання:</label>
+                    <select [ngModel]="null" name="unit" class="form-control" [ngClass]="{'is-invalid': tariffErrors['unitId']}" id="unit" required>
+                      <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
+                      <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['unitId']}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <div class="col">
+                    <label for="begin-date">Дата дії з:</label>
+                    <input type="date" ngModel name="beginDate" class="form-control" [ngClass]="{'is-invalid': tariffErrors['beginDate']}" id="begin-date" required>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['beginDate']}}
+                    </div>
+                  </div>
+                  <div class="col-1"></div>
+                  <div class="col">
+                    <label for="end-date">Дата дії до:</label>
+                    <input type="date" ngModel name="endDate" class="form-control" id="end-date">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea ngModel name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="tariff-actions">
+                <button type="submit" class="btn btn-success">Створити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </form>
 </div>

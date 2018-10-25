@@ -10,6 +10,7 @@ import {TariffService} from '../../tariff/tariff.service';
 import {IndicatorService} from '../indicator.service';
 import Meter from '../../models/Meter';
 import {Subscription} from 'rxjs';
+import {changeDateFormat} from '../../helpers/date-format-helper';
 
 @Component({
   selector: 'app-indicator-info',
@@ -23,6 +24,8 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
   getTariffByIdSubscription: Subscription;
   getMeterByIdSubscription: Subscription;
   deleteIndicatorSubscription: Subscription;
+
+  dateFormatter = changeDateFormat;
 
   indicator: Indicator = new Indicator();
   tariff: Tariff = new Tariff();
@@ -41,6 +44,7 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.indicator = response.body;
+            this.indicator.price = parseFloat(this.indicator.price.toFixed(2));
 
             this.getTariffByIdSubscription = this.tariffService.getTariffById(this.indicator.tariffId)
               .subscribe((tariffResp: HttpResponse<any>) => {

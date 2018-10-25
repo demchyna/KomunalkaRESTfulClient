@@ -34,6 +34,10 @@ export class CategoryTariffsInfoComponent implements OnInit, OnDestroy {
     });
   }
 
+  addTariff() {
+    this.router.navigate(['tariff/create/category/' + this.category.id]);
+  }
+
   ngOnDestroy(): void {
     if (this.getCategoryByIdSubscription) {
       this.getCategoryByIdSubscription.unsubscribe();

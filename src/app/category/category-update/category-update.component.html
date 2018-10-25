@@ -1,35 +1,33 @@
-<div>
+<div class="main-container">
   <form #data="ngForm" (ngSubmit)="updateCategory(data.value)">
-    <table>
-      <tr>
-        <th colspan="2">
-          <h3>Редагування категорії "{{categoryName}}"</h3>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <label for="name">Назва категорії:</label></td>
-        <td>
-          <input type="text" [ngModel]="category.name" name="name" id="name">
-        </td>
-        <td *ngIf="categoryErrors['name']" style="color: red">{{categoryErrors['name']}}</td>
-      </tr>
-      <tr>
-        <td>
-          <label for="description">Короткий опис:</label>
-        </td>
-        <td>
-          <textarea [ngModel]="category.description" name="description" id="description"></textarea>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit">Оновити</button>
-        </td>
-        <td>
-          <button type="reset">Очистити</button>
-        </td>
-      </tr>
-    </table>
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування категорії "{{categoryName}}"</h5>
+              <hr>
+              <div>
+                <label for="name">Назва категорії:</label>
+                <input type="text" [ngModel]="category.name" name="name" class="form-control" [ngClass]="{'is-invalid': categoryErrors['name']}" id="name" placeholder="Введіть назву категорії" required>
+                <div class="invalid-feedback">
+                  {{categoryErrors['name']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="category.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="category-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </form>
 </div>

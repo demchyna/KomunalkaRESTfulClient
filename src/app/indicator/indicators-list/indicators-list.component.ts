@@ -9,6 +9,7 @@ import Meter from '../../models/Meter';
 import {Subscription} from 'rxjs';
 import {OrderPipe} from 'ngx-order-pipe';
 import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
+import {changeDateFormat} from '../../helpers/date-format-helper';
 
 @Component({
   selector: 'app-indicators-list',
@@ -36,6 +37,8 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedIndicators: Indicator[] = [];
 
+  dateFormatter = changeDateFormat;
+
   constructor(private indicatorService: IndicatorService,
               private router: Router,
               private orderPipe: OrderPipe,
@@ -61,11 +64,6 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
           throw appError;
         });
     }
-  }
-
-  changeDateFormat(date) {
-    let myDate  = new Date(date);
-    return myDate.toLocaleDateString("uk-UA");
   }
 
   addIndicator() {
