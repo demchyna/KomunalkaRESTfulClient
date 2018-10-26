@@ -3,14 +3,25 @@
     <mat-card-content>
       <h5 style="display: inline">Список доступних категорій</h5>
       <div id="add-category-button-1">
-        <button class="btn btn-primary" (click)="addCategory()">Додати категорію</button>
+        <!--<button class="btn btn-primary" (click)="addCategory()">Додати категорію</button>-->
+
+
+        <button class="btn btn-primary btn-sm d-xs-inline-block d-sm-none" (click)="addCategory()">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm d-none d-sm-inline-block" (click)="addCategory()">
+          Додати категорію
+        </button>
+
+
+
       </div>
       <hr>
       <div *ngFor="let category of categories; index as i" [attr.id]="'accordion-' + i">
         <div class="card">
           <div class="card-header" [attr.id]="'heading-' + i">
             <h6 class="mb-0" style="cursor: pointer">
-              <span (click)="collapseStatuses[i] = !collapseStatuses[i]" class="collapsed" data-toggle="collapse" [attr.data-target]="'#collapse-' + i" aria-expanded="false" [attr.aria-controls]="'collapse-' + i">
+              <span (click)="collapseStatuses[i] = !collapseStatuses[i]" class="collapsed item-align" data-toggle="collapse" [attr.data-target]="'#collapse-' + i" aria-expanded="false" [attr.aria-controls]="'collapse-' + i">
                 <i class="fa" [ngClass]="collapseStatuses[i] ? 'fa-chevron-down' : 'fa-chevron-right'" aria-hidden="true" id="collapse-icon"></i> <b>{{category.name}}</b>
                 <div id="category-button-group">
                   <button class="btn btn-primary btn-sm" (click)="editCategory(category.id)">

@@ -24,6 +24,11 @@
   margin-top: -5px;
 }
 
+.item-align {
+  vertical-align: middle;
+  line-height: 30px;
+}
+
 /*#add-category-button-2 {*/
   /*float: right;*/
   /*margin-top: 10px;*/
