@@ -24,6 +24,7 @@ import {TariffUpdateComponent} from './tariff/tariff-update/tariff-update.compon
 import {AuthGuardService} from './guards/auth-guard/auth-guard.service';
 import {E403PageComponent} from './errors/403-page/403-page.component';
 import {AdminGuardService} from './guards/admin-guard/admin-guard.service';
+import {CategoryInfoComponent} from './category/category-info/category-info.component';
 
 const routes: Routes = [
   {
@@ -112,6 +113,11 @@ const routes: Routes = [
   {
     path: 'category/create',
     component: CategoryCreateComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'category/:id/info',
+    component: CategoryInfoComponent,
     canActivate: [AuthGuardService]
   },
   {

@@ -5,7 +5,7 @@
         <div class="row">
           <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
           <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
-            <h5>Інформація по показнику з ID "{{indicator.id}}" для лічильника "{{meter.name}}" </h5>
+            <h5>Інформація по показнику для лічильника "{{meter.name}}"</h5>
             <br>
             <table class="table table-hover mb-0">
               <tbody>
@@ -63,9 +63,9 @@
               </tbody>
             </table>
             <hr class="mt-0">
-            <button class="btn btn-primary" (click)="editIndicator(indicator.id)">Редагувати показник</button>
+            <button class="btn btn-primary" (click)="editIndicator(indicator.id)">Редагувати</button>
             <div class="button-separator"></div>
-            <button class="btn btn-danger" (click)="deleteIndicator(indicator.id)">Видалити показник</button>
+            <button class="btn btn-danger" (click)="deleteIndicator(indicator.id)">Видалити</button>
           </div>
         </div>
       </div>

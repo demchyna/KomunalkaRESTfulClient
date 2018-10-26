@@ -3,6 +3,11 @@
   <div>
     <div class="alert meter-item" role="alert" *ngFor="let meter of meters" (click)="selectedMeter(meter.id)">{{ meter.name }}
       <div id="category-button-group">
+
+        <button class="btn btn-info btn-sm" (click)="infoMeter(meter.id, $event)">
+          <i class="fa fa-info pr-1 pl-1" aria-hidden="true"></i>
+        </button>
+        <div class="button-separator"></div>
         <button class="btn btn-primary btn-sm" (click)="editMeter(meter.id, $event)">
           <i class="fa fa-pencil" aria-hidden="true"></i>
         </button>

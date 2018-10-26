@@ -9,6 +9,7 @@ import User from '../../models/User';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
 import {Subscription} from 'rxjs';
+import {changeDateFormat, changeTimeFormat} from '../../helpers/date-format-helper';
 
 @Component({
   selector: 'app-user-info',
@@ -21,6 +22,9 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   getUserByIdUserSubscription: Subscription;
   getUserByIdSubscription: Subscription;
   deleteUserUserSubscription: Subscription;
+
+  dateFormatter = changeDateFormat;
+  timeFormatter = changeTimeFormat;
 
   user: User = new User();
 
@@ -69,15 +73,10 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             }, (appError: AppError) => {
               throw appError;
             });
-
         }
       }, (appError: AppError) => {
         throw appError;
       });
-  }
-
-  categoriesList(userId: number) {
-    this.router.navigate(['category/user/' + userId]);
   }
 
   ngOnDestroy(): void {

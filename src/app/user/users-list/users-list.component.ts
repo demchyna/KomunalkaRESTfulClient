@@ -52,14 +52,15 @@ export class UsersListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/user/' + userId + '/info']);
   }
 
-  editUser(userId: number, $event) {
-    $event.stopPropagation();
+  categoriesList(userId: number) {
+    this.router.navigate(['category/user/' + userId]);
+  }
+
+  editUser(userId: number) {
     this.router.navigate(['/user/' + userId + '/update']);
   }
 
-  deleteUser(userId: number, $event) {
-    $event.stopPropagation();
-
+  deleteUser(userId: number) {
     this.getUserByIdSubscription = this.userService.getUserById(userId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
@@ -79,7 +80,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
             }, (appError: AppError) => {
               throw appError;
             });
-
         }
       }, (appError: AppError) => {
         throw appError;

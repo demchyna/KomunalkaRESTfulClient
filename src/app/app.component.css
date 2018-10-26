@@ -1,3 +1,7 @@
+.content-container {
+  overflow: hidden;
+}
+
 .navbar-container {
   padding: 0;
 }
@@ -11,15 +15,3 @@
   height: 20px;
 }
 
-
-/*#col1 {*/
-  /*background-color: #f44336;*/
-/*}*/
-
-/*#col2 {*/
-  /*background-color: aquamarine;*/
-/*}*/
-
-/*#col3 {*/
-   /*background-color: #f44336;*/
- /*}*/

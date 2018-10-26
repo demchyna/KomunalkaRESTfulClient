@@ -50,6 +50,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatButtonModule, MatCardModule, MatInputModule, MatTooltipModule} from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { CategoryInfoComponent } from './category/category-info/category-info.component';
 
 export function tokenGetter() {
 
@@ -89,6 +90,7 @@ export function tokenGetter() {
     TariffsListComponent,
     CategoryTariffsInfoComponent,
     SearchFilterPipe,
+    CategoryInfoComponent,
   ],
   imports: [
     BrowserModule,

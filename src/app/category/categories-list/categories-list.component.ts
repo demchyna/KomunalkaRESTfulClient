@@ -52,6 +52,10 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
     this.router.navigate(['category/create']);
   }
 
+  infoCategory(categoryId: number) {
+    this.router.navigate(['/category/' + categoryId + '/info']);
+  }
+
   editCategory(categoryId: number) {
     this.router.navigate(['/category/' + categoryId + '/update']);
   }

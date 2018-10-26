@@ -6,3 +6,11 @@ export function changeDateFormat(date) {
   }
   return null;
 }
+
+export function changeTimeFormat(time) {
+  if (time) {
+    const myTime  = new Date(time);
+    return myTime.toLocaleTimeString('uk-UA');
+  }
+  return null;
+}
