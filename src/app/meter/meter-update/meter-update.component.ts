@@ -57,6 +57,24 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
               if (categoryResp) {
                 tokenSetter(categoryResp);
                 this.category = categoryResp.body;
+
+
+                this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(this.category.userId)
+                  .subscribe((categoryResp: HttpResponse<any>) => {
+                    if (categoryResp) {
+                      this.categories = categoryResp.body;
+                      this.categories.map((category, index) => {
+                        if (category.id === this.meter.categoryId) {
+                          this.currentCategoryId = index;
+                        }
+                      });
+                    }
+                  }, (appError: AppError) => {
+                    throw appError;
+                  });
+
+
+
               }
             }, (appError: AppError) => {
               throw appError;
@@ -76,19 +94,7 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
               throw appError;
             });
 
-          this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(this.userService.currentUser.id)
-            .subscribe((categoryResp: HttpResponse<any>) => {
-              if (categoryResp) {
-                this.categories = categoryResp.body;
-                this.categories.map((category, index) => {
-                  if (category.id === this.meter.categoryId) {
-                    this.currentCategoryId = index;
-                  }
-                });
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+
 
         }
       }, (appError: AppError) => {

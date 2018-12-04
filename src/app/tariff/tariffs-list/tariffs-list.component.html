@@ -132,7 +132,7 @@
 <pagination-controls class="tariff-pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна" style="display: inline-block"></pagination-controls>
 
 <div class="float-right">
-  <label for="itemsNumber">Записів на сторінку:&nbsp;&nbsp;</label>
+  <label for="itemsNumber" class="d-none d-sm-inline-block">Записів на сторінку:&nbsp;&nbsp;</label>
   <select class="form-control-sm" [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
     <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
     <option [ngValue]="maxIntegerValue">Всі</option>

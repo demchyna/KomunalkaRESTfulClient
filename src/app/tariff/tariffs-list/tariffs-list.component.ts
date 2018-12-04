@@ -9,6 +9,8 @@ import {UnitService} from '../../unit/unit.service';
 import {Subscription} from 'rxjs';
 import {OrderPipe} from 'ngx-order-pipe';
 import {changeDateFormat} from '../../helpers/date-format-helper';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmComponent} from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-tariffs-list',
@@ -38,11 +40,14 @@ export class TariffsListComponent implements OnInit, OnDestroy {
 
   dateFormatter = changeDateFormat;
 
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
   constructor(private tariffService: TariffService,
               private unitService: UnitService,
               private route: ActivatedRoute,
               private router: Router,
-              private orderPipe: OrderPipe) {
+              private orderPipe: OrderPipe,
+              private dialog: MatDialog) {
 
     this.sortedTariffs = this.orderPipe.transform(this.tariffs, 'name');
   }
@@ -83,15 +88,27 @@ export class TariffsListComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           const tariff = response.body;
 
-          this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-                  this.router.navigate(['category/' + this.categoryId + '/tariffs/info']));
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити тариф з назвою "${tariff.name}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                      this.router.navigate(['category/' + this.categoryId + '/tariffs/info']));
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
 
         }
       }, (appError: AppError) => {

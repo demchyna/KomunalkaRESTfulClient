@@ -25,7 +25,7 @@
           <span class="password-icon">
             <i class="fa fa-2x" aria-hidden="true" [ngClass]="hideConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hideConfirmPassword = !hideConfirmPassword"></i>
           </span>
-          <input type="password" ngModel name="confirm" [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control" [ngClass]="{'is-invalid': userErrors['confirm']}" id="confirm" placeholder="Підтвердження паролю" required>
+          <input type="password" ngModel name="confirm" [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control" [ngClass]="{'is-invalid': userErrors['confirm']}" id="confirm" placeholder="Введіть підтвердження" required>
           <div class="invalid-feedback">
             {{userErrors['confirm']}}
           </div>
@@ -51,14 +51,9 @@
             {{userErrors['email']}}
           </div>
         </div>
-        <div>
-          <label for="description">Короткий опис</label>
-          <textarea ngModel name="description" class="form-control" id="description"></textarea>
-        </div>
         <div id="registration-actions">
-          <button type="submit" class="btn btn-success">Створити</button>
-          <div class="button-separator"></div>
-          <button type="reset" class="btn btn-primary">Очистити</button>
+          <button type="submit" class="btn btn-success d-inline w-100 mb-2 mt-2">Створити</button>
+          <button type="reset" class="btn btn-primary d-inline w-100">Очистити</button>
         </div>
       </mat-card-content>
     </mat-card>

@@ -1,6 +1,3 @@
-import Unit from './Unit';
-import Category from './Category';
-
 export default class Meter {
   constructor(
     public id?: number,

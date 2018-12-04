@@ -10,7 +10,7 @@
               <hr>
               <div>
                 <label for="current">Поточний показник:</label>
-                <input type="number" ngModel name="current" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['current']}" id="current" placeholder="Введіть назву тарифу" required>
+                <input type="number" ngModel name="current" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['current']}" id="current" placeholder="Введіть показник" required>
                 <div class="invalid-feedback">
                   {{indicatorErrors['current']}}
                 </div>
@@ -22,28 +22,21 @@
                   {{indicatorErrors['date']}}
                 </div>
               </div>
-              <div class="container-fluid p-0">
-                <div class="row">
-                  <div class="col-8">
-                    <label for="tariff">Тариф:</label>
-                    <select [ngModel]="null" name="tariff" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['tariffId']}" id="tariff" required>
-                      <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
-                      <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}} {{tariff.currency}}</option>
-                    </select>
-                    <div class="invalid-feedback">
-                      {{indicatorErrors['tariffId']}}
-                    </div>
-                  </div>
-                  <div class="col-1"></div>
-                  <div class="col align-self-end">
-                    <div class="form-group form-check">
-                      <input type="checkbox" [ngModel]="false" name="status" class="form-check-input" [ngClass]="{'is-invalid': indicatorErrors['status']}" id="status" required>
-                      <label for="status" class="form-check-label">Оплачено</label>
-                      <div class="invalid-feedback">
-                        {{indicatorErrors['status']}}
-                      </div>
-                    </div>
-                  </div>
+              <div>
+                <label for="tariff">Тариф:</label>
+                <select [ngModel]="null" name="tariff" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['tariffId']}" id="tariff" required>
+                  <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
+                  <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}} {{tariff.currency}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['tariffId']}}
+                </div>
+              </div>
+              <div>
+                <label for="payment">Сплачено:</label>
+                <input type="number" ngModel name="payment" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['payment']}" id="payment" placeholder="Введіть суму" required>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['payment']}}
                 </div>
               </div>
               <div>

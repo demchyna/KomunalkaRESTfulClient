@@ -11,6 +11,8 @@ import {IndicatorService} from '../indicator.service';
 import Meter from '../../models/Meter';
 import {Subscription} from 'rxjs';
 import {changeDateFormat} from '../../helpers/date-format-helper';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmComponent} from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-indicator-info',
@@ -31,11 +33,14 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
   tariff: Tariff = new Tariff();
   meter: Meter = new Meter();
 
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
   constructor(private indicatorService: IndicatorService,
               private meterService: MeterService,
               private tariffService: TariffService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -84,14 +89,26 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           const indicator = response.body;
 
-          this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.router.navigate(['/meter/' + this.meter.id + '/info']);
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити показник за ${this.dateFormatter(indicator.date)}?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.router.navigate(['/meter/' + this.meter.id + '/indicators/info']);
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
 
       }
       }, (appError: AppError) => {

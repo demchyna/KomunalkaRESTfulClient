@@ -80,6 +80,10 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
       });
   }
 
+  changePassword() {
+    this.router.navigate(['/user/' + this.userId + '/credential']);
+  }
+
   ngOnDestroy(): void {
     if (this.paramsUserSubscription) {
       this.paramsUserSubscription.unsubscribe();

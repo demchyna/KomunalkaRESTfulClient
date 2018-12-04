@@ -1,17 +1,15 @@
-import {ErrorHandler, Injectable, InjectionToken, Injector} from '@angular/core';
+import {ErrorHandler, Injectable, Injector, NgZone} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
-import AccessDeniedError from './access-denied-error';
-import DataNotFoundError from './data-not-found-error';
 import ErrorInfo from '../models/ErrorInfo';
 import {Router} from '@angular/router';
-import ForbiddenError from './forbidden-error';
+import AppError from './app-error';
 
 @Injectable()
 export class CommonErrorHandler implements ErrorHandler {
 
   errorInfo: ErrorInfo;
 
-  constructor(private injector: Injector) {  }
+  constructor(private injector: Injector, private ngZone: NgZone) {  }
 
   handleError(appError: HttpErrorResponse): void {
 
@@ -19,19 +17,23 @@ export class CommonErrorHandler implements ErrorHandler {
 
     switch (appError.status) {
       case 404:
-        this.errorInfo = <DataNotFoundError> appError.error;
-        router.navigate(['/not-found']);
+        this.errorInfo = <AppError> appError.error;
+        alert(this.errorInfo.message);
+        this.ngZone.run(() => router.navigate(['home'])).then();
         break;
       case 403:
-        this.errorInfo = <AccessDeniedError> appError.error;
-        router.navigate(['/no-access']);
+        this.errorInfo = <AppError> appError.error;
+        alert(this.errorInfo.message);
+        this.ngZone.run(() => router.navigate(['home'])).then();
         break;
       case 401:
-        this.errorInfo = <ForbiddenError> appError.error;
+        this.errorInfo = <AppError> appError.error;
         alert(this.errorInfo.message);
+        this.ngZone.run(() => router.navigate(['home'])).then();
         break;
       default:
         alert(appError.message);
     }
   }
+
 }

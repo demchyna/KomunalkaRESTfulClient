@@ -3,7 +3,12 @@
     <mat-card-content>
       <h5>Список тарифів з категорії "{{category.name}}"</h5>
       <div id="add-tariff-button">
-        <button class="btn btn-primary" (click)="addTariff()">Додати тариф</button>
+        <button class="btn btn-primary btn-sm d-xs-inline-block d-sm-none" (click)="addTariff()">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm d-none d-sm-inline-block" (click)="addTariff()">
+          Додати тариф
+        </button>
       </div>
       <hr>
       <app-tariffs-list [categoryId]="category.id"></app-tariffs-list>

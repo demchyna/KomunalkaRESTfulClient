@@ -1,8 +1,6 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
 import {HttpResponse} from '@angular/common/http';
-import AccessDeniedError from '../../errors/access-denied-error';
-import DataNotFoundError from '../../errors/data-not-found-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import User from '../../models/User';
@@ -10,6 +8,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
 import {Subscription} from 'rxjs';
 import {changeDateFormat, changeTimeFormat} from '../../helpers/date-format-helper';
+import {ConfirmComponent} from '../../confirm/confirm.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-user-info',
@@ -28,10 +28,13 @@ export class UserInfoComponent implements OnInit, OnDestroy {
 
   user: User = new User();
 
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
   constructor(protected userService: UserService,
               private authService: AuthService,
               private route: ActivatedRoute,
-              private router: Router) {  }
+              private router: Router,
+              private dialog: MatDialog) {  }
 
   ngOnInit() {
     this.paramsUserSubscription = this.route.params.subscribe( params => {
@@ -60,19 +63,32 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           const user = response.body;
 
-          this.deleteUserUserSubscription = this.userService.deleteUser(user)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                if (this.userService.currentUser.id === userId) {
-                  this.authService.logout();
-                  this.router.navigate(['/login']);
-                } else {
-                  this.router.navigate(['/user/all']);
-                }
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити користувача "${user.username}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteUserUserSubscription = this.userService.deleteUser(user)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    if (this.userService.currentUser.id === userId) {
+                      this.authService.logout();
+                      this.router.navigate(['/login']);
+                    } else {
+                      this.router.navigate(['/user/all']);
+                    }
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
+
         }
       }, (appError: AppError) => {
         throw appError;

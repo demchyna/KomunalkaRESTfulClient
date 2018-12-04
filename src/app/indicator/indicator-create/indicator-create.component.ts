@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
-import User from '../../models/User';
 import Indicator from '../../models/Indicator';
 import {IndicatorService} from '../indicator.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -80,7 +79,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
 
     indicator.current = data.current;
     indicator.date = data.date;
-    indicator.status = data.status;
+    indicator.payment = data.payment;
     if (this.lastIndicator) {
       indicator.previousId = this.lastIndicator.id;
     }
@@ -89,7 +88,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
       indicator.tariffId = data.tariff.id;
     }
     indicator.description = data.description;
-    indicator.userId = this.userService.currentUser.id;
+    indicator.userId = this.meter.userId;
 
     this.createIndicatorSubscription = this.indicatorService.createIndicator(indicator)
       .subscribe((response: HttpResponse<any>) => {

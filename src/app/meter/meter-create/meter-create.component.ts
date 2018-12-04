@@ -3,7 +3,6 @@ import {HttpResponse} from '@angular/common/http';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import {MeterService} from '../meter.service';
-import {TariffService} from '../../tariff/tariff.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UnitService} from '../../unit/unit.service';
 import Unit from '../../models/Unit';
@@ -73,12 +72,12 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
       meter.unitId = data.unit.id;
     }
 
-    meter.userId = this.userService.currentUser.id;
+    meter.userId = this.category.userId;
 
     this.createMeterSubscription = this.meterService.createMeter(meter)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
+          this.router.navigate(['/category/user/' + this.category.userId]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

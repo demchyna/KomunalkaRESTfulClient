@@ -3,7 +3,6 @@ import {ModuleWithProviders} from '@angular/core';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './auth/login/login.component';
 import {UsersListComponent} from './user/users-list/users-list.component';
-import {E404PageComponent} from './errors/404-page/404-page.component';
 import {UserInfoComponent} from './user/user-info/user-info.component';
 import {UserUpdateComponent} from './user/user-update/user-update.component';
 import {UserCreateComponent} from './user/user-create/user-create.component';
@@ -22,9 +21,9 @@ import {CategoryTariffsInfoComponent} from './category/category-tariffs-info/cat
 import {TariffInfoComponent} from './tariff/tariff-info/tariff-info.component';
 import {TariffUpdateComponent} from './tariff/tariff-update/tariff-update.component';
 import {AuthGuardService} from './guards/auth-guard/auth-guard.service';
-import {E403PageComponent} from './errors/403-page/403-page.component';
 import {AdminGuardService} from './guards/admin-guard/admin-guard.service';
 import {CategoryInfoComponent} from './category/category-info/category-info.component';
+import {UserCredentialComponent} from './user/user-credential/user-credential.component';
 
 const routes: Routes = [
   {
@@ -57,6 +56,12 @@ const routes: Routes = [
   {
     path: 'user/:id/info',
     component: UserInfoComponent,
+    canActivate: [AuthGuardService]
+
+  },
+  {
+    path: 'user/:id/credential',
+    component: UserCredentialComponent,
     canActivate: [AuthGuardService]
 
   },
@@ -111,7 +116,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'category/create',
+    path: 'category/create/user/:id',
     component: CategoryCreateComponent,
     canActivate: [AuthGuardService]
   },
@@ -139,18 +144,6 @@ const routes: Routes = [
     path: 'indicator/:id/update',
     component: IndicatorUpdateComponent,
     canActivate: [AuthGuardService]
-  },
-  {
-    path: 'no-access',
-    component: E403PageComponent
-  },
-  {
-    path: 'not-found',
-    component: E404PageComponent
-  },
-  {
-    path: '**',
-    redirectTo: 'not-found'
   }
 ];
 

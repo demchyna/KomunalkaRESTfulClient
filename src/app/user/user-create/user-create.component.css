@@ -8,31 +8,21 @@ mat-card {
 }
 
 input {
-  width: 350px;
+  width: 320px;
   min-width: 300px;
-
-}
-
-.button-separator {
-  display: inline-block !important;
-  width: 10px;
 }
 
 .invalid-feedback {
-  max-width: 350px;
+  max-width: 320px;
 }
 
 #registration-actions {
   margin-top: 10px;
 }
 
-#registration-actions > button {
-  width: 130px;
-}
-
 .password-icon {
   position: absolute;
-  left: 337px;
+  left: 307px;
   display: flex;
   height: 37px;
   align-items: center;

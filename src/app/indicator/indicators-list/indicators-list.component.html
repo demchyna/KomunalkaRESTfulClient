@@ -58,7 +58,21 @@
           </span>
           Вартість
         </th>
-        <th class="text-center align-middle" scope="col" [class.active]="order === 'status'" (click)="setOrder('status')">
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'payment'" (click)="setOrder('payment')">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'payment')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'payment')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'payment'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Сплачено
+        </th>
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">
           <span class="sort-icons-container">
             <span [hidden]="reverse || !(order === 'status')">
               <i class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -70,7 +84,7 @@
               <i class="fa fa-sort" aria-hidden="true"></i>
             </span>
           </span>
-          Статус
+          Заборгованість
         </th>
         <th class="text-center align-middle" scope="col" rowspan="2" colspan="2">Редагувати&nbsp;/ Видалити</th>
       </tr>
@@ -95,19 +109,25 @@
             <input type="search" class="input-small" [(ngModel)]="indicatorPriceValue" placeholder="Вартість">
           </div>
         </td>
-        <td>
+        <td colspan="2">
           <div (click)="clickEvent($event)">
-            <input type="search" class="input-small" [(ngModel)]="indicatorStatusValue" placeholder="Статус">
+            <input type="search" class="input-small" [(ngModel)]="indicatorPaymentValue" placeholder="Сума">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="indicatorPaymentValue" placeholder="Сума">
           </div>
         </td>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let indicator of indicators
+      <tr *ngFor="let indicator of getFullIndicators()
           | searchFilter: 'date' : indicatorDateValue
           | searchFilter: 'current' : indicatorCurrentValue
           | searchFilter: 'tariffRate' : tariffRateValue
           | searchFilter: 'price' : indicatorPriceValue
+          | searchFilter: 'payment' : indicatorPaymentValue
           | searchFilter: 'status' : indicatorStatusValue
           | orderBy: order: reverse:'case-insensitive'
           | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
@@ -134,20 +154,28 @@
             {{indicator.tariffRate}}
           </span>
         </td>
-        <td>{{indicator.tariffCurrency}}&nbsp;/&nbsp;{{indicator.unitName}}</td>
+        <td style="white-space: nowrap;">{{indicator.tariffCurrency}}&nbsp;/&nbsp;{{indicator.unitName}}</td>
         <td>
           <span class="indicator-value font-weight-bold">
             {{indicator.price.toFixed(2)}}
           </span>
         </td>
         <td>{{indicator.tariffCurrency}}</td>
-        <td *ngIf="indicator.status" class="table-success">
-          <span >Оплачено</span>
+        <td>
+          <span class="indicator-value font-weight-bold">
+            {{indicator.payment.toFixed(2)}}
+          </span>
         </td>
-        <td *ngIf="!indicator.status" class="table-warning">
-          <span>Неоплачено</span>
+        <td>{{indicator.tariffCurrency}}</td>
+        <td [ngClass]="indicator.status >= 0 ? 'table-success' : 'table-warning'" style="white-space: nowrap;">
+          <span class="indicator-value font-weight-bold">
+            <span *ngIf="indicator.status > 0">&#43;</span>
+            <span *ngIf="indicator.status < 0">&#8722;</span>
+            {{getFormattedStatus(indicator.status)}}
+          </span>
         </td>
-        <td colspan="2">
+        <td [ngClass]="indicator.status >= 0 ? 'table-success' : 'table-warning'">{{indicator.tariffCurrency}}</td>
+        <td colspan="2" style="white-space: nowrap;">
           <button class="btn btn-primary btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="editIndicator(indicator.id, $event)">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </button>

@@ -34,10 +34,11 @@
                   </td>
                 </tr>
                 <tr>
-                  <th class="align-middle" scope="row">Статус по оплаті:</th>
+                  <th class="align-middle" scope="row">Сплачено:</th>
                   <td>
-                    <h5><span class="badge badge-success" *ngIf="indicator.status">Оплачено</span></h5>
-                    <h5><span class="badge badge-warning" *ngIf="!indicator.status">Неоплачено</span></h5>
+                    <span class="indicator-value font-weight-bold">
+                      {{indicator.payment}} {{tariff.currency}}
+                    </span>
                   </td>
                 </tr>
                 <tr>

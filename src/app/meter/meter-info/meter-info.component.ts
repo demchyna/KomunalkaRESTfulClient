@@ -11,6 +11,8 @@ import Meter from '../../models/Meter';
 import Category from '../../models/Category';
 import Unit from '../../models/Unit';
 import {Subscription} from 'rxjs';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmComponent} from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-meter-info',
@@ -29,12 +31,15 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
   category: Category = new Category();
   unit: Unit = new Unit();
 
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
   constructor(private meterService: MeterService,
               private categoryService: CategoryService,
               private unitService: UnitService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -82,14 +87,26 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           const meter = response.body;
 
-          this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити лічильник з назвою "${meter.name}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.router.navigate(['/category/user/' + this.category.userId]);
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
 
         }
       }, (appError: AppError) => {

@@ -7,6 +7,9 @@ import AppError from '../../errors/app-error';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import Category from '../../models/Category';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmComponent} from '../../confirm/confirm.component';
+import User from '../../models/User';
 
 @Component({
   selector: 'app-category-info',
@@ -16,23 +19,41 @@ import Category from '../../models/Category';
 export class CategoryInfoComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
+  getUserByIdSubscription: Subscription;
   getCategoryByIdSubscription: Subscription;
   deleteCategorySubscription: Subscription;
 
+  user: User = new User();
   category: Category = new Category();
+
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private categoryService: CategoryService,
               public userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
+
       this.getCategoryByIdSubscription = this.categoryService.getCategoryById(params['id'])
         .subscribe((categoryResp: HttpResponse<any>) => {
           if (categoryResp) {
             tokenSetter(categoryResp);
             this.category = categoryResp.body;
+
+
+            this.getUserByIdSubscription = this.userService.getUserById(this.category.userId)
+              .subscribe((userResp: HttpResponse<any>) => {
+                if (userResp) {
+                  tokenSetter(userResp);
+                  this.user = userResp.body;
+                }
+              }, (appError: AppError) => {
+                throw appError;
+              });
+
           }
         }, (appError: AppError) => {
           throw appError;
@@ -50,14 +71,28 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           const category = response.body;
-          this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити категорію з назвою "${category.name}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.router.navigate(['/category/user/' + this.user.id]);
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
+
         }
       }, (appError: AppError) => {
         throw appError;

@@ -55,7 +55,7 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
+          this.router.navigate(['/category/user/' + this.category.userId]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

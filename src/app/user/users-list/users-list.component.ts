@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
@@ -8,6 +8,8 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
 import {OrderPipe} from 'ngx-order-pipe';
+import {ConfirmComponent} from '../../confirm/confirm.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-users-list',
@@ -32,8 +34,15 @@ export class UsersListComponent implements OnInit, OnDestroy {
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedUsers: User[] = [];
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router, private orderPipe: OrderPipe) {
-    this.sortedUsers = this.orderPipe.transform(this.users, 'id');
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
+   constructor(private userService: UserService,
+               private authService: AuthService,
+               private router: Router,
+               private orderPipe: OrderPipe,
+               private dialog: MatDialog) {
+
+     this.sortedUsers = this.orderPipe.transform(this.users, 'id');
   }
 
   ngOnInit() {
@@ -67,6 +76,14 @@ export class UsersListComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           const user = response.body;
 
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити користувача "${user.username}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
           this.deleteUserUserSubscription = this.userService.deleteUser(user)
             .subscribe((deleteResp: HttpResponse<any>) => {
               if (deleteResp) {
@@ -80,6 +97,11 @@ export class UsersListComponent implements OnInit, OnDestroy {
             }, (appError: AppError) => {
               throw appError;
             });
+
+            }
+            this.dialogRef = null;
+          });
+
         }
       }, (appError: AppError) => {
         throw appError;

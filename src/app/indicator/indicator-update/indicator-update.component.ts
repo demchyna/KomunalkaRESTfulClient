@@ -80,7 +80,7 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
 
     this.indicator.current = data.current;
     this.indicator.date = data.date;
-    this.indicator.status = data.status;
+    this.indicator.payment = data.payment;
     this.indicator.tariffId = data.tariff.id;
     this.indicator.description = data.description;
 

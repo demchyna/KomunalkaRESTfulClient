@@ -9,6 +9,8 @@ import Tariff from '../../models/Tariff';
 import Category from '../../models/Category';
 import {Subscription} from 'rxjs';
 import {changeDateFormat} from '../../helpers/date-format-helper';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmComponent} from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-tariff-info',
@@ -27,10 +29,13 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
   tariff: Tariff = new Tariff();
   category: Category = new Category();
 
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
   constructor(private tariffService: TariffService,
               private categoryService: CategoryService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -67,14 +72,26 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           const tariff = response.body;
 
-          this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.router.navigate(['category/' + this.category.id + '/tariffs/info']);
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити тариф з назвою "${tariff.name}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.router.navigate(['category/' + this.category.id + '/tariffs/info']);
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
 
         }
       }, (appError: AppError) => {

@@ -1,12 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import User from '../../models/User';
 import {HttpResponse} from '@angular/common/http';
-import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RoleService} from '../../role/role.service';
 import {UserService} from '../user.service';
-import Role from '../../models/Role';
 import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 
@@ -41,7 +39,6 @@ export class UserCreateComponent implements OnInit, OnDestroy {
     user.firstName = data.firstName;
     user.lastName = data.lastName;
     user.email = data.email;
-    user.description = data.description;
     user.authorities = [];
 
     this.createUserSubscription = this.userService.createUser(user)

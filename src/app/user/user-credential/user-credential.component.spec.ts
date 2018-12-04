@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { 403PageComponent } from './403-page.component';
+import { UserCredentialComponent } from './user-credential.component';
 
-describe('403PageComponent', () => {
-  let component: 403PageComponent;
-  let fixture: ComponentFixture<403PageComponent>;
+describe('UserCredentialComponent', () => {
+  let component: UserCredentialComponent;
+  let fixture: ComponentFixture<UserCredentialComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 403PageComponent ]
+      declarations: [ UserCredentialComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(403PageComponent);
+    fixture = TestBed.createComponent(UserCredentialComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

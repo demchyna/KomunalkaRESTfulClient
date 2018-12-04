@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MeterService} from '../meter.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';

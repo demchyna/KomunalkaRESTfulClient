@@ -1,5 +1,3 @@
-import User from './User';
-
 export default class Category {
   constructor(
     public id?: number,

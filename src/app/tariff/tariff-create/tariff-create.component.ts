@@ -77,12 +77,12 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
       tariff.unitId = data.unit.id;
     }
 
-    tariff.userId = this.userService.currentUser.id;
+    tariff.userId = this.category.userId;
 
     this.createTariffSubscription = this.tariffService.createTariff(tariff)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/user/' + this.userService.currentUser.id]);
+          this.router.navigate(['/category/user/' + this.category.userId]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

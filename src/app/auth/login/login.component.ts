@@ -3,8 +3,6 @@ import { AuthService } from '../auth.service';
 import { HttpResponse } from '@angular/common/http';
 import {Router} from '@angular/router';
 import AppError from '../../errors/app-error';
-import DataNotFoundError from '../../errors/data-not-found-error';
-import IncorrectPasswordError from '../../errors/incorrect-password-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Subscription} from 'rxjs';

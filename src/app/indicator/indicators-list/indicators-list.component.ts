@@ -10,6 +10,8 @@ import {Subscription} from 'rxjs';
 import {OrderPipe} from 'ngx-order-pipe';
 import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 import {changeDateFormat} from '../../helpers/date-format-helper';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmComponent} from '../../confirm/confirm.component';
 
 @Component({
   selector: 'app-indicators-list',
@@ -28,6 +30,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   indicatorDateValue = '';
   tariffRateValue = '';
   indicatorPriceValue = '';
+  indicatorPaymentValue = '';
   indicatorStatusValue = '';
   indicatorCurrentValue = '';
   order = 'date';
@@ -39,10 +42,13 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   dateFormatter = changeDateFormat;
 
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
+
   constructor(private indicatorService: IndicatorService,
               private router: Router,
               private orderPipe: OrderPipe,
-              private spinnerService: Ng4LoadingSpinnerService) {
+              private spinnerService: Ng4LoadingSpinnerService,
+              private dialog: MatDialog) {
 
     this.sortedIndicators = orderPipe.transform(this.indicators, 'date');
   }
@@ -64,6 +70,15 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
           throw appError;
         });
     }
+  }
+
+  getFullIndicators(): Indicator[] {
+    let diff = 0;
+    this.indicators.forEach((value, index) => {
+      diff = diff - value.price + value.payment;
+      value.status = diff;
+    });
+    return this.indicators;
   }
 
   addIndicator() {
@@ -88,15 +103,27 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
           tokenSetter(response);
           const indicator = response.body;
 
-          this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-                  this.router.navigate(['/meter/' + this.meterProps.id + '/indicators/info']));
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити показник за ${this.dateFormatter(indicator.date)}?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                      this.router.navigate(['/meter/' + this.meterProps.id + '/indicators/info']));
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
 
         }
       }, (appError: AppError) => {
@@ -113,6 +140,10 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   clickEvent($event) {
     $event.stopPropagation();
+  }
+
+  getFormattedStatus(status: number): string {
+    return Math.abs(status).toFixed(2);
   }
 
   ngOnDestroy(): void {

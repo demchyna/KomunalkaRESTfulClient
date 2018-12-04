@@ -26,7 +26,7 @@
                 </div>
               </div>
               <div>
-                <label for="unit">Категорія:</label>
+                <label for="category">Категорія:</label>
                 <select [ngModel]="categories[currentCategoryId]" name="category"  class="form-control" [ngClass]="{'is-invalid': meterErrors['categoryId']}" id="category" required>
                   <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
                 </select>

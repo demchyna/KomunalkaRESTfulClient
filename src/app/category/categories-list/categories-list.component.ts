@@ -2,12 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../category.service';
 import Category from '../../models/Category';
 import {MeterService} from '../../meter/meter.service';
 import {UserService} from '../../user/user.service';
 import {Subscription} from 'rxjs';
+import {ConfirmComponent} from '../../confirm/confirm.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import User from '../../models/User';
 
 @Component({
   selector: 'app-categories-list',
@@ -17,30 +20,46 @@ import {Subscription} from 'rxjs';
 export class CategoriesListComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
+  getUserByIdSubscription: Subscription;
   getCategoryByUserIdSubscription: Subscription;
   getCategoryByIdSubscription: Subscription;
   deleteCategorySubscription: Subscription;
 
-  collapseStatus = true;
-
   collapseStatuses: boolean[];
 
+  user: User = new User();
+  userId: number;
   categories: Category[] = [];
+
+  dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private categoryService: CategoryService,
               private meterService: MeterService,
-              private userService: UserService,
+              public userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) {  }
+              private router: Router,
+              private dialog: MatDialog) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
-      this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(params['id'])
+      this.userId = params['id'];
+      this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(this.userId)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
             this.categories = response.body;
             this.collapseStatuses = new Array(this.categories.length).fill(false);
+
+            this.getUserByIdSubscription = this.userService.getUserById(this.userId)
+              .subscribe((userResp: HttpResponse<any>) => {
+                if (userResp) {
+                  tokenSetter(userResp);
+                  this.user = userResp.body;
+                }
+              }, (appError: AppError) => {
+                throw appError;
+              });
+
           }
         }, (appError: AppError) => {
           throw appError;
@@ -49,32 +68,48 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   }
 
   addCategory() {
-    this.router.navigate(['category/create']);
+    this.router.navigate(['category/create/user/' + this.userId]);
   }
 
-  infoCategory(categoryId: number) {
+  infoCategory(categoryId: number, event) {
+    event.stopPropagation();
     this.router.navigate(['/category/' + categoryId + '/info']);
   }
 
-  editCategory(categoryId: number) {
+  editCategory(categoryId: number, event) {
+    event.stopPropagation();
     this.router.navigate(['/category/' + categoryId + '/update']);
   }
 
-  deleteCategory(categoryId: number) {
+  deleteCategory(categoryId: number, event) {
+    event.stopPropagation();
+
     this.getCategoryByIdSubscription = this.categoryService.getCategoryById(categoryId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const category = response.body;
 
-          this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                this.ngOnInit();
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
+          this.dialogRef = this.dialog.open(ConfirmComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити категорію з назвою "${category.name}"?`;
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    this.ngOnInit();
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
+
+            }
+            this.dialogRef = null;
+          });
 
         }
       }, (appError: AppError) => {

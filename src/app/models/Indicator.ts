@@ -8,10 +8,11 @@ export default class Indicator {
     public meterId?: number,
     public tariffId?: number,
     public tariffRate?: number,
-    public  tariffCurrency?: string,
+    public tariffCurrency?: string,
     public unitName?: string,
-    public status?: boolean,
+    public payment?: number,
     public price?: number,
+    public status = 0,
     public description?: string,
     public userId?: number
   ) {  }

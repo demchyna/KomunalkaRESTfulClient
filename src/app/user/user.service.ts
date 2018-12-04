@@ -48,6 +48,19 @@ export class UserService {
     );
   }
 
+  checkPasswordByUserId(userCredential: User): Observable<any> {
+    const requestHeaders = { 'Content-Type': 'application/json' };
+    return this.httpClient.post<any>(
+      REST_API_URL + '/api/user/credential',
+      JSON.stringify(userCredential),
+      { headers: requestHeaders, observe: 'response' }
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(new AppError(error));
+      })
+    );
+  }
+
   updateUser(user: User): Observable<any> {
     const requestHeaders = { 'Content-Type': 'application/json' };
     return this.httpClient.put<any>(
