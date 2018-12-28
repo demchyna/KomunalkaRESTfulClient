@@ -9,7 +9,9 @@
               <h5>Редагування категорії "{{categoryName}}"</h5>
               <hr>
               <div>
-                <label for="name">Назва категорії:</label>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва категорії:</label>
                 <input type="text" [ngModel]="category.name" name="name" class="form-control" [ngClass]="{'is-invalid': categoryErrors['name']}" id="name" placeholder="Введіть назву категорії" required>
                 <div class="invalid-feedback">
                   {{categoryErrors['name']}}

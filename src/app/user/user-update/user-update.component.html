@@ -10,7 +10,9 @@
               <hr>
 
               <div>
-                <label for="first-name">Ім'я:</label>
+                <label for="first-name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Ім'я:</label>
                 <input type="text" [ngModel]="user.firstName" name="firstName" class="form-control" [ngClass]="{'is-invalid': userErrors['firstName']}" id="first-name">
                 <div class="invalid-feedback">
                   {{userErrors['firstName']}}
@@ -18,7 +20,9 @@
               </div>
 
               <div>
-                <label for="last-name">Прізвище:</label>
+                <label for="last-name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Прізвище:</label>
                 <input type="text" [ngModel]="user.lastName" name="lastName" class="form-control" [ngClass]="{'is-invalid': userErrors['lastName']}" id="last-name">
                 <div class="invalid-feedback">
                   {{userErrors['lastName']}}
@@ -26,7 +30,9 @@
               </div>
 
               <div>
-                <label for="email">E-mail:</label>
+                <label for="email">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  E-mail:</label>
                 <input type="text" [ngModel]="user.email" name="email" class="form-control" [ngClass]="{'is-invalid': userErrors['email']}" id="email">
                 <div class="invalid-feedback">
                   {{userErrors['email']}}
@@ -34,7 +40,9 @@
               </div>
 
               <div *ngIf="userService.isAdmin()">
-                <label for="role">Ролі:</label>
+                <label for="role">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Ролі:</label>
                 <select [ngModel]="user.authorities" name="authorities" class="form-control" [ngClass]="{'is-invalid': userErrors['roleId']}" id="role" multiple>
                   <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
                 </select>

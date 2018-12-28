@@ -10,7 +10,9 @@
               <h5>Редагувати тариф з категорії "{{category.name}}"</h5>
               <hr>
               <div>
-                <label for="name">Назва тарифу:</label>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва тарифу:</label>
                 <input type="text" [ngModel]="tariff.name" name="name" class="form-control" [ngClass]="{'is-invalid': tariffErrors['name']}" id="name" placeholder="Введіть назву тарифу" required>
                 <div class="invalid-feedback">
                   {{tariffErrors['name']}}
@@ -19,7 +21,9 @@
               <div class="container-fluid p-0">
                 <div class="row">
                   <div class="col-4">
-                    <label for="rate">Тариф:</label>
+                    <label for="rate">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Тариф:</label>
                     <input type="text" [ngModel]="tariff.rate" name="rate" class="form-control" [ngClass]="{'is-invalid': tariffErrors['rate']}" id="rate" placeholder="Введіть значення тарифу" required>
                     <div class="invalid-feedback">
                       {{tariffErrors['rate']}}
@@ -27,7 +31,9 @@
                   </div>
                   <div class="col-1"></div>
                   <div class="col-3">
-                    <label for="currency">Грошові одиниці:</label>
+                    <label for="currency">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Грошові одиниці:</label>
                     <input type="text" [ngModel]="tariff.currency" name="currency" class="form-control" [ngClass]="{'is-invalid': tariffErrors['currency']}" id="currency" placeholder="Введіть одиниці" required>
                     <div class="invalid-feedback">
                       {{tariffErrors['currency']}}
@@ -37,7 +43,9 @@
                     <h2 class="m-0 pt-4">/</h2>
                   </div>
                   <div class="col">
-                    <label for="unit">Одиниці вимірювання:</label>
+                    <label for="unit">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Одиниці вимірювання:</label>
                     <select [ngModel]="units[currentUnitId]" name="unit" class="form-control" [ngClass]="{'is-invalid': tariffErrors['unitId']}" id="unit" required>
                       <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
                     </select>
@@ -50,7 +58,9 @@
               <div class="container-fluid p-0">
                 <div class="row">
                   <div class="col">
-                    <label for="begin-date">Дата дії з:</label>
+                    <label for="begin-date">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Дата дії з:</label>
                     <input type="date" [ngModel]="tariff.beginDate" name="beginDate" class="form-control" [ngClass]="{'is-invalid': tariffErrors['beginDate']}" id="begin-date" required>
                     <div class="invalid-feedback">
                       {{tariffErrors['beginDate']}}

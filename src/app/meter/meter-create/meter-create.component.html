@@ -9,14 +9,18 @@
               <h5>Додати лічильник до категорії "{{category.name}}"</h5>
               <hr>
               <div>
-                <label for="name">Назва лічильника:</label>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва лічильника:</label>
                 <input type="text" ngModel name="name" class="form-control" [ngClass]="{'is-invalid': meterErrors['name']}" id="name" placeholder="Введіть назву лічильника" required>
                 <div class="invalid-feedback">
                   {{meterErrors['name']}}
                 </div>
               </div>
               <div>
-                <label for="unit">Одиниці вимірювання:</label>
+                <label for="unit">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Одиниці вимірювання:</label>
                 <select [ngModel]="null" name="unit" class="form-control" [ngClass]="{'is-invalid': meterErrors['unitId']}" id="unit" required>
                   <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
                   <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
